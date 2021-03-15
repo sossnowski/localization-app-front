@@ -1,0 +1,16 @@
+{
+    "extends": [
+        "wesbos"
+    ],
+    "rules": {
+        "no-use-before-define": [
+            "error",
+            {
+                "functions": false,
+                "classes": true,
+                "variables": false
+            }
+        ],
+        "react-hooks/exhaustive-deps": "off"
+    }
+}

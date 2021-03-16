@@ -20,7 +20,7 @@ import { addAlert } from '../../store/actions/alert/alert';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import Languages from '../../consts/languages';
 import history from '../../history';
-// import PopupLoader from '../common/PopupLoader';
+import PopupLoader from '../common/Loader';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -28,11 +28,15 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     position: 'relative',
     backgroundColor: theme.palette.primary.main,
+    overflowY: 'auto',
+    uverflowX: 'hidden',
   },
   root: {
-    position: 'absolute',
-    top: '10%',
-    left: 'calc(50% - 220px)',
+    paddingTop: '15px',
+    paddingBottom: '15px',
+    marginTop: '10%',
+    marginLeft: 'calc(50% - 220px)',
+    marginBottom: '40px',
     color: 'white',
     backgroundColor: theme.palette.third.main,
   },
@@ -225,7 +229,7 @@ const SignIn = () => {
 
   return (
     <div className={classes.wrapper}>
-      {/* {seeableLoader && <PopupLoader />} */}
+      {seeableLoader && <PopupLoader />}
       <Button className={classes.langIconWrapper} onClick={changeLanguage}>
         <LanguageIcon className={classes.langIcon} />
         {siteLang === 'pl' ? 'EN' : 'PL'}
@@ -315,13 +319,22 @@ const SignIn = () => {
               {subtitles.loginScreen.button_}
             </Button>
             <Grid container>
-              <Grid item xs>
+              <Grid item xs={12}>
                 <Link
                   href=""
                   variant="body2"
                   onClick={() => history.push('/reset-password')}
                 >
                   {subtitles.loginScreen.forgotPassword_}
+                </Link>
+              </Grid>
+              <Grid item xs={12}>
+                <Link
+                  href=""
+                  variant="body2"
+                  onClick={() => history.push('/register')}
+                >
+                  {subtitles.loginScreen.noAccountMessage_}
                 </Link>
               </Grid>
             </Grid>

@@ -3,6 +3,7 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Wrapper from './components/wrapper/Main';
 import Login from './components/login/Main';
+import Register from './components/registration/Main';
 import Auth from './auth/Auth';
 // import PasswordReset from './components/login/PasswordReset';
 // import SetPassword from './components/login/SetPassword';
@@ -24,6 +25,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Router = () => (
   <Switch>
     <Route exact path="/login" component={Login} />
+    <Route exact path="/register" component={Register} />
 
     <PrivateRoute path="/" component={Wrapper} />
   </Switch>

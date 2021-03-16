@@ -14,10 +14,9 @@ import Container from '@material-ui/core/Container';
 import { useDispatch } from 'react-redux';
 import LocalAirportIcon from '@material-ui/icons/LocalAirport';
 import LanguageIcon from '@material-ui/icons/Language';
+import Alert from '@material-ui/lab/Alert';
 import { postRequest } from '../../helpers/apiRequests';
-import Auth from '../../auth/Auth';
 import { addAlert } from '../../store/actions/alert/alert';
-import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import Languages from '../../consts/languages';
 import history from '../../history';
 import PopupLoader from '../common/Loader';
@@ -39,10 +38,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '40px',
     color: 'white',
     backgroundColor: theme.palette.third.main,
-  },
-  gridStyle: {
-    display: 'flex',
-    alignItems: 'flex-end',
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -117,6 +112,7 @@ const SignIn = () => {
   const [siteLang, setSiteLang] = React.useState('en');
   const [seeableLoader, setSeeableLoader] = React.useState(false);
   const [subtitles, setSubtitles] = React.useState(Languages[siteLang]);
+  const [registerSuccess, setRegisterSuccess] = React.useState(false);
   const dispatch = useDispatch();
 
   const changeLanguage = () => {
@@ -131,6 +127,7 @@ const SignIn = () => {
   const [values, setValues] = React.useState({
     username: '',
     password: '',
+    email: '',
   });
   const classes = useStyles();
 
@@ -145,12 +142,13 @@ const SignIn = () => {
 
   const login = () => {
     setSeeableLoader(true);
-    postRequest('login', {
+    postRequest('register', {
       username: values.username,
       password: values.password,
+      email: values.email,
     })
       .then((result) => {
-        if (result.status !== 200) {
+        if (result.status !== 201) {
           dispatch(
             addAlert({
               title: subtitles.alerts.loginError.title_,
@@ -161,8 +159,6 @@ const SignIn = () => {
           return;
         }
 
-        saveUserData(result.data);
-
         dispatch(
           addAlert({
             title: subtitles.alerts.loginSuccess.title_,
@@ -171,7 +167,7 @@ const SignIn = () => {
           })
         );
         setSeeableLoader(false);
-        history.push('/');
+        setRegisterSuccess(true);
       })
       .catch((error) => {
         setSeeableLoader(false);
@@ -183,24 +179,6 @@ const SignIn = () => {
           })
         );
       });
-  };
-
-  const saveUserData = (data = {}) => {
-    const userSettingsData = {};
-    userSettingsData[UserSessionDataHandler.theme] = data.theme || 'light';
-    userSettingsData[UserSessionDataHandler.language] = data.language || 'pl';
-
-    const userData = {};
-    userData[UserSessionDataHandler.username] = data.username;
-    userData[UserSessionDataHandler.email] = data.email;
-    userData[UserSessionDataHandler.isAdmin] = data.isAdmin;
-    userData[UserSessionDataHandler.isSuperAdmin] = data.isSuperAdmin;
-    userData[UserSessionDataHandler.uid] = data.uid;
-
-    UserSessionDataHandler.saveSettings(userSettingsData);
-    UserSessionDataHandler.saveUserData(userData);
-
-    Auth.authenticate(data.token);
   };
 
   const handleEnterClick = (event) => {
@@ -227,6 +205,19 @@ const SignIn = () => {
     </Grid>
   );
 
+  const registerSuccessAlert = () => (
+    <Alert severity="success" variant="outlined">
+      <h5>Poprawnie zarejestrowano</h5>
+      <Grid container>
+        <Grid item xs>
+          <Link href="" variant="body2" onClick={() => history.push('/login')}>
+            {subtitles.loginScreen.message_}
+          </Link>
+        </Grid>
+      </Grid>
+    </Alert>
+  );
+
   return (
     <div className={classes.wrapper}>
       {seeableLoader && <PopupLoader />}
@@ -237,6 +228,7 @@ const SignIn = () => {
 
       <Container className={classes.root} component="main" maxWidth="xs">
         <CssBaseline />
+        {registerSuccess && registerSuccessAlert()}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LocalAirportIcon />
@@ -252,7 +244,6 @@ const SignIn = () => {
               margin="normal"
               required
               fullWidth
-              disableAutoFocus
               color="primary"
               InputLabelProps={{
                 classes: {
@@ -279,7 +270,32 @@ const SignIn = () => {
               margin="normal"
               required
               fullWidth
-              disableAutoFocus
+              color="primary"
+              type="email"
+              InputLabelProps={{
+                classes: {
+                  outlined: classes.outlined,
+                },
+              }}
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  notchedOutline: classes.notchedOutline,
+                  input: classes.input,
+                },
+              }}
+              id="email"
+              label={subtitles.loginScreen.email_}
+              name="email"
+              autoComplete="email"
+              onChange={handleChange}
+              value={values.email}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
               color="primary"
               InputLabelProps={{
                 classes: {
@@ -319,22 +335,13 @@ const SignIn = () => {
               {subtitles.loginScreen.button_}
             </Button>
             <Grid container>
-              <Grid item xs={12}>
+              <Grid item xs>
                 <Link
                   href=""
                   variant="body2"
-                  onClick={() => history.push('/reset-password')}
+                  onClick={() => history.push('/login')}
                 >
-                  {subtitles.loginScreen.forgotPassword_}
-                </Link>
-              </Grid>
-              <Grid item xs={12}>
-                <Link
-                  href=""
-                  variant="body2"
-                  onClick={() => history.push('/register')}
-                >
-                  {subtitles.loginScreen.noAccountMessage_}
+                  {subtitles.loginScreen.login_}
                 </Link>
               </Grid>
             </Grid>

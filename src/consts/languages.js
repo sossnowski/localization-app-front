@@ -4,12 +4,14 @@ export default {
     loginScreen: {
       username_: 'Nazwa użytkownika',
       password_: 'Hasło',
+      email_: 'Email',
       helloMessage_: 'Witaj w ',
       message_: 'Zaloguj się.',
       forgotPassword_: 'Zapomniałeś hasła?',
       noAccountMessage_: 'Nie masz jeszcze konta? Zarejestruj się.',
       button_: 'Zaloguj się!',
       rememberMe_: 'Pamiętaj mnie',
+      login_: 'Masz już konto? Zaloguj się',
     },
     requiredField: '* - to pole jest wymagane',
     resetPassword: {
@@ -64,6 +66,7 @@ export default {
     appName_: 'localizationApp',
     loginScreen: {
       username_: 'User Name',
+      email_: 'Email',
       password_: 'Password',
       helloMessage_: 'Welcome in ',
       message_: 'Log in!',
@@ -71,6 +74,7 @@ export default {
       noAccountMessage_: 'Dont have account yet? Sign up!',
       button_: 'Log in',
       rememberMe_: 'Remember me',
+      login_: 'Have an account? Log in.',
     },
     requiredField: '* - this field is required',
     resetPassword: {

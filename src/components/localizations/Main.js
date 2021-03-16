@@ -18,7 +18,7 @@ const Localizations = (props) => {
   }, []);
 
   React.useEffect(() => {
-    if (!map) return;
+    if (!Object.keys(map).length) return;
     const features = [];
     for (const loc of localizations) {
       const feature = new Feature({
@@ -28,7 +28,6 @@ const Localizations = (props) => {
     }
     const source = new VectorSource({ features });
     const layer = new VectorLayer({ source });
-
     map.addLayer(layer);
   }, [localizations]);
 

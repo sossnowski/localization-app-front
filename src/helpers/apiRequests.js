@@ -27,3 +27,18 @@ export const postRequest = async (endpoint, paramsObj = {}) => {
     return error;
   }
 };
+
+export const authGetRequest = async (endpoint, paramsObj = {}) => {
+  const token = UserSessionDataHandler.getToken();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    params: paramsObj,
+  };
+  try {
+    return await axios.get(`${apiBase}/${endpoints[endpoint]}`, config);
+  } catch (error) {
+    return error;
+  }
+};

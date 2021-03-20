@@ -191,11 +191,11 @@ const SignIn = () => {
     userSettingsData[UserSessionDataHandler.language] = data.language || 'pl';
 
     const userData = {};
-    userData[UserSessionDataHandler.username] = data.username;
-    userData[UserSessionDataHandler.email] = data.email;
-    userData[UserSessionDataHandler.isAdmin] = data.isAdmin;
-    userData[UserSessionDataHandler.isSuperAdmin] = data.isSuperAdmin;
-    userData[UserSessionDataHandler.uid] = data.uid;
+    userData[UserSessionDataHandler.username] = data.user.username;
+    userData[UserSessionDataHandler.email] = data.user.email;
+    userData[UserSessionDataHandler.isAdmin] = data.user.isAdmin;
+    userData[UserSessionDataHandler.isSuperAdmin] = data.user.isSuperAdmin;
+    userData[UserSessionDataHandler.uid] = data.user.uid;
 
     UserSessionDataHandler.saveSettings(userSettingsData);
     UserSessionDataHandler.saveUserData(userData);

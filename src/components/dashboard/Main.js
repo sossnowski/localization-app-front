@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Map from '../map/Main';
 import Localizations from '../localizations/Main';
+import { authGetRequest } from '../../helpers/apiRequests';
+import Posts from '../posts/Main';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -33,19 +35,27 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
   const classes = useStyles();
   const mapPaper = clsx(classes.paper, classes.fixedHeight, classes.noPadding);
+  const [localizations, setLocalizations] = React.useState([]);
+
+  React.useEffect(() => {
+    authGetRequest('localizations').then((result) => {
+      if (result.status === 200) setLocalizations(result.data);
+    });
+  }, []);
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} md={12} lg={8}>
+      <Grid item xs={12} md={12} lg={5}>
         <Paper className={mapPaper}>
           <Map />
+          <Localizations localizations={localizations} />
         </Paper>
       </Grid>
 
-      <Grid item xs={12} md={12} lg={4}>
-        <Paper className={classes.paper}>
-          <Localizations />
-        </Paper>
+      <Grid item xs={12} md={12} lg={7}>
+        {/* <Paper className={classes.paper}> */}
+        <Posts localizations={localizations} />
+        {/* </Paper> */}
       </Grid>
     </Grid>
   );

@@ -42,3 +42,60 @@ export const authGetRequest = async (endpoint, paramsObj = {}) => {
     return error;
   }
 };
+
+export const authGetRequestWithParams = async (endpoint, paramsObj = {}) => {
+  const token = UserSessionDataHandler.getToken();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  let params = '';
+  for (const value of Object.values(paramsObj)) {
+    params += `/${value}`;
+  }
+  try {
+    return await axios.get(
+      `${apiBase}/${endpoints[endpoint]}${params}`,
+      config
+    );
+  } catch (error) {
+    return error;
+  }
+};
+
+export const authPatchRequest = async (endpoint, paramsObj = {}) => {
+  const token = UserSessionDataHandler.getToken();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    return await axios.patch(
+      `${apiBase}/${endpoints[endpoint]}`,
+      paramsObj,
+      config
+    );
+  } catch (error) {
+    return error;
+  }
+};
+
+export const authPostRequest = async (endpoint, paramsObj = {}) => {
+  const token = UserSessionDataHandler.getToken();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    return await axios.post(
+      `${apiBase}/${endpoints[endpoint]}`,
+      paramsObj,
+      config
+    );
+  } catch (error) {
+    return error;
+  }
+};

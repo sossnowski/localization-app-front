@@ -3,14 +3,13 @@
         "wesbos"
     ],
     "rules": {
-        "no-use-before-define": [
-            "error",
-            {
-                "functions": false,
-                "classes": true,
-                "variables": false
-            }
-        ],
+        "no-use-before-define": 0,
+        // "no-use-before-define": [
+        //     "error",
+        //     {
+        //         "functions": false
+        //     }
+        // ],
         "react-hooks/exhaustive-deps": "off"
     }
 }

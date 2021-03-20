@@ -5,17 +5,9 @@ import { fromLonLat } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 import React from 'react';
 import { connect } from 'react-redux';
-import { authGetRequest } from '../../helpers/apiRequests';
 
 const Localizations = (props) => {
-  const { map } = props;
-  const [localizations, setLocalizations] = React.useState([]);
-
-  React.useEffect(() => {
-    authGetRequest('localizations').then((result) => {
-      if (result.status === 200) setLocalizations(result.data);
-    });
-  }, []);
+  const { map, localizations } = props;
 
   React.useEffect(() => {
     if (!Object.keys(map).length) return;

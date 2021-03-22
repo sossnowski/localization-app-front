@@ -14,6 +14,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import { useDispatch } from 'react-redux';
 import mainListItems from './ListItems';
 import ContentController from '../contentController/Main';
 import sidebarOpenContext from './sidebarContext';
@@ -102,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
 const MainWrapper = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const dispatch = useDispatch();
   const handleDrawerOpen = () => {
     setOpen(true);
   };

@@ -1,10 +1,11 @@
-/* eslint-disable no-use-before-define */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import { authGetRequest } from '../../helpers/apiRequests';
 import DisplayPost from './DisplayPost';
+import { setPosts } from '../../store/actions/post/post';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -20,20 +21,25 @@ const useStyles = makeStyles((theme) => ({
 
 const Posts = (props) => {
   const { localizations } = props;
-  const [posts, setPosts] = React.useState([]);
+  const posts = useSelector((state) => state.posts);
+  // const [posts, setPosts] = React.useState([]);
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
   const [localizationsUids, setLocalizationsUids] = React.useState([]);
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     if (!localizations.length) return;
+    getPosts();
+  }, [localizations]);
+
+  const getPosts = () => {
     authGetRequest('postsFromLocalizations', {
       uids: getLocalizationsUids(),
     }).then((result) => {
-      console.log(result.data);
-      if (result.status === 200) setPosts(result.data);
+      if (result.status === 200) dispatch(setPosts(result.data));
     });
-  }, [localizations]);
+  };
 
   const getLocalizationsUids = () => {
     const uids = [];

@@ -30,6 +30,12 @@ export default {
         linkMsg_: 'Zaloguj się',
       },
     },
+    comments: {
+      add: {
+        textArea_: 'Napisz coś',
+        button_: 'Dodaj',
+      },
+    },
     alerts: {
       loginError: {
         title_: 'Błąd logowania',
@@ -92,6 +98,12 @@ export default {
         button_: 'Save',
         successMsg_: 'Password was changed',
         linkMsg_: 'Log in',
+      },
+    },
+    comments: {
+      add: {
+        textArea_: 'Write something',
+        button_: 'Add',
       },
     },
     alerts: {

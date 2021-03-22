@@ -8,6 +8,7 @@ import CommentIcon from '@material-ui/icons/ChatBubble';
 import { authPatchRequest, authPostRequest } from '../../helpers/apiRequests';
 import Comment from '../comments/Main';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
+import AddComment from '../comments/Add';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -38,11 +39,9 @@ const DisplayPost = (props) => {
 
   React.useEffect(() => {
     checkWeatherUserLike();
-    // countLikes();
   }, []);
 
   React.useEffect(() => {
-    console.log(likes);
     countLikes();
   }, [likes]);
 
@@ -65,8 +64,9 @@ const DisplayPost = (props) => {
   };
 
   const handleLike = (isUpVote) => {
+    if (postLiked === isUpVote) return;
     if (postLiked != null) {
-      authPatchRequest('setPostLike', { postUid: post.uid, isUpVote }).then(
+      authPatchRequest('postLike', { postUid: post.uid, isUpVote }).then(
         (result) => {
           if (result.status === 200) {
             setPostLiked(isUpVote);
@@ -75,7 +75,7 @@ const DisplayPost = (props) => {
         }
       );
     } else {
-      authPostRequest('addPostLike', { postUid: post.uid, isUpVote }).then(
+      authPostRequest('postLike', { postUid: post.uid, isUpVote }).then(
         (result) => {
           if (result.status === 201) {
             setPostLiked(isUpVote);
@@ -136,9 +136,14 @@ const DisplayPost = (props) => {
           </div>
         </Grid>
       </Grid>
-      {showComments &&
-        post.comments.map((comment) => <Comment comment={comment} />)}
-      {/* </div> */}
+      {showComments && (
+        <Grid item xs={12}>
+          {post.comments.map((comment) => (
+            <Comment comment={comment} />
+          ))}
+          <AddComment post={post} />
+        </Grid>
+      )}
     </div>
   );
 };

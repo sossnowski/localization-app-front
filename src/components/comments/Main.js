@@ -4,8 +4,12 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LikeIcon from '@material-ui/icons/ThumbUpAlt';
 import DislikeIcon from '@material-ui/icons/ThumbDownAlt';
-import CommentIcon from '@material-ui/icons/ChatBubble';
-import { authGetRequestWithParams } from '../../helpers/apiRequests';
+import {
+  authGetRequestWithParams,
+  authPostRequest,
+  authPatchRequest,
+} from '../../helpers/apiRequests';
+import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -29,6 +33,7 @@ const DisplayPost = (props) => {
   const [likes, setLikes] = React.useState([]);
   const [likesNumber, setLikesNumber] = React.useState(null);
   const [disLikesNumber, setDisLikesNumber] = React.useState(null);
+  const [commentLiked, setCommentLiked] = React.useState(null);
 
   React.useEffect(() => {
     getLikes();
@@ -43,9 +48,13 @@ const DisplayPost = (props) => {
   };
 
   React.useEffect(() => {
-    console.log(likes);
     if (!likes.length) return;
     countLikes();
+  }, [likes]);
+
+  React.useEffect(() => {
+    countLikes();
+    checkWeatherUserLike();
   }, [likes]);
 
   const countLikes = () => {
@@ -59,6 +68,53 @@ const DisplayPost = (props) => {
     setDisLikesNumber(dlNumber || null);
   };
 
+  const checkWeatherUserLike = () => {
+    console.log(likes, UserSessionDataHandler.getUserData().uid);
+    const foundLike = likes.find(
+      (like) => like.userUid === UserSessionDataHandler.getUserData().uid
+    );
+    if (foundLike) setCommentLiked(foundLike.isUpVote);
+  };
+
+  const handleLike = (isUpVote) => {
+    if (commentLiked === isUpVote) return;
+    if (commentLiked != null) {
+      authPatchRequest('commentLike', {
+        commentUid: comment.uid,
+        isUpVote,
+      }).then((result) => {
+        if (result.status === 200) {
+          setCommentLiked(isUpVote);
+          updateComments(isUpVote);
+        }
+      });
+    } else {
+      authPostRequest('commentLike', {
+        commentUid: comment.uid,
+        isUpVote,
+      }).then((result) => {
+        if (result.status === 201) {
+          setCommentLiked(isUpVote);
+          addComments(result.data);
+        }
+      });
+    }
+  };
+
+  const updateComments = (isUpVote) => {
+    setLikes(
+      likes.map((like) =>
+        like.userUid === UserSessionDataHandler.getUserData().uid
+          ? { ...like, isUpVote }
+          : like
+      )
+    );
+  };
+
+  const addComments = (like) => {
+    setLikes([...likes, like]);
+  };
+
   return (
     // <div className={classes.wrapper}>
     <Grid container spacing={2} className={classes.wrapper}>
@@ -67,11 +123,19 @@ const DisplayPost = (props) => {
       </Grid>
       {/* <Grid item xs={8} */}
       <Grid item xs={2}>
-        <LikeIcon className={classes.icon} />
+        <LikeIcon
+          className={classes.icon}
+          onClick={() => handleLike(true)}
+          style={commentLiked === true ? { color: 'gray' } : null}
+        />
         {likesNumber}
       </Grid>
       <Grid item xs={2}>
-        <DislikeIcon className={classes.icon} />
+        <DislikeIcon
+          className={classes.icon}
+          onClick={() => handleLike(false)}
+          style={commentLiked === false ? { color: 'gray' } : null}
+        />
         {disLikesNumber}
       </Grid>
     </Grid>

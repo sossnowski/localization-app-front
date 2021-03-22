@@ -7,4 +7,5 @@ export default {
   postLike: 'like/post',
   addComment: 'comment',
   commentLike: 'like/comment',
+  post: 'post',
 };

@@ -3,6 +3,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import { Route, Switch } from 'react-router-dom';
 import Dashboard from '../dashboard/Main';
+import AddPost from '../posts/Add';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -33,6 +34,9 @@ const ContentController = () => {
         <Switch>
           <Route path="/dashboard">
             <Dashboard />
+          </Route>
+          <Route path="/profile">
+            <AddPost />
           </Route>
         </Switch>
       </Container>

@@ -36,6 +36,13 @@ export default {
         button_: 'Dodaj',
       },
     },
+    addForm: {
+      header_: 'Dodaj post',
+      title_: 'Tytuł',
+      city_: 'Miejscowość',
+      text_: 'Treść',
+      button_: 'Zapisz',
+    },
     alerts: {
       loginError: {
         title_: 'Błąd logowania',
@@ -105,6 +112,13 @@ export default {
         textArea_: 'Write something',
         button_: 'Add',
       },
+    },
+    addForm: {
+      header_: 'Add new post',
+      title_: 'Title',
+      city_: 'City',
+      text_: 'Description',
+      button_: 'Save',
     },
     alerts: {
       loginError: {

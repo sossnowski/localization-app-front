@@ -111,7 +111,9 @@ const AlertComponent = (props) => {
   }, [alerts]);
 
   return (
-    <div className={classes.allAlertsWrapper}>{alertsToDisplay || ''}</div>
+    alertsToDisplay.length && (
+      <div className={classes.allAlertsWrapper}>{alertsToDisplay}</div>
+    )
   );
 };
 

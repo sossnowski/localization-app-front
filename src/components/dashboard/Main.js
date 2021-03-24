@@ -60,18 +60,20 @@ const Dashboard = () => {
   };
 
   return (
-    <Grid container spacing={1}>
-      <Grid item xs={12} md={12} lg={5}>
-        <Paper className={mapPaper}>
-          <Map />
-          <Localizations localizations={localizations} />
-        </Paper>
-      </Grid>
+    <Grid item xs={12}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} md={12} lg={5}>
+          <Paper className={mapPaper}>
+            <Map />
+            <Localizations localizations={localizations} />
+          </Paper>
+        </Grid>
 
-      <Grid item xs={12} md={12} lg={7}>
-        {/* <Paper className={classes.paper}> */}
-        <Posts localizations={localizations} />
-        {/* </Paper> */}
+        <Grid item xs={12} md={12} lg={7}>
+          {/* <Paper className={classes.paper}> */}
+          <Posts localizations={localizations} />
+          {/* </Paper> */}
+        </Grid>
       </Grid>
     </Grid>
   );

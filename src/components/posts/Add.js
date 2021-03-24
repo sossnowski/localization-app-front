@@ -91,13 +91,13 @@ const MissionForm = () => {
       <Grid item xs={12}>
         <Paper className={fixedHeightPaper}>
           <Grid item xs={12}>
-            <h1>{strings.addForm.header_}</h1>
+            <h1>{strings.posts.add.header_}</h1>
           </Grid>
           <Grid container spacing={4}>
             <Grid item xs={12}>
               <TextField
                 defaultValue={values.title}
-                label={strings.addForm.title_}
+                label={strings.posts.add.title_}
                 variant="outlined"
                 fullWidth
                 onChange={handleChange}
@@ -107,7 +107,7 @@ const MissionForm = () => {
             <Grid item xs={12} lg={6}>
               <TextField
                 value={values.city}
-                label={strings.addForm.city_}
+                label={strings.posts.add.city_}
                 variant="outlined"
                 fullWidth
                 onChange={handleChange}
@@ -117,7 +117,7 @@ const MissionForm = () => {
             <Grid item xs={12} lg={6}>
               <TextField
                 value={values.category}
-                label={strings.addForm.category_}
+                label={strings.posts.add.category_}
                 variant="outlined"
                 fullWidth
                 onChange={handleChange}
@@ -132,7 +132,7 @@ const MissionForm = () => {
             <Grid item xs={12}>
               <TextField
                 value={values.description}
-                label={strings.addForm.text_}
+                label={strings.posts.add.text_}
                 variant="outlined"
                 fullWidth
                 multiline
@@ -157,7 +157,7 @@ const MissionForm = () => {
             className={classes.marginTop}
             onClick={() => onSaveClick()}
           >
-            {strings.addForm.save_}
+            {strings.posts.add.button_}
           </Button>
         </Grid>
       </Grid>

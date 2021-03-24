@@ -30,19 +30,26 @@ export default {
         linkMsg_: 'Zaloguj się',
       },
     },
+    sidebarList: {
+      dashboard_: 'Dashboard',
+      addLocalization_: 'Dodaj lokalizację',
+    },
+    posts: {
+      add: {
+        header_: 'Dodaj post',
+        title_: 'Tytuł',
+        city_: 'Miejscowość',
+        text_: 'Treść',
+        button_: 'Zapisz',
+      },
+    },
     comments: {
       add: {
         textArea_: 'Napisz coś',
         button_: 'Dodaj',
       },
     },
-    addForm: {
-      header_: 'Dodaj post',
-      title_: 'Tytuł',
-      city_: 'Miejscowość',
-      text_: 'Treść',
-      button_: 'Zapisz',
-    },
+
     alerts: {
       loginError: {
         title_: 'Błąd logowania',
@@ -107,18 +114,24 @@ export default {
         linkMsg_: 'Log in',
       },
     },
+    sidebarList: {
+      dashboard_: 'Dashboard',
+      addLocalization_: 'Add localization',
+    },
+    posts: {
+      add: {
+        header_: 'Add new post',
+        title_: 'Title',
+        city_: 'City',
+        text_: 'Description',
+        button_: 'Save',
+      },
+    },
     comments: {
       add: {
         textArea_: 'Write something',
         button_: 'Add',
       },
-    },
-    addForm: {
-      header_: 'Add new post',
-      title_: 'Title',
-      city_: 'City',
-      text_: 'Description',
-      button_: 'Save',
     },
     alerts: {
       loginError: {

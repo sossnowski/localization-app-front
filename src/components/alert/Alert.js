@@ -110,11 +110,9 @@ const AlertComponent = (props) => {
     setAlertsToDisplay(array);
   }, [alerts]);
 
-  return (
-    alertsToDisplay.length && (
-      <div className={classes.allAlertsWrapper}>{alertsToDisplay}</div>
-    )
-  );
+  return alertsToDisplay.length ? (
+    <div className={classes.allAlertsWrapper}>{alertsToDisplay}</div>
+  ) : null;
 };
 
 AlertComponent.propTypes = {

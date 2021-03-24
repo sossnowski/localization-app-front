@@ -22,9 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const Posts = (props) => {
   const { localizations } = props;
   const posts = useSelector((state) => state.posts);
-  // const [posts, setPosts] = React.useState([]);
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
-  const [localizationsUids, setLocalizationsUids] = React.useState([]);
   const classes = useStyles();
   const dispatch = useDispatch();
 

@@ -15,7 +15,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { useDispatch } from 'react-redux';
-import mainListItems from './ListItems';
+import { Container } from '@material-ui/core';
+import MainListItems from './ListItems';
 import ContentController from '../contentController/Main';
 import sidebarOpenContext from './sidebarContext';
 
@@ -83,17 +84,12 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     height: '100vh',
-    overflow: 'auto',
+    overflowY: 'auto',
+    backgroundColor: theme.palette.background.default,
+    overflowX: 'hidden',
   },
   container: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
   },
   fixedHeight: {
     height: 240,
@@ -160,12 +156,17 @@ const MainWrapper = () => {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <MainListItems />
         <Divider />
       </Drawer>
-      <sidebarOpenContext.Provider value={open}>
-        <ContentController />
-      </sidebarOpenContext.Provider>
+      <main className={classes.content}>
+        <div className={classes.appBarSpacer} />
+        <Container maxWidth="lg" className={classes.container}>
+          <sidebarOpenContext.Provider value={open}>
+            <ContentController />
+          </sidebarOpenContext.Provider>
+        </Container>
+      </main>
     </div>
   );
 };

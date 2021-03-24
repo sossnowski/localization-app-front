@@ -7,13 +7,15 @@ import OSM from 'ol/source/OSM';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import Point from 'ol/geom/Point';
-import { Feature } from 'ol';
-import VectorLayer from 'ol/layer/Vector';
-import { fromLonLat } from 'ol/proj';
-import VectorSource from 'ol/source/Vector';
 import { setMap } from '../../store/actions/map/map';
 import sidebarOpenContext from '../wrapper/sidebarContext';
+import {
+  createLayer,
+  addLayerToMap,
+  createPointFeature,
+  centerMapToCordinates,
+  addSelectedLocalizationToLayer,
+} from './utils/main';
 
 const useStyles = makeStyles({
   root: {
@@ -23,15 +25,17 @@ const useStyles = makeStyles({
 });
 
 const MapComponent = (props) => {
-  const { setClickedPoint } = props;
+  const { setClickedPoint, pointToCenterMap } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const open = React.useContext(sidebarOpenContext);
   const map = React.useRef();
+  const localizationsLayer = React.useRef(null);
   const [click, setClick] = React.useState(null);
   const tileLayer = React.useRef(
     new TileLayer({
       source: new OSM({}),
+      layerName: 'tileLayer',
     })
   );
 
@@ -46,7 +50,17 @@ const MapComponent = (props) => {
       }),
     });
     map.current.on('click', setClick);
+    localizationsLayer.current = createLayer('localizationsLayer');
+    addLayerToMap(map.current, localizationsLayer.current);
     dispatch(setMap(map.current));
+  }, []);
+
+  React.useEffect(() => {
+    if (!pointToCenterMap) return;
+    console.log(pointToCenterMap);
+    const parsedPoint = proj.fromLonLat(pointToCenterMap);
+    addPointToMap(parsedPoint);
+    centerMapToCordinates(map.current, parsedPoint);
   }, []);
 
   React.useEffect(() => {
@@ -56,18 +70,11 @@ const MapComponent = (props) => {
   }, [click]);
 
   const addPointToMap = (coordinates) => {
-    const feature = new Feature({
-      geometry: new Point(coordinates),
-    });
-    console.log(feature);
-    const source = new VectorSource({});
-    source.addFeature(feature);
-    const layer = new VectorLayer({ source });
-    map.current.addLayer(layer);
+    const pointFeature = createPointFeature(coordinates);
+    addSelectedLocalizationToLayer(localizationsLayer.current, pointFeature);
   };
 
   React.useEffect(() => {
-    console.log(open);
     setTimeout(() => map.current.updateSize(), 200);
   }, [open]);
 
@@ -76,10 +83,12 @@ const MapComponent = (props) => {
 
 MapComponent.propTypes = {
   setClickedPoint: PropTypes.func,
+  pointToCenterMap: PropTypes.array,
 };
 
 MapComponent.defaultProps = {
   setClickedPoint: null,
+  pointToCenterMap: null,
 };
 
 export default MapComponent;

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Map from '../map/Main';
 import { authPostRequest } from '../../helpers/apiRequests';
 import { addAlert } from '../../store/actions/alert/alert';
+import history from '../../history';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -81,18 +82,9 @@ const MissionForm = () => {
             type: 'error',
           })
         );
-      else
-        dispatch(
-          addAlert({
-            title: strings.alerts.addDataSuccess.title_,
-            desc: strings.alerts.addDataSuccess.desc_,
-            type: 'success',
-          })
-        );
+      else history.push(`/dashboard/${result.data.localization.uid}`);
     });
   };
-
-  React.useEffect(() => {}, [position]);
 
   return (
     <form className={classes.root} noValidate autoComplete="off">

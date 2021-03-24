@@ -32,7 +32,10 @@ const ContentController = () => {
       <div className={classes.appBarSpacer} />
       <Container maxWidth="lg" className={classes.container}>
         <Switch>
-          <Route path="/dashboard">
+          <Route path="/dashboard/:uid">
+            <Dashboard />
+          </Route>
+          <Route exact path="/dashboard">
             <Dashboard />
           </Route>
           <Route path="/profile">

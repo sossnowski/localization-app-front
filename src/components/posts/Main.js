@@ -53,7 +53,7 @@ const Posts = (props) => {
   React.useEffect(() => {
     const allPosts = [];
     for (const post of posts) {
-      allPosts.push(<DisplayPost post={post} />);
+      allPosts.push(<DisplayPost post={post} key={post.uid} />);
     }
     setPostsToDisplay(allPosts);
   }, [posts]);

@@ -1,26 +1,33 @@
-import { Feature } from 'ol';
-import Point from 'ol/geom/Point';
-import VectorLayer from 'ol/layer/Vector';
-import { fromLonLat } from 'ol/proj';
-import VectorSource from 'ol/source/Vector';
 import React from 'react';
 import { connect } from 'react-redux';
+import { fromLonLat } from 'ol/proj';
+import {
+  addFeaturesToLayer,
+  addLayerToMap,
+  centerToLayerExtent,
+  createLayer,
+  createPointFeature,
+  removeComponentLayers,
+} from '../map/utils/main';
 
 const Localizations = (props) => {
   const { map, localizations } = props;
+  const localizationsLayer = React.useRef(null);
 
   React.useEffect(() => {
     if (!Object.keys(map).length) return;
+    localizationsLayer.current = createLayer('dashboardLocalizations');
+    addLayerToMap(map, localizationsLayer.current);
+
     const features = [];
     for (const loc of localizations) {
-      const feature = new Feature({
-        geometry: new Point(fromLonLat(loc.geometry.coordinates)),
-      });
-      features.push(feature);
+      features.push(createPointFeature(fromLonLat(loc.geometry.coordinates)));
     }
-    const source = new VectorSource({ features });
-    const layer = new VectorLayer({ source });
-    map.addLayer(layer);
+    console.log(features);
+    addFeaturesToLayer(localizationsLayer.current, features);
+    centerToLayerExtent(map, localizationsLayer.current);
+
+    return () => removeComponentLayers(map);
   }, [localizations]);
 
   return null;

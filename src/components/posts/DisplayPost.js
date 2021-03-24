@@ -101,7 +101,7 @@ const DisplayPost = (props) => {
   };
 
   return (
-    <div className={classes.wrapper}>
+    <div className={classes.wrapper} key={post.uid}>
       {/* <div className={classes.contentWrapper}> */}
       <Grid container spacing={2}>
         <Grid item xs={12}>

@@ -2,9 +2,13 @@ import React from 'react';
 import { Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { useParams } from 'react-router-dom';
 import Map from '../map/Main';
 import Localizations from '../localizations/Main';
-import { authGetRequest } from '../../helpers/apiRequests';
+import {
+  authGetRequest,
+  authGetRequestWithParams,
+} from '../../helpers/apiRequests';
 import Posts from '../posts/Main';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,12 +40,24 @@ const Dashboard = () => {
   const classes = useStyles();
   const mapPaper = clsx(classes.paper, classes.fixedHeight, classes.noPadding);
   const [localizations, setLocalizations] = React.useState([]);
+  const { uid } = useParams();
 
   React.useEffect(() => {
+    if (uid) getLocalization();
+    else getAllLocalizations();
+  }, [uid]);
+
+  const getAllLocalizations = () => {
     authGetRequest('localizations').then((result) => {
       if (result.status === 200) setLocalizations(result.data);
     });
-  }, []);
+  };
+
+  const getLocalization = () => {
+    authGetRequestWithParams('localizations', { uid }).then((result) => {
+      if (result.status === 200) setLocalizations([result.data]);
+    });
+  };
 
   return (
     <Grid container spacing={1}>

@@ -5,10 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import LikeIcon from '@material-ui/icons/ThumbUpAlt';
 import DislikeIcon from '@material-ui/icons/ThumbDownAlt';
 import CommentIcon from '@material-ui/icons/ChatBubble';
+import { useDispatch } from 'react-redux';
 import { authPatchRequest, authPostRequest } from '../../helpers/apiRequests';
 import Comment from '../comments/Main';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import AddComment from '../comments/Add';
+import { editPost } from '../../store/actions/post/post';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -36,14 +38,12 @@ const DisplayPost = (props) => {
   const [disLikesNumber, setDisLikesNumber] = React.useState(null);
   const [showComments, setShowComments] = React.useState(false);
   const [postLiked, setPostLiked] = React.useState(null);
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
     checkWeatherUserLike();
-  }, []);
-
-  React.useEffect(() => {
     countLikes();
-  }, [likes]);
+  }, [post]);
 
   const countLikes = () => {
     let lNumber = 0;
@@ -99,6 +99,10 @@ const DisplayPost = (props) => {
   const addLike = (like) => {
     setLikes([...likes, like]);
   };
+
+  React.useEffect(() => {
+    dispatch(editPost({ ...post, likes }));
+  }, [likes]);
 
   return (
     <div className={classes.wrapper} key={post.uid}>

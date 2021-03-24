@@ -52,11 +52,22 @@ const Posts = (props) => {
 
   React.useEffect(() => {
     const allPosts = [];
+    sortPosts(posts);
     for (const post of posts) {
       allPosts.push(<DisplayPost post={post} key={post.uid} />);
     }
     setPostsToDisplay(allPosts);
   }, [posts]);
+
+  const sortPosts = (postsToSort) => {
+    postsToSort.sort(
+      (a, b) =>
+        b.likes.filter((like) => like.isUpVote).length -
+          a.likes.filter((like) => like.isUpVote).length ||
+        a.likes.filter((like) => !like.isUpVote).length -
+          b.likes.filter((like) => !like.isUpVote).length
+    );
+  };
 
   return <Paper className={classes.paper}>{postsToDisplay}</Paper>;
 };

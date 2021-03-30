@@ -7,28 +7,45 @@ import {
   centerToLayerExtent,
   createLayer,
   createPointFeature,
-  removeComponentLayers,
+  getAllClickedFeatures,
+  clearLayerSource,
 } from '../map/utils/main';
+import history from '../../history';
 
 const Localizations = (props) => {
   const { map, localizations } = props;
   const localizationsLayer = React.useRef(null);
+  const [click, setClick] = React.useState(null);
 
   React.useEffect(() => {
     if (!Object.keys(map).length) return;
+    map.on('click', setClick);
     localizationsLayer.current = createLayer('dashboardLocalizations');
     addLayerToMap(map, localizationsLayer.current);
 
+    // return () => removeComponentLayers(map);
+  }, [map]);
+
+  React.useEffect(() => {
+    if (!Object.keys(map).length) return;
     const features = [];
     for (const loc of localizations) {
-      features.push(createPointFeature(fromLonLat(loc.geometry.coordinates)));
+      const feature = createPointFeature(fromLonLat(loc.geometry.coordinates));
+      feature.setId(loc.uid);
+      features.push(feature);
     }
-    console.log(features);
     addFeaturesToLayer(localizationsLayer.current, features);
     centerToLayerExtent(map, localizationsLayer.current);
-
-    return () => removeComponentLayers(map);
   }, [localizations]);
+
+  React.useEffect(() => {
+    if (!click) return;
+    const clickedFeatures = getAllClickedFeatures(map, click);
+    if (!clickedFeatures.length) return;
+    const localization = clickedFeatures[0].getId();
+    clearLayerSource(localizationsLayer.current);
+    history.push(`/dashboard/${localization}`);
+  }, [click]);
 
   return null;
 };

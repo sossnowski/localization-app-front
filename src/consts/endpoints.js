@@ -8,4 +8,5 @@ export default {
   addComment: 'comment',
   commentLike: 'like/comment',
   post: 'post',
+  postToLocalization: 'post/localization',
 };

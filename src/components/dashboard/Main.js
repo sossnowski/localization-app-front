@@ -1,8 +1,10 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import { useParams } from 'react-router-dom';
+import RedoIcon from '@material-ui/icons/Redo';
 import Map from '../map/Main';
 import Localizations from '../localizations/Main';
 import {
@@ -10,6 +12,8 @@ import {
   authGetRequestWithParams,
 } from '../../helpers/apiRequests';
 import Posts from '../posts/Main';
+import CustomButton from '../common/AddButton';
+import AddPost from '../posts/Add';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -27,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    marginBottom: '8px',
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    height: 'calc(100vh - 128px)',
   },
   fixedHeight: {
     height: 'calc(100vh - 128px)',
@@ -40,6 +48,7 @@ const Dashboard = () => {
   const classes = useStyles();
   const mapPaper = clsx(classes.paper, classes.fixedHeight, classes.noPadding);
   const [localizations, setLocalizations] = React.useState([]);
+  const [addPost, setAddPost] = React.useState(false);
   const { uid } = useParams();
 
   React.useEffect(() => {
@@ -59,6 +68,10 @@ const Dashboard = () => {
     });
   };
 
+  const addPostToggle = () => {
+    setAddPost(!addPost);
+  };
+
   return (
     <Grid item xs={12}>
       <Grid container spacing={1}>
@@ -70,9 +83,26 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={12} md={12} lg={7}>
-          {/* <Paper className={classes.paper}> */}
-          <Posts localizations={localizations} />
-          {/* </Paper> */}
+          <Paper className={classes.paper}>
+            {localizations.length === 1 ? (
+              addPost ? (
+                <>
+                  <AddPost uid={uid} addPostToggle={addPostToggle} />
+                  <CustomButton
+                    onClickHandler={addPostToggle}
+                    content={<RedoIcon />}
+                  />
+                </>
+              ) : (
+                <>
+                  <Posts localizations={localizations} />
+                  <CustomButton onClickHandler={addPostToggle} />
+                </>
+              )
+            ) : (
+              <span>Wybierz jedną z lokalizacji</span>
+            )}
+          </Paper>
         </Grid>
       </Grid>
     </Grid>

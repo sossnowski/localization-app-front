@@ -119,7 +119,7 @@ const DisplayPost = (props) => {
     // <div className={classes.wrapper}>
     <Grid container spacing={2} className={classes.wrapper}>
       <Grid item xs={12}>
-        {comment.text} comment
+        {comment.text}
       </Grid>
       {/* <Grid item xs={8} */}
       <Grid item xs={2}>

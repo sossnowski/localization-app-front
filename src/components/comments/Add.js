@@ -9,6 +9,7 @@ import { authPostRequest } from '../../helpers/apiRequests';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop: '30px',
     '& > *': {
       margin: theme.spacing(1),
       width: '100%',
@@ -26,10 +27,12 @@ const AddComment = (props) => {
   const add = () => {
     authPostRequest('addComment', { postUid: post.uid, text }).then(
       (result) => {
-        if (result.status === 201)
+        if (result.status === 201) {
           dispatch(
             editPost({ ...post, comments: [...post.comments, result.data] })
           );
+          setText('');
+        }
       }
     );
   };
@@ -45,7 +48,7 @@ const AddComment = (props) => {
         label={strings.textArea_}
         variant="outlined"
         rowsMax={10}
-        rows={3}
+        cols={5}
         value={text}
         onChange={handleChange}
       />

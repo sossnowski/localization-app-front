@@ -9,11 +9,11 @@ export const addSelectedLocalizationToLayer = (
   layer = null,
   feature = null
 ) => {
-  clearSource(layer);
+  clearLayerSource(layer);
   addFeatureToLayer(layer, feature);
 };
 
-const clearSource = (layer = null) => {
+export const clearLayerSource = (layer = null) => {
   layer.getSource()?.clear();
 };
 
@@ -76,6 +76,7 @@ export const centerToLayerExtent = (map = null, layer = null) => {
 };
 
 export const removeComponentLayers = (map) => {
+  console.log(map.getLayers().getArray());
   if (!Object.keys(map).length) return;
 
   const layersWhichStay = ['tileLayer'];
@@ -89,4 +90,10 @@ export const removeComponentLayers = (map) => {
     )
       map.removeLayer(layer);
   }
+  console.log(map.getLayers().getArray());
+};
+
+export const getAllClickedFeatures = (map, event) => {
+  if (!Object.keys(map).length) return;
+  return map.getFeaturesAtPixel(event.pixel);
 };

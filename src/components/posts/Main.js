@@ -1,29 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Paper } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { authGetRequest } from '../../helpers/apiRequests';
 import DisplayPost from './DisplayPost';
 import { setPosts } from '../../store/actions/post/post';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-    marginBottom: '8px',
-    overflowX: 'hidden',
-    overflowY: 'auto',
-    height: 'calc(100vh - 128px)',
-  },
-}));
-
 const Posts = (props) => {
   const { localizations } = props;
   const posts = useSelector((state) => state.posts);
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
-  const classes = useStyles();
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -44,7 +29,7 @@ const Posts = (props) => {
     for (const localization of localizations) {
       uids.push(localization.uid);
     }
-    console.log(uids);
+
     return uids;
   };
 
@@ -67,7 +52,7 @@ const Posts = (props) => {
     );
   };
 
-  return <Paper className={classes.paper}>{postsToDisplay}</Paper>;
+  return postsToDisplay;
 };
 
 Posts.propTypes = {

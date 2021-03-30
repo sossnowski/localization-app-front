@@ -15,9 +15,12 @@ import { editPost } from '../../store/actions/post/post';
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     minHeight: 'auto',
+    border: `1px solid #f0f0f0`,
     borderBottom: `1px solid ${theme.palette.primary.main}`,
+    borderRadius: '10px',
     padding: theme.spacing(2),
     height: 'auto',
+    marginBottom: '5px',
   },
   icon: {
     fontSize: '20px',

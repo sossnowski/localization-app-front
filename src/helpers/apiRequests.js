@@ -99,3 +99,20 @@ export const authPostRequest = async (endpoint, paramsObj = {}) => {
     return error;
   }
 };
+
+export const authDeleteRequestWithParam = async (endpoint, uid) => {
+  const token = UserSessionDataHandler.getToken();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    return await axios.delete(
+      `${apiBase}/${endpoints[endpoint]}/${uid}`,
+      config
+    );
+  } catch (error) {
+    return error;
+  }
+};

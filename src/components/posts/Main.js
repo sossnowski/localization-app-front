@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { authGetRequest } from '../../helpers/apiRequests';
-import DisplayPost from './DisplayPost';
+import PostWrapper from './PostWrapper';
 import { setPosts } from '../../store/actions/post/post';
 
 const Posts = (props) => {
@@ -34,10 +34,11 @@ const Posts = (props) => {
   };
 
   React.useEffect(() => {
+    console.log(posts);
     const allPosts = [];
     sortPosts(posts);
     for (const post of posts) {
-      allPosts.push(<DisplayPost post={post} key={post.uid} />);
+      allPosts.push(<PostWrapper post={post} key={post.uid} />);
     }
     setPostsToDisplay(allPosts);
   }, [posts]);

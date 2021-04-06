@@ -6,6 +6,8 @@ import LikeIcon from '@material-ui/icons/ThumbUpAlt';
 import DislikeIcon from '@material-ui/icons/ThumbDownAlt';
 import CommentIcon from '@material-ui/icons/ChatBubble';
 import { useDispatch } from 'react-redux';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { authPatchRequest, authPostRequest } from '../../helpers/apiRequests';
 import Comment from '../comments/Main';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
@@ -31,10 +33,18 @@ const useStyles = makeStyles((theme) => ({
   iconClicked: {
     color: 'gray',
   },
+  iconEdit: {
+    fontSize: '15px',
+    cursor: 'pointer',
+  },
+  iconDelete: {
+    fontSize: '15px',
+    cursor: 'pointer',
+  },
 }));
 
 const DisplayPost = (props) => {
-  const { post } = props;
+  const { post, setPostToEdit, setPostToDelete } = props;
   const classes = useStyles();
   const [likesNumber, setLikesNumber] = React.useState(null);
   const [likes, setLikes] = React.useState([...post.likes]);
@@ -109,10 +119,19 @@ const DisplayPost = (props) => {
 
   return (
     <div className={classes.wrapper} key={post.uid}>
-      {/* <div className={classes.contentWrapper}> */}
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={11}>
           {post.title}
+        </Grid>
+        <Grid item xs={1}>
+          <EditIcon
+            className={classes.iconEdit}
+            onClick={() => setPostToEdit(post)}
+          />
+          <DeleteIcon
+            className={classes.iconDelete}
+            onClick={() => setPostToDelete(post)}
+          />
         </Grid>
         <Grid item xs={12}>
           {post.description}
@@ -157,6 +176,8 @@ const DisplayPost = (props) => {
 
 DisplayPost.propTypes = {
   post: PropTypes.object.isRequired,
+  setPostToEdit: PropTypes.func.isRequired,
+  setPostToDelete: PropTypes.func.isRequired,
 };
 
 export default DisplayPost;

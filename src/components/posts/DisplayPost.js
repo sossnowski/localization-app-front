@@ -168,7 +168,7 @@ const DisplayPost = (props) => {
       </Grid>
       {showComments && (
         <Grid item xs={12}>
-          <MainComments postUid={post.uid} />
+          <MainComments post={post} />
         </Grid>
       )}
     </div>

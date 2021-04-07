@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '15px',
     cursor: 'pointer',
   },
+  editIconsSection: {
+    textAlign: 'right',
+  },
 }));
 
 const DisplayPost = (props) => {
@@ -123,7 +126,7 @@ const DisplayPost = (props) => {
         <Grid item xs={11}>
           {post.title}
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={1} className={classes.editIconsSection}>
           {UserSessionDataHandler.getUserData().uid === post.user.uid ? (
             <>
               <EditIcon

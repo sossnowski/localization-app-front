@@ -1,8 +1,6 @@
 import { Feature } from 'ol';
-import Geometry from 'ol/geom/Geometry';
 import Point from 'ol/geom/Point';
 import VectorLayer from 'ol/layer/Vector';
-import { fromLonLat } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 
 export const addSelectedLocalizationToLayer = (

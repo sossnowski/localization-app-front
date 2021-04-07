@@ -1,4 +1,3 @@
-import brown from '@material-ui/core/colors/brown';
 import green from '@material-ui/core/colors/green';
 import red from '@material-ui/core/colors/red';
 import yellow from '@material-ui/core/colors/yellow';

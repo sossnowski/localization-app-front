@@ -51,7 +51,6 @@ const AddPost = (props) => {
           })
         );
       else {
-        console.log(values);
         dispatch(editPost(values));
         setPostToEdit(null);
         dispatch(

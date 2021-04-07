@@ -45,7 +45,6 @@ const PostWrapper = (props) => {
       setPostToEdit={setPostToEdit}
       post={post}
       setPostToDelete={setPostToDelete}
-      postToEdit={postToEdit}
     />
   );
 };

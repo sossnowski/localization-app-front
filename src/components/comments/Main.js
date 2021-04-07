@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { authGetRequestWithParams } from '../../helpers/apiRequests';
 import { addAlert } from '../../store/actions/alert/alert';
-import Comment from './Display';
+import CommentWrapper from './Wrapper';
 import AddComment from './Add';
 import { sortByLikes } from '../../utils/main';
 import { editPost } from '../../store/actions/post/post';
@@ -43,7 +43,7 @@ const MainComments = (props) => {
   return (
     <>
       {comments.map((comment) => (
-        <Comment comment={comment} key={comment.uid} />
+        <CommentWrapper comment={comment} post={post} key={comment.uid} />
       ))}
       <AddComment post={post} />
     </>

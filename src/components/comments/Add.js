@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@material-ui/core';
+import { Button, Grid } from '@material-ui/core';
 import { editPost } from '../../store/actions/post/post';
 import { authPostRequest } from '../../helpers/apiRequests';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    marginTop: '30px',
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '100%',
-    },
+  wrapper: {
+    padding: theme.spacing(2),
+    width: '100%',
+    marginTop: '40px',
+    borderRadius: '5px',
   },
 }));
 
@@ -43,20 +42,30 @@ const AddComment = (props) => {
   };
 
   return (
-    <div className={classes.root}>
-      <TextField
-        id="outlined-basic"
-        label={strings.textArea_}
-        variant="outlined"
-        rowsMax={10}
-        cols={5}
-        value={text}
-        onChange={handleChange}
-      />
-      <Button variant="contained" color="primary" onClick={() => add()}>
-        {strings.button_}
-      </Button>
-    </div>
+    <Grid container spacing={2} className={classes.wrapper}>
+      <Grid item xs={12}>
+        <TextField
+          id="outlined-basic"
+          label={strings.textArea_}
+          variant="outlined"
+          rowsMax={10}
+          cols={5}
+          fullWidth
+          value={text}
+          onChange={handleChange}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={() => add()}
+        >
+          {strings.button_}
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 

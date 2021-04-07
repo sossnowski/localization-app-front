@@ -4,6 +4,8 @@ import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LikeIcon from '@material-ui/icons/ThumbUpAlt';
 import DislikeIcon from '@material-ui/icons/ThumbDownAlt';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { authPostRequest, authPatchRequest } from '../../helpers/apiRequests';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 
@@ -21,10 +23,21 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '3px',
     cursor: 'pointer',
   },
+  iconEdit: {
+    fontSize: '15px',
+    cursor: 'pointer',
+  },
+  iconDelete: {
+    fontSize: '15px',
+    cursor: 'pointer',
+  },
+  editIconsSection: {
+    textAlign: 'right',
+  },
 }));
 
-const DisplayPost = (props) => {
-  const { comment } = props;
+const DisplayComment = (props) => {
+  const { comment, setCommentToEdit, setCommentToDelete } = props;
   const classes = useStyles();
   const [likes, setLikes] = React.useState(comment.likes);
   const [likesNumber, setLikesNumber] = React.useState(null);
@@ -98,12 +111,25 @@ const DisplayPost = (props) => {
   };
 
   return (
-    // <div className={classes.wrapper}>
     <Grid container spacing={2} className={classes.wrapper}>
+      <Grid item xs={11} />
+      <Grid item xs={1} className={classes.editIconsSection}>
+        {UserSessionDataHandler.getUserData().uid === comment.user.uid ? (
+          <>
+            <EditIcon
+              className={classes.iconEdit}
+              onClick={() => setCommentToEdit(comment)}
+            />
+            <DeleteIcon
+              className={classes.iconDelete}
+              onClick={() => setCommentToDelete(comment)}
+            />
+          </>
+        ) : null}
+      </Grid>
       <Grid item xs={12}>
         {comment.text}
       </Grid>
-      {/* <Grid item xs={8} */}
       <Grid item xs={2}>
         <LikeIcon
           className={classes.icon}
@@ -121,13 +147,13 @@ const DisplayPost = (props) => {
         {disLikesNumber}
       </Grid>
     </Grid>
-
-    // </div>
   );
 };
 
-DisplayPost.propTypes = {
+DisplayComment.propTypes = {
   comment: PropTypes.object.isRequired,
+  setCommentToEdit: PropTypes.func.isRequired,
+  setCommentToDelete: PropTypes.func.isRequired,
 };
 
-export default DisplayPost;
+export default DisplayComment;

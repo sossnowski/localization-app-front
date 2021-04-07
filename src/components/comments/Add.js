@@ -18,23 +18,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddComment = (props) => {
-  const { post } = props;
+  const { postUid } = props;
   const classes = useStyles();
+  const posts = useSelector((state) => state.posts);
   const strings = useSelector((state) => state.language.comments.add);
   const dispatch = useDispatch();
   const [text, setText] = React.useState('');
 
   const add = () => {
-    authPostRequest('addComment', { postUid: post.uid, text }).then(
-      (result) => {
-        if (result.status === 201) {
-          dispatch(
-            editPost({ ...post, comments: [...post.comments, result.data] })
-          );
-          setText('');
-        }
+    authPostRequest('comments', { postUid, text }).then((result) => {
+      if (result.status === 201) {
+        const post = posts.find((postItem) => postItem.uid === postUid);
+        dispatch(
+          editPost({
+            ...post,
+            comments: [...post.comments, result.data],
+          })
+        );
+        setText('');
       }
-    );
+    });
   };
 
   const handleChange = (evt) => {
@@ -60,7 +63,7 @@ const AddComment = (props) => {
 };
 
 AddComment.propTypes = {
-  post: PropTypes.object.isRequired,
+  postUid: PropTypes.string.isRequired,
 };
 
 export default AddComment;

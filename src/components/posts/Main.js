@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { authGetRequest } from '../../helpers/apiRequests';
 import PostWrapper from './PostWrapper';
 import { setPosts } from '../../store/actions/post/post';
+import { sortByLikes } from '../../utils/main';
 
 const Posts = (props) => {
   const { localizations } = props;
@@ -36,22 +37,12 @@ const Posts = (props) => {
   React.useEffect(() => {
     console.log(posts);
     const allPosts = [];
-    sortPosts(posts);
+    sortByLikes(posts);
     for (const post of posts) {
       allPosts.push(<PostWrapper post={post} key={post.uid} />);
     }
     setPostsToDisplay(allPosts);
   }, [posts]);
-
-  const sortPosts = (postsToSort) => {
-    postsToSort.sort(
-      (a, b) =>
-        b.likes.filter((like) => like.isUpVote).length -
-          a.likes.filter((like) => like.isUpVote).length ||
-        a.likes.filter((like) => !like.isUpVote).length -
-          b.likes.filter((like) => !like.isUpVote).length
-    );
-  };
 
   return postsToDisplay;
 };

@@ -9,10 +9,9 @@ import { useDispatch } from 'react-redux';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { authPatchRequest, authPostRequest } from '../../helpers/apiRequests';
-import Comment from '../comments/Main';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
-import AddComment from '../comments/Add';
 import { editPost } from '../../store/actions/post/post';
+import MainComments from '../comments/Main';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -52,6 +51,7 @@ const DisplayPost = (props) => {
   const [showComments, setShowComments] = React.useState(false);
   const [postLiked, setPostLiked] = React.useState(null);
   const dispatch = useDispatch();
+  console.log(post);
 
   React.useEffect(() => {
     checkWeatherUserLike();
@@ -124,14 +124,18 @@ const DisplayPost = (props) => {
           {post.title}
         </Grid>
         <Grid item xs={1}>
-          <EditIcon
-            className={classes.iconEdit}
-            onClick={() => setPostToEdit(post)}
-          />
-          <DeleteIcon
-            className={classes.iconDelete}
-            onClick={() => setPostToDelete(post)}
-          />
+          {UserSessionDataHandler.getUserData().uid === post.user.uid ? (
+            <>
+              <EditIcon
+                className={classes.iconEdit}
+                onClick={() => setPostToEdit(post)}
+              />
+              <DeleteIcon
+                className={classes.iconDelete}
+                onClick={() => setPostToDelete(post)}
+              />
+            </>
+          ) : null}
         </Grid>
         <Grid item xs={12}>
           {post.description}
@@ -164,10 +168,7 @@ const DisplayPost = (props) => {
       </Grid>
       {showComments && (
         <Grid item xs={12}>
-          {post.comments.map((comment) => (
-            <Comment comment={comment} />
-          ))}
-          <AddComment post={post} />
+          <MainComments postUid={post.uid} />
         </Grid>
       )}
     </div>

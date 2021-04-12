@@ -39,13 +39,16 @@ const Localizations = (props) => {
   }, [localizations]);
 
   React.useEffect(() => {
-    if (!click) return;
+    if (!click && !clickedOnDetailsLocalizationScreen()) return;
     const clickedFeatures = getAllClickedFeatures(map, click);
     if (!clickedFeatures.length) return;
     const localization = clickedFeatures[0].getId();
     clearLayerSource(localizationsLayer.current);
     history.push(`/dashboard/${localization}`);
   }, [click]);
+
+  const clickedOnDetailsLocalizationScreen = () =>
+    history.location.pathname.split('/').length === 2;
 
   return null;
 };

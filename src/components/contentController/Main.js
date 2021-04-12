@@ -11,14 +11,14 @@ const ContentController = () => (
       <Route path="/dashboard/:uid">
         <Dashboard />
       </Route>
-      <Route exact path="/dashboard">
-        <Dashboard />
-      </Route>
       <Route path="/add-new-localization">
         <AddPost />
       </Route>
       <Route path="/user-settings">
         <UserSettings />
+      </Route>
+      <Route path="/">
+        <Dashboard />
       </Route>
     </Switch>
   </Grid>

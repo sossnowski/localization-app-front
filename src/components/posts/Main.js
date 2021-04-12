@@ -35,7 +35,6 @@ const Posts = (props) => {
   };
 
   React.useEffect(() => {
-    console.log(posts);
     const allPosts = [];
     sortByLikes(posts);
     for (const post of posts) {

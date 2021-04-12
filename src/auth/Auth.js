@@ -19,6 +19,8 @@ class Authenticate {
 
   static unauthenticate = () => {
     UserSessionDataHandler.removeToken();
+    UserSessionDataHandler.removeUserData();
+    UserSessionDataHandler.removeSettings();
   };
 }
 

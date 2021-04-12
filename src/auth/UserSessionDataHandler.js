@@ -60,6 +60,14 @@ class UserSessionDataHandler {
   static removeRefreshToken = () => {
     localStorage.removeItem(this.refreshToken);
   };
+
+  static removeUserData = () => {
+    localStorage.removeItem(this.userData);
+  };
+
+  static removeSettings = () => {
+    localStorage.removeItem(this.settings);
+  };
 }
 
 export default UserSessionDataHandler;

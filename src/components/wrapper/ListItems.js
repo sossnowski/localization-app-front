@@ -21,11 +21,17 @@ const SidebarList = () => {
         </ListItemIcon>
         <ListItemText primary={strings.dashboard_} />
       </ListItem>
-      <ListItem button onClick={() => navigateTo('/addPost')}>
+      <ListItem button onClick={() => navigateTo('/add-new-localization')}>
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary={strings.addLocalization_} />
+      </ListItem>
+      <ListItem button onClick={() => navigateTo('/user-settings')}>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary={strings.userSettings_} />
       </ListItem>
     </List>
   );

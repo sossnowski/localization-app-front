@@ -33,6 +33,14 @@ export default {
     sidebarList: {
       dashboard_: 'Dashboard',
       addLocalization_: 'Dodaj lokalizację',
+      userSettings_: 'Ustawienia',
+    },
+    user: {
+      header_: 'Modyfikuj swoje dane',
+      username_: 'Nazwa użytkownika',
+      email_: 'Email',
+      password_: 'Hasło',
+      rePassword_: 'Powtórz hasło',
     },
     posts: {
       add: {
@@ -117,6 +125,14 @@ export default {
     sidebarList: {
       dashboard_: 'Dashboard',
       addLocalization_: 'Add localization',
+      userSettings_: 'Settings',
+    },
+    user: {
+      header_: 'Change your data',
+      username_: 'Username',
+      email_: 'Email',
+      password_: 'Password',
+      rePassword_: 'Repeat password',
     },
     posts: {
       add: {

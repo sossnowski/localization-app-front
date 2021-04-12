@@ -3,6 +3,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Dashboard from '../dashboard/Main';
 import AddPost from '../localizations/Add';
+import UserSettings from '../user/Main';
 
 const ContentController = () => (
   <Grid container spacing={3}>
@@ -13,8 +14,11 @@ const ContentController = () => (
       <Route exact path="/dashboard">
         <Dashboard />
       </Route>
-      <Route path="/addPost">
+      <Route path="/add-new-localization">
         <AddPost />
+      </Route>
+      <Route path="/user-settings">
+        <UserSettings />
       </Route>
     </Switch>
   </Grid>

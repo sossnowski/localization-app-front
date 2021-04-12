@@ -8,15 +8,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Container } from '@material-ui/core';
+import { ExitToApp } from '@material-ui/icons';
 import MainListItems from './ListItems';
 import ContentController from '../contentController/Main';
 import sidebarOpenContext from './sidebarContext';
+import Auth from '../../auth/Auth';
+import history from '../../history';
 
 const drawerWidth = 240;
 
@@ -97,11 +97,17 @@ const useStyles = makeStyles((theme) => ({
 const MainWrapper = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const logout = () => {
+    Auth.unauthenticate();
+    history.push(`/login`);
   };
 
   return (
@@ -134,9 +140,7 @@ const MainWrapper = () => {
             Siemanko
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
+            <ExitToApp onClick={() => logout()} />
           </IconButton>
         </Toolbar>
       </AppBar>

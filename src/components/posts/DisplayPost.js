@@ -123,7 +123,7 @@ const DisplayPost = (props) => {
   React.useEffect(() => {
     dispatch(editPost({ ...post, likes }));
   }, [likes]);
-  console.log(post.photo?.filename);
+  console.log(post.photos[0]?.filename);
 
   return (
     <div className={classes.wrapper} key={post.uid}>
@@ -146,10 +146,10 @@ const DisplayPost = (props) => {
           ) : null}
         </Grid>
         <Grid item xs={12}>
-          {post.photo ? (
+          {post.photos.length ? (
             <img
               className={classes.photo}
-              src={`${postFilesBaseUrl}${post.photo.filename}`}
+              src={`${postFilesBaseUrl}${post.photos[0].filename}`}
               alt="data added by user"
             />
           ) : null}

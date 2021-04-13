@@ -24,6 +24,7 @@ const AddComment = (props) => {
   const [text, setText] = React.useState('');
 
   const add = () => {
+    if (text === '') return;
     authPostRequest('comments', { postUid: post.uid, text }).then((result) => {
       if (result.status === 201) {
         dispatch(

@@ -114,7 +114,7 @@ const DisplayComment = (props) => {
     <Grid container spacing={2} className={classes.wrapper}>
       <Grid item xs={11} />
       <Grid item xs={1} className={classes.editIconsSection}>
-        {UserSessionDataHandler.getUserData().uid === comment.user.uid ? (
+        {UserSessionDataHandler.getUserData().uid === comment.userUid ? (
           <>
             <EditIcon
               className={classes.iconEdit}

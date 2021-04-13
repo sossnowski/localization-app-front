@@ -32,7 +32,6 @@ const AddPost = (props) => {
   };
 
   const handleFile = (event) => {
-    console.log(event.target.files);
     setFile(event.target.files?.[0]);
   };
 

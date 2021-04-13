@@ -54,6 +54,7 @@ const MissionForm = () => {
   const strings = useSelector((state) => state.language);
   const dispatch = useDispatch();
   const [position, setPosition] = React.useState(null);
+  const [file, setFile] = React.useState(null);
   const [values, setValues] = React.useState({
     title: '',
     city: '',
@@ -70,9 +71,12 @@ const MissionForm = () => {
     });
   };
 
+  const handleFile = (event) => {
+    setFile(event.target.files?.[0]);
+  };
+
   const onSaveClick = () => {
-    const postData = { ...values };
-    postData.geometry = { type: 'Point', coordinates: position };
+    const postData = prepareData();
     authPostRequest('post', postData).then((result) => {
       if (result.status !== 201)
         dispatch(
@@ -84,6 +88,22 @@ const MissionForm = () => {
         );
       else history.push(`/dashboard/${result.data.localization.uid}`);
     });
+  };
+
+  const prepareData = () => {
+    const formData = new FormData();
+    for (const key of Object.keys(values)) {
+      formData.append(key, values[key]);
+    }
+    if (file) {
+      formData.append('post', file);
+    }
+    formData.append(
+      'geometry',
+      JSON.stringify({ type: 'Point', coordinates: position })
+    );
+
+    return formData;
   };
 
   return (
@@ -141,6 +161,19 @@ const MissionForm = () => {
                 onChange={handleChange}
                 name="description"
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                component="label"
+                onChange={handleFile}
+              >
+                Upload File
+                <input type="file" hidden name="file" />
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <span>{file ? `Wybrano: ${file.name}` : ''}: </span>
             </Grid>
             <Grid item xs={12} lg={4} />
           </Grid>

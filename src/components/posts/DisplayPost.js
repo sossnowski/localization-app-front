@@ -12,6 +12,7 @@ import { authPatchRequest, authPostRequest } from '../../helpers/apiRequests';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import { editPost } from '../../store/actions/post/post';
 import MainComments from '../comments/Main';
+import { postFilesBaseUrl } from '../../consts/config';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -42,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
   },
   editIconsSection: {
     textAlign: 'right',
+  },
+  photo: {
+    width: '100%',
   },
 }));
 
@@ -119,6 +123,7 @@ const DisplayPost = (props) => {
   React.useEffect(() => {
     dispatch(editPost({ ...post, likes }));
   }, [likes]);
+  console.log(post.photo?.filename);
 
   return (
     <div className={classes.wrapper} key={post.uid}>
@@ -138,6 +143,15 @@ const DisplayPost = (props) => {
                 onClick={() => setPostToDelete(post)}
               />
             </>
+          ) : null}
+        </Grid>
+        <Grid item xs={12}>
+          {post.photo ? (
+            <img
+              className={classes.photo}
+              src={`${postFilesBaseUrl}${post.photo.filename}`}
+              alt="data added by user"
+            />
           ) : null}
         </Grid>
         <Grid item xs={12}>

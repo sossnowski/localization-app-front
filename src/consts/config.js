@@ -3,3 +3,4 @@ const apiPort = 3005;
 const apiPoint = `${apiUrl}:${apiPort}`;
 
 export const apiBase = apiPoint;
+export const postFilesBaseUrl = `${apiBase}/pictures/post/`;

@@ -58,7 +58,6 @@ const DisplayPost = (props) => {
   const [showComments, setShowComments] = React.useState(false);
   const [postLiked, setPostLiked] = React.useState(null);
   const dispatch = useDispatch();
-  console.log(post);
 
   React.useEffect(() => {
     checkWeatherUserLike();
@@ -68,7 +67,7 @@ const DisplayPost = (props) => {
   const countLikes = () => {
     let lNumber = 0;
     let ldNumber = 0;
-    for (const like of likes) {
+    for (const like of post.likes) {
       if (like.isUpVote) lNumber += 1;
       else ldNumber += 1;
     }
@@ -117,13 +116,12 @@ const DisplayPost = (props) => {
   };
 
   const addLike = (like) => {
-    setLikes([...likes, like]);
+    setLikes([...post.likes, like]);
   };
 
   React.useEffect(() => {
     dispatch(editPost({ ...post, likes }));
   }, [likes]);
-  console.log(post.photos[0]?.filename);
 
   return (
     <div className={classes.wrapper} key={post.uid}>

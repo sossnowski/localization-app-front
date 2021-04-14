@@ -39,7 +39,7 @@ const Localizations = (props) => {
   }, [localizations]);
 
   React.useEffect(() => {
-    if (!click && !clickedOnDetailsLocalizationScreen()) return;
+    if (!click || !clickedOnDetailsLocalizationScreen()) return;
     const clickedFeatures = getAllClickedFeatures(map, click);
     if (!clickedFeatures.length) return;
     const localization = clickedFeatures[0].getId();

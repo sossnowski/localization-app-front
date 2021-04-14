@@ -9,4 +9,5 @@ export default {
   commentLike: 'like/comment',
   post: 'post',
   postToLocalization: 'post/localization',
+  categories: 'category',
 };

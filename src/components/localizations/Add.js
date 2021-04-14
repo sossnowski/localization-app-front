@@ -4,13 +4,17 @@ import {
   createStyles,
   Paper,
   Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import Map from '../map/Main';
-import { authPostRequest } from '../../helpers/apiRequests';
+import { authGetRequest, authPostRequest } from '../../helpers/apiRequests';
 import { addAlert } from '../../store/actions/alert/alert';
 import history from '../../history';
 
@@ -39,6 +43,9 @@ const useStyles = makeStyles((theme) =>
     marginTop: {
       marginTop: '30px',
     },
+    formControl: {
+      display: 'flex',
+    },
   })
 );
 
@@ -52,13 +59,14 @@ const MissionForm = () => {
     classes.marginTop
   );
   const strings = useSelector((state) => state.language);
+  const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
   const [position, setPosition] = React.useState(null);
   const [file, setFile] = React.useState(null);
   const [values, setValues] = React.useState({
     title: '',
     city: '',
-    category: '',
+    categoryUid: '',
     description: '',
   });
 
@@ -135,14 +143,21 @@ const MissionForm = () => {
               />
             </Grid>
             <Grid item xs={12} lg={6}>
-              <TextField
-                value={values.category}
-                label={strings.posts.add.category_}
-                variant="outlined"
-                fullWidth
-                onChange={handleChange}
-                name="category"
-              />
+              <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  name="categoryUid"
+                  value={values.categoryUid}
+                  onChange={handleChange}
+                  fullWidth
+                >
+                  {categories.map((category) => (
+                    <MenuItem value={category.uid}>{category.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12}>
               <Paper className={fixedHeightPaperMap}>

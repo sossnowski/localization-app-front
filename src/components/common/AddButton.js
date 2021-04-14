@@ -16,7 +16,6 @@ const useStyles = makeStyles({
 
 const AddButton = (props) => {
   const { top, right, onClickHandler, content } = props;
-  console.log(onClickHandler);
   const classes = useStyles();
 
   return (

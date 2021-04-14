@@ -102,7 +102,7 @@ const Dashboard = () => {
                 </>
               ) : (
                 <>
-                  <Posts localizations={localizations} />
+                  <Posts localization={localizations[0]} />
                   <CustomButton onClickHandler={addPostToggle} />
                 </>
               )

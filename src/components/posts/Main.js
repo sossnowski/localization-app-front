@@ -7,31 +7,22 @@ import { setPosts } from '../../store/actions/post/post';
 import { sortByLikes } from '../../utils/main';
 
 const Posts = (props) => {
-  const { localizations } = props;
+  const { localization } = props;
   const posts = useSelector((state) => state.posts);
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (!localizations.length) return;
+    if (!localization) return;
     getPosts();
-  }, [localizations]);
+  }, [localization]);
 
   const getPosts = () => {
     authGetRequest('postsFromLocalizations', {
-      uids: getLocalizationsUids(),
+      uids: [localization.uid],
     }).then((result) => {
       if (result.status === 200) dispatch(setPosts(result.data));
     });
-  };
-
-  const getLocalizationsUids = () => {
-    const uids = [];
-    for (const localization of localizations) {
-      uids.push(localization.uid);
-    }
-
-    return uids;
   };
 
   React.useEffect(() => {

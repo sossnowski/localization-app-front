@@ -14,6 +14,7 @@ import {
 import Posts from '../posts/Main';
 import CustomButton from '../common/AddButton';
 import AddPost from '../posts/Add';
+import { setCategories } from '../../store/actions/category/category';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -50,6 +51,12 @@ const Dashboard = () => {
   const [localizations, setLocalizations] = React.useState([]);
   const [addPost, setAddPost] = React.useState(false);
   const { uid } = useParams();
+
+  React.useState(() => {
+    authGetRequest('categories').then((result) =>
+      result.status === 200 ? setCategories(result.data) : setCategories([])
+    );
+  }, []);
 
   React.useEffect(() => {
     if (uid) getLocalization();

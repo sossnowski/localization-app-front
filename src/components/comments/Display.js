@@ -50,6 +50,10 @@ const DisplayComment = (props) => {
   }, []);
 
   React.useEffect(() => {
+    setLikes(comment.likes);
+  }, [comment]);
+
+  React.useEffect(() => {
     countLikes();
   }, [likes]);
 

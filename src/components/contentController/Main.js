@@ -18,11 +18,13 @@ const ContentController = () => {
     setSocketPostLikeUpdateData,
   ] = React.useState(null);
   const [socketPostLikeData, setSocketPostLikeData] = React.useState(null);
+  const [socketCommentLikeUpdate, setSocketCommentLikeUpdate] = React.useState(
+    null
+  );
+  const [socketCommentLike, setSocketCommentLike] = React.useState(null);
 
   React.useEffect(() => {
-    console.log('dkj');
     const socket = socketIOClient(socketUrl, {
-      // auth: UserSessionDataHandler.getToken(),
       transports: ['websocket'],
       query: {
         auth: UserSessionDataHandler.getUserData()?.uid,
@@ -30,6 +32,8 @@ const ContentController = () => {
     });
     socket.on('postLikeUpdate', setSocketPostLikeUpdateData);
     socket.on('postLike', setSocketPostLikeData);
+    socket.on('commentLikeUpdate', setSocketCommentLikeUpdate);
+    socket.on('commentLike', setSocketCommentLike);
     socket.on('error', (error) => console.log(error));
   }, []);
 
@@ -65,6 +69,53 @@ const ContentController = () => {
         likes: [...foundPost.likes, socketPostLikeData.like],
       })
     );
+  };
+
+  React.useEffect(() => {
+    if (!socketCommentLikeUpdate) return;
+    handleCommentLikeUpdate();
+  }, [socketCommentLikeUpdate]);
+
+  const handleCommentLikeUpdate = () => {
+    const foundPost = posts.find(
+      (post) => post.uid === socketCommentLikeUpdate.postUid
+    );
+    const updatedComments = foundPost?.comments.map((comment) =>
+      comment.uid === socketCommentLikeUpdate.commentUid
+        ? {
+            ...comment,
+            likes: comment.likes?.map((like) =>
+              like.userUid === socketCommentLikeUpdate.userUid
+                ? { ...like, isUpVote: socketCommentLikeUpdate.isUpVote }
+                : like
+            ),
+          }
+        : comment
+    );
+    if (updatedComments)
+      dispatch(editPost({ ...foundPost, comments: updatedComments }));
+  };
+
+  React.useEffect(() => {
+    if (!socketCommentLike) return;
+    handleCommentLike();
+  }, [socketCommentLike]);
+
+  const handleCommentLike = () => {
+    console.log(socketCommentLike);
+    const foundPost = posts.find(
+      (post) => post.uid === socketCommentLike.postUid
+    );
+    const updatedComments = foundPost?.comments.map((comment) =>
+      comment.uid === socketCommentLike.like.commentUid
+        ? {
+            ...comment,
+            likes: [...comment.likes, socketCommentLike.like],
+          }
+        : comment
+    );
+    if (updatedComments)
+      dispatch(editPost({ ...foundPost, comments: updatedComments }));
   };
 
   return (

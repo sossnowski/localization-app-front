@@ -22,6 +22,7 @@ const ContentController = () => {
     null
   );
   const [socketCommentLike, setSocketCommentLike] = React.useState(null);
+  const [socketComment, setSocketComment] = React.useState(null);
 
   React.useEffect(() => {
     const socket = socketIOClient(socketUrl, {
@@ -34,6 +35,7 @@ const ContentController = () => {
     socket.on('postLike', setSocketPostLikeData);
     socket.on('commentLikeUpdate', setSocketCommentLikeUpdate);
     socket.on('commentLike', setSocketCommentLike);
+    socket.on('addComment', setSocketComment);
     socket.on('error', (error) => console.log(error));
   }, []);
 
@@ -116,6 +118,28 @@ const ContentController = () => {
     );
     if (updatedComments)
       dispatch(editPost({ ...foundPost, comments: updatedComments }));
+  };
+
+  React.useEffect(() => {
+    if (!socketComment) return;
+    handleComment();
+  }, [socketComment]);
+
+  const handleComment = () => {
+    const foundPost = posts.find(
+      (post) => post.uid === socketComment.comment.postUid
+    );
+    if (!foundPost) return;
+    console.log({
+      ...foundPost,
+      comments: [...foundPost.comments, socketComment.comment],
+    });
+    dispatch(
+      editPost({
+        ...foundPost,
+        comments: [...foundPost.comments, socketComment.comment],
+      })
+    );
   };
 
   return (

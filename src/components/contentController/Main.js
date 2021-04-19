@@ -37,6 +37,9 @@ const ContentController = () => {
     socket.on('commentLike', setSocketCommentLike);
     socket.on('addComment', setSocketComment);
     socket.on('error', (error) => console.log(error));
+
+    return () =>
+      socket.emit('userLeave', UserSessionDataHandler.getUserData()?.uid);
   }, []);
 
   React.useEffect(() => {

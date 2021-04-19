@@ -8,6 +8,7 @@ import CommentIcon from '@material-ui/icons/ChatBubble';
 import { useDispatch } from 'react-redux';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useParams } from 'react-router-dom';
 import { authPatchRequest, authPostRequest } from '../../helpers/apiRequests';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import { editPost } from '../../store/actions/post/post';
@@ -57,6 +58,7 @@ const DisplayPost = (props) => {
   const [disLikesNumber, setDisLikesNumber] = React.useState(null);
   const [showComments, setShowComments] = React.useState(false);
   const [postLiked, setPostLiked] = React.useState(null);
+  const localizationUid = useParams()?.uid;
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -85,23 +87,27 @@ const DisplayPost = (props) => {
   const handleLike = (isUpVote) => {
     if (postLiked === isUpVote) return;
     if (postLiked != null) {
-      authPatchRequest('postLike', { postUid: post.uid, isUpVote }).then(
-        (result) => {
-          if (result.status === 200) {
-            setPostLiked(isUpVote);
-            updateLikes(isUpVote);
-          }
+      authPatchRequest('postLike', {
+        postUid: post.uid,
+        isUpVote,
+        localizationUid,
+      }).then((result) => {
+        if (result.status === 200) {
+          setPostLiked(isUpVote);
+          updateLikes(isUpVote);
         }
-      );
+      });
     } else {
-      authPostRequest('postLike', { postUid: post.uid, isUpVote }).then(
-        (result) => {
-          if (result.status === 201) {
-            setPostLiked(isUpVote);
-            addLike(result.data);
-          }
+      authPostRequest('postLike', {
+        postUid: post.uid,
+        isUpVote,
+        localizationUid,
+      }).then((result) => {
+        if (result.status === 201) {
+          setPostLiked(isUpVote);
+          addLike(result.data);
         }
-      );
+      });
     }
   };
 

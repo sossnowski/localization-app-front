@@ -12,9 +12,8 @@ axios.interceptors.response.use(
   (error) => {
     const { status } = error.response;
     if (status === UNAUTHORIZED) {
-      const auth = new Auth();
-      auth.unauthenticate();
-      history.push('/');
+      Auth.unauthenticate();
+      // history.push('/');
     }
     return Promise.reject(error);
   }

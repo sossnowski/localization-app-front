@@ -6,8 +6,15 @@ import LikeIcon from '@material-ui/icons/ThumbUpAlt';
 import DislikeIcon from '@material-ui/icons/ThumbDownAlt';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { authPostRequest, authPatchRequest } from '../../helpers/apiRequests';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
+import {
+  handleCommentLike,
+  handleCommentLikeUpdate,
+} from '../localizations/socket/comments';
+import { editPost } from '../../store/actions/post/post';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -43,6 +50,9 @@ const DisplayComment = (props) => {
   const [likesNumber, setLikesNumber] = React.useState(null);
   const [disLikesNumber, setDisLikesNumber] = React.useState(null);
   const [commentLiked, setCommentLiked] = React.useState(null);
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts);
+  const localizationUid = useParams()?.uid;
 
   React.useEffect(() => {
     countLikes();
@@ -81,6 +91,7 @@ const DisplayComment = (props) => {
       authPatchRequest('commentLike', {
         commentUid: comment.uid,
         isUpVote,
+        localizationUid,
       }).then((result) => {
         if (result.status === 200) {
           setCommentLiked(isUpVote);
@@ -91,6 +102,7 @@ const DisplayComment = (props) => {
       authPostRequest('commentLike', {
         commentUid: comment.uid,
         isUpVote,
+        localizationUid,
       }).then((result) => {
         if (result.status === 201) {
           setCommentLiked(isUpVote);
@@ -101,17 +113,21 @@ const DisplayComment = (props) => {
   };
 
   const updateComments = (isUpVote) => {
-    setLikes(
-      likes.map((like) =>
-        like.userUid === UserSessionDataHandler.getUserData().uid
-          ? { ...like, isUpVote }
-          : like
-      )
-    );
+    const updatedPost = handleCommentLikeUpdate(posts, {
+      isUpVote,
+      userUid: UserSessionDataHandler.getUserData()?.uid,
+      commentUid: comment.uid,
+      postUid: comment.postUid,
+    });
+    if (updatedPost) dispatch(editPost(updatedPost));
   };
 
   const addComments = (like) => {
-    setLikes([...likes, like]);
+    const updatedPost = handleCommentLike(posts, {
+      postUid: comment.postUid,
+      like,
+    });
+    if (updatedPost) dispatch(editPost(updatedPost));
   };
 
   return (

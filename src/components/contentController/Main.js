@@ -44,106 +44,28 @@ const ContentController = () => {
 
   React.useEffect(() => {
     if (!socketPostLikeUpdateData) return;
-    handlePostLikeToggle(socketPostLikeUpdateData);
+    console.log('powiadomienie o toglu lika');
   }, [socketPostLikeUpdateData]);
-
-  const handlePostLikeToggle = (data) => {
-    const foundPost = posts.find((post) => post.uid === data.postUid);
-    if (!foundPost) return;
-    const likes = foundPost.likes.map((like) =>
-      like.userUid === data.userUid
-        ? { ...like, isUpVote: data.isUpVote }
-        : like
-    );
-    dispatch(editPost({ ...foundPost, likes }));
-  };
 
   React.useEffect(() => {
     if (!socketPostLikeData) return;
-    handlePostLike();
+    console.log('powiadomienie o nowym lajku');
   }, [socketPostLikeData]);
-
-  const handlePostLike = () => {
-    const foundPost = posts.find(
-      (post) => post.uid === socketPostLikeData.like.postUid
-    );
-    if (!foundPost) return;
-    dispatch(
-      editPost({
-        ...foundPost,
-        likes: [...foundPost.likes, socketPostLikeData.like],
-      })
-    );
-  };
 
   React.useEffect(() => {
     if (!socketCommentLikeUpdate) return;
-    handleCommentLikeUpdate();
+    console.log('powiadomienie o toglu like komentaraza');
   }, [socketCommentLikeUpdate]);
-
-  const handleCommentLikeUpdate = () => {
-    const foundPost = posts.find(
-      (post) => post.uid === socketCommentLikeUpdate.postUid
-    );
-    const updatedComments = foundPost?.comments.map((comment) =>
-      comment.uid === socketCommentLikeUpdate.commentUid
-        ? {
-            ...comment,
-            likes: comment.likes?.map((like) =>
-              like.userUid === socketCommentLikeUpdate.userUid
-                ? { ...like, isUpVote: socketCommentLikeUpdate.isUpVote }
-                : like
-            ),
-          }
-        : comment
-    );
-    if (updatedComments)
-      dispatch(editPost({ ...foundPost, comments: updatedComments }));
-  };
 
   React.useEffect(() => {
     if (!socketCommentLike) return;
-    handleCommentLike();
+    console.log('powiadomienie o liku komentarza');
   }, [socketCommentLike]);
-
-  const handleCommentLike = () => {
-    console.log(socketCommentLike);
-    const foundPost = posts.find(
-      (post) => post.uid === socketCommentLike.postUid
-    );
-    const updatedComments = foundPost?.comments.map((comment) =>
-      comment.uid === socketCommentLike.like.commentUid
-        ? {
-            ...comment,
-            likes: [...comment.likes, socketCommentLike.like],
-          }
-        : comment
-    );
-    if (updatedComments)
-      dispatch(editPost({ ...foundPost, comments: updatedComments }));
-  };
 
   React.useEffect(() => {
     if (!socketComment) return;
-    handleComment();
+    console.log('powiadomienie o dodaniu komenatrarza');
   }, [socketComment]);
-
-  const handleComment = () => {
-    const foundPost = posts.find(
-      (post) => post.uid === socketComment.comment.postUid
-    );
-    if (!foundPost) return;
-    console.log({
-      ...foundPost,
-      comments: [...foundPost.comments, socketComment.comment],
-    });
-    dispatch(
-      editPost({
-        ...foundPost,
-        comments: [...foundPost.comments, socketComment.comment],
-      })
-    );
-  };
 
   return (
     <Grid container spacing={3}>

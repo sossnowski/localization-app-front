@@ -10,4 +10,5 @@ export default {
   post: 'post',
   postToLocalization: 'post/localization',
   categories: 'category',
+  notifications: 'notification',
 };

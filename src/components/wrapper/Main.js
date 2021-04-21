@@ -9,14 +9,21 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import NotificationIcon from '@material-ui/icons/Notifications';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { Container } from '@material-ui/core';
+import { Badge, Container } from '@material-ui/core';
+import Popper from '@material-ui/core/Popper';
 import { ExitToApp } from '@material-ui/icons';
+import socketIOClient from 'socket.io-client';
 import MainListItems from './ListItems';
 import ContentController from '../contentController/Main';
 import sidebarOpenContext from './sidebarContext';
 import Auth from '../../auth/Auth';
 import history from '../../history';
+import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
+import { socketUrl } from '../../consts/config';
+import { authGetRequestWithParams } from '../../helpers/apiRequests';
+import Notifications from '../notification/Main';
 
 const drawerWidth = 240;
 
@@ -92,11 +99,53 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  popperPaper: {
+    border: '1px solid',
+    padding: theme.spacing(1),
+    backgroundColor: theme.palette.background.paper,
+    width: 400,
+    marginTop: 40,
+    borderRadius: 5,
+  },
 }));
 
 const MainWrapper = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [notifications, setNotifications] = React.useState([]);
+  const notificationsRef = React.useRef([]);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  React.useEffect(() => {
+    getNotifications();
+    const socket = socketIOClient(socketUrl, {
+      transports: ['websocket'],
+      query: {
+        auth: UserSessionDataHandler.getUserData()?.uid,
+      },
+    });
+    socket.on('notification', handleSocketNotification);
+    socket.on('error', (error) => console.log(error));
+
+    return () =>
+      socket.emit('userLeave', UserSessionDataHandler.getUserData()?.uid);
+  }, []);
+
+  const handleSocketNotification = (notification) => {
+    notificationsRef.current = [...notificationsRef.current, notification];
+    setNotifications(notificationsRef.current);
+  };
+
+  const getNotifications = () => {
+    authGetRequestWithParams('notifications', { offset: 0 }).then((result) => {
+      if (result.status === 200) setNotifications(result.data);
+    });
+  };
+
+  React.useEffect(() => {
+    console.log(notifications);
+    notificationsRef.current = notifications;
+  }, [notifications]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -105,9 +154,26 @@ const MainWrapper = () => {
     setOpen(false);
   };
 
+  const notificationToggle = (event) => {
+    console.log(event.currentTarget);
+    setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const openPopover = Boolean(anchorEl);
+  const idOfPopover = openPopover ? 'simple-popper' : undefined;
+
   const logout = () => {
     Auth.unauthenticate();
     history.push(`/login`);
+  };
+
+  const showMoreNotifications = () => {
+    authGetRequestWithParams('notifications', {
+      offset: notificationsRef.current.length,
+    }).then((result) => {
+      if (result.status === 200)
+        setNotifications([...notifications, ...result.data]);
+    });
   };
 
   return (
@@ -139,6 +205,22 @@ const MainWrapper = () => {
           >
             Siemanko
           </Typography>
+          <IconButton color="inherit">
+            <Badge badgeContent={notifications.length} color="error">
+              <NotificationIcon
+                aria-describedby={idOfPopover}
+                onClick={notificationToggle}
+              />
+              <Popper id={idOfPopover} open={openPopover} anchorEl={anchorEl}>
+                <div className={classes.popperPaper}>
+                  <Notifications
+                    notifications={notifications}
+                    showMore={showMoreNotifications}
+                  />
+                </div>
+              </Popper>
+            </Badge>
+          </IconButton>
           <IconButton color="inherit">
             <ExitToApp onClick={() => logout()} />
           </IconButton>

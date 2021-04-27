@@ -6,6 +6,7 @@ import posts from './post/post';
 import localizations from './localization/localization';
 import categories from './category/category';
 import notification from './notification/notification';
+import selectedLocalization from './localization/selectedLocalization';
 
 const allReducers = combineReducers({
   alerts,
@@ -15,6 +16,7 @@ const allReducers = combineReducers({
   localizations,
   categories,
   notification,
+  selectedLocalization,
 });
 
 export default allReducers;

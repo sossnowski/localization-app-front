@@ -17,8 +17,11 @@ import {
   handleCommentLikeUpdate,
 } from '../localizations/socket/comments';
 
-const Posts = (props) => {
-  const { localization } = props;
+const Posts = () => {
+  const localization = useSelector((state) =>
+    state.selectedLocalization ? state.selectedLocalization : null
+  );
+  console.log(localization.getId(), 'ppopop');
   const posts = useSelector((state) => state.posts);
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
   const dispatch = useDispatch();
@@ -44,12 +47,12 @@ const Posts = (props) => {
     );
     socket.on('addComment', (comment) => socketAddCommentHandler(comment));
 
-    return () => socket.emit('userLeave', `Loc_${localization.uid}`);
+    return () => socket.emit('userLeave', `Loc_${localization.getId()}`);
   }, [localization]);
 
   const getPosts = () => {
     authGetRequest('postsFromLocalizations', {
-      uids: [localization.uid],
+      uids: [localization.getId()],
     }).then((result) => {
       if (result.status === 200) dispatch(setPosts(result.data));
     });

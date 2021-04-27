@@ -5,3 +5,4 @@ const apiPoint = `${apiUrl}:${apiPort}`;
 export const apiBase = apiPoint;
 export const socketUrl = '127.0.0.1:3005';
 export const postFilesBaseUrl = `${apiBase}/pictures/post/`;
+export const localizationsBorderZoom = 10;

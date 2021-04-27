@@ -3,8 +3,8 @@ import React from 'react';
 import { Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { useParams } from 'react-router-dom';
 import RedoIcon from '@material-ui/icons/Redo';
+import { useDispatch, useSelector } from 'react-redux';
 import Map from '../map/Main';
 import Localizations from '../localizations/Main';
 import {
@@ -47,31 +47,44 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const mapPaper = clsx(classes.paper, classes.fixedHeight, classes.noPadding);
-  const [localizations, setLocalizations] = React.useState([]);
+  const localizations = useSelector((state) => state.localizations);
+  const selectedLocalization = useSelector(
+    (state) => state.selectedLocalization
+  );
+  const [localizationsToDisplay, setLocalizationsToDisplay] = React.useState(
+    []
+  );
   const [addPost, setAddPost] = React.useState(false);
-  const { uid } = useParams();
+  console.log(selectedLocalization);
 
   React.useState(() => {
-    authGetRequest('categories').then((result) =>
-      result.status === 200 ? setCategories(result.data) : setCategories([])
-    );
+    authGetRequest('categories').then((result) => {
+      if (result.status === 200) dispatch(setCategories(result.data));
+    });
   }, []);
 
   React.useEffect(() => {
-    if (uid) getLocalization();
+    if (selectedLocalization) getLocalization();
     else getAllLocalizations();
-  }, [uid]);
+  }, [selectedLocalization]);
+
+  React.useEffect(() => {
+    setLocalizationsToDisplay(localizations);
+  }, [localizations]);
 
   const getAllLocalizations = () => {
-    authGetRequest('localizations').then((result) => {
-      if (result.status === 200) setLocalizations(result.data);
-    });
+    // authGetRequest('localizations').then((result) => {
+    //   if (result.status === 200) setLocalizations(result.data);
+    // });
   };
 
   const getLocalization = () => {
-    authGetRequestWithParams('localizations', { uid }).then((result) => {
-      if (result.status === 200) setLocalizations([result.data]);
+    authGetRequestWithParams('localizations', {
+      uid: selectedLocalization.getId(),
+    }).then((result) => {
+      if (result.status === 200) setLocalizationsToDisplay([result.data]);
     });
   };
 
@@ -85,16 +98,19 @@ const Dashboard = () => {
         <Grid item xs={12} md={12} lg={5}>
           <Paper className={mapPaper}>
             <Map />
-            <Localizations localizations={localizations} />
+            <Localizations localizations={localizationsToDisplay} />
           </Paper>
         </Grid>
 
         <Grid item xs={12} md={12} lg={7}>
           <Paper className={classes.paper}>
-            {localizations.length === 1 ? (
+            {selectedLocalization ? (
               addPost ? (
                 <>
-                  <AddPost uid={uid} addPostToggle={addPostToggle} />
+                  <AddPost
+                    uid={selectedLocalization.getId()}
+                    addPostToggle={addPostToggle}
+                  />
                   <CustomButton
                     onClickHandler={addPostToggle}
                     content={<RedoIcon />}
@@ -102,7 +118,7 @@ const Dashboard = () => {
                 </>
               ) : (
                 <>
-                  <Posts localization={localizations[0]} />
+                  <Posts />
                   <CustomButton onClickHandler={addPostToggle} />
                 </>
               )

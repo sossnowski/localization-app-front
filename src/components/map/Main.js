@@ -57,7 +57,6 @@ const MapComponent = (props) => {
 
   React.useEffect(() => {
     if (!pointToCenterMap) return;
-    console.log(pointToCenterMap);
     const parsedPoint = proj.fromLonLat(pointToCenterMap);
     addPointToMap(parsedPoint);
     centerMapToCordinates(map.current, parsedPoint);

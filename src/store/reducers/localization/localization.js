@@ -1,6 +1,6 @@
 const localizationReducer = (state = [], action) => {
   switch (action.type) {
-    case 'SET_LOCALIZATION':
+    case 'SET_LOCALIZATIONS':
       return [...action.payload];
     case 'ADD_LOCALIZATION':
       return [...state, action.payload];

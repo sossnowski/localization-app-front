@@ -1,5 +1,5 @@
 export const setLocalizations = (localization = []) => ({
-  type: 'SET_LOCALIZATION',
+  type: 'SET_LOCALIZATIONS',
   payload: localization,
 });
 

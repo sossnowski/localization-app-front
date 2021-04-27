@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) =>
   })
 );
 
-const MissionForm = () => {
+const AddLocalization = () => {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const fixedHeightPaperMap = clsx(
@@ -60,6 +60,7 @@ const MissionForm = () => {
   );
   const strings = useSelector((state) => state.language);
   const categories = useSelector((state) => state.categories);
+  console.log(categories);
   const dispatch = useDispatch();
   const [position, setPosition] = React.useState(null);
   const [file, setFile] = React.useState(null);
@@ -69,6 +70,7 @@ const MissionForm = () => {
     categoryUid: '',
     description: '',
   });
+  console.log(position);
 
   const handleChange = (event) => {
     const { target } = event;
@@ -144,7 +146,7 @@ const MissionForm = () => {
             </Grid>
             <Grid item xs={12} lg={6}>
               <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <InputLabel id="demo-simple-select-label">Kategoria</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -213,4 +215,4 @@ const MissionForm = () => {
   );
 };
 
-export default MissionForm;
+export default AddLocalization;

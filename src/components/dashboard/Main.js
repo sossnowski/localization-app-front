@@ -7,10 +7,7 @@ import RedoIcon from '@material-ui/icons/Redo';
 import { useDispatch, useSelector } from 'react-redux';
 import Map from '../map/Main';
 import Localizations from '../localizations/Main';
-import {
-  authGetRequest,
-  authGetRequestWithParams,
-} from '../../helpers/apiRequests';
+import { authGetRequest } from '../../helpers/apiRequests';
 import Posts from '../posts/Main';
 import CustomButton from '../common/AddButton';
 import AddPost from '../posts/Add';
@@ -53,11 +50,7 @@ const Dashboard = () => {
   const selectedLocalization = useSelector(
     (state) => state.selectedLocalization
   );
-  const [localizationsToDisplay, setLocalizationsToDisplay] = React.useState(
-    []
-  );
   const [addPost, setAddPost] = React.useState(false);
-  console.log(selectedLocalization);
 
   React.useState(() => {
     authGetRequest('categories').then((result) => {
@@ -65,27 +58,10 @@ const Dashboard = () => {
     });
   }, []);
 
-  React.useEffect(() => {
-    if (selectedLocalization) getLocalization();
-    else getAllLocalizations();
-  }, [selectedLocalization]);
-
-  React.useEffect(() => {
-    setLocalizationsToDisplay(localizations);
-  }, [localizations]);
-
   const getAllLocalizations = () => {
     // authGetRequest('localizations').then((result) => {
     //   if (result.status === 200) setLocalizations(result.data);
     // });
-  };
-
-  const getLocalization = () => {
-    authGetRequestWithParams('localizations', {
-      uid: selectedLocalization.getId(),
-    }).then((result) => {
-      if (result.status === 200) setLocalizationsToDisplay([result.data]);
-    });
   };
 
   const addPostToggle = () => {
@@ -98,7 +74,7 @@ const Dashboard = () => {
         <Grid item xs={12} md={12} lg={5}>
           <Paper className={mapPaper}>
             <Map />
-            <Localizations localizations={localizationsToDisplay} />
+            <Localizations localizations={localizations} />
           </Paper>
         </Grid>
 

@@ -1,6 +1,7 @@
 import { Feature } from 'ol';
 import Point from 'ol/geom/Point';
 import VectorLayer from 'ol/layer/Vector';
+import { fromLonLat } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
 
 export const addSelectedLocalizationToLayer = (
@@ -57,6 +58,50 @@ export const createPointFeature = (coordinates = []) => {
   return new Feature({ geometry: new Point(coordinates) });
 };
 
+export const addLocalizationsToLayerIfNotExists = (layer, localizations) => {
+  const features = getLayerFeatures(layer);
+  if (!features.length) {
+    const featuresToAdd = [];
+    for (const loc of localizations) {
+      const feature = createPointFeature(fromLonLat(loc.geometry.coordinates));
+      feature.setId(loc.uid);
+      featuresToAdd.push(feature);
+    }
+    addFeaturesToLayer(layer, featuresToAdd);
+  } else {
+    const featuresToAdd = [];
+    for (const loc of localizations) {
+      if (!features.find((feature) => feature.getId() === loc.uid)) {
+        const feature = createPointFeature(
+          fromLonLat(loc.geometry.coordinates)
+        );
+        feature.setId(loc.uid);
+        featuresToAdd.push(feature);
+      }
+    }
+    addFeaturesToLayer(layer, featuresToAdd);
+  }
+};
+
+export const removeMissingLocalizationsFromLayer = (
+  layer,
+  localizationsWhichStay
+) => {
+  console.log(layer.getSource()?.getFeatures());
+  const features = getLayerFeatures(layer);
+  console.log(features);
+  if (features.length) {
+    for (const mapFeature of features) {
+      if (
+        !localizationsWhichStay.find(
+          (locWhichStay) => locWhichStay.uid === mapFeature.getId()
+        )
+      )
+        removeFeatureIfExists(layer, mapFeature);
+    }
+  }
+};
+
 export const centerMapToCordinates = (map = null, coordinates = []) => {
   console.log(map);
   if (!map) return;
@@ -94,4 +139,13 @@ export const removeComponentLayers = (map) => {
 export const getAllClickedFeatures = (map, event) => {
   if (!Object.keys(map).length) return;
   return map.getFeaturesAtPixel(event.pixel);
+};
+
+export const getLayerFeatures = (layer) =>
+  layer?.getSource()?.getFeatures() || [];
+
+export const removeFeatureIfExists = (layer, feature = {} || '') => {
+  if (typeof feature === 'string')
+    layer?.getSource()?.removeFeatureById(feature);
+  else layer?.getSource().removeFeature(feature);
 };

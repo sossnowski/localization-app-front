@@ -10,6 +10,8 @@ import {
   createPointFeature,
   getAllClickedFeatures,
   clearLayerSource,
+  addLocalizationsToLayerIfNotExists,
+  removeMissingLocalizationsFromLayer,
 } from '../map/utils/main';
 import { localizationsBorderZoom } from '../../consts/config';
 import { authGetRequestWithParams } from '../../helpers/apiRequests';
@@ -42,41 +44,49 @@ const Localizations = (props) => {
 
   React.useEffect(() => {
     if (!Object.keys(map).length) return;
-    const features = [];
-    console.log(localizations);
-    for (const loc of localizations) {
-      const feature = createPointFeature(fromLonLat(loc.geometry.coordinates));
-      feature.setId(loc.uid);
-      features.push(feature);
-    }
-    clearLayerSource(localizationsLayer.current);
-    addFeaturesToLayer(localizationsLayer.current, features);
+    // adding selected localization to leave it on map
+    const localizationsWhichStay = selectedLocalization
+      ? [...localizations, { uid: selectedLocalization.getId() }]
+      : localizations;
+    removeMissingLocalizationsFromLayer(
+      localizationsLayer.current,
+      localizationsWhichStay
+    );
+    addLocalizationsToLayerIfNotExists(
+      localizationsLayer.current,
+      localizations
+    );
+
     localizationsRef.current = localizations;
   }, [localizations]);
 
   React.useEffect(() => {
     if (!click) return;
     const clickedFeatures = getAllClickedFeatures(map, click);
-    console.log(clickedFeatures);
-    console.log(clickedFeatures[0].getId());
-    if (!clickedFeatures.length) return;
-    handleLocalizationSelect(clickedFeatures);
-    // history.push(`/dashboard/${clickedFeatures[0].getId()}`);
+    if (!clickedFeatures.length) unselectLocalization();
+    else handleLocalizationSelect(clickedFeatures);
   }, [click]);
 
   const handleLocalizationSelect = (clickedFeatures) => {
     if (!selectedLocalization) {
       setSelectedLocalizationStyle(clickedFeatures[0]);
       dispatch(setSelectedLocalization(clickedFeatures[0]));
-    } else if (clickedFeatures[0].getId !== selectedLocalization.getId()) {
+    } else if (clickedFeatures[0].getId() !== selectedLocalization.getId()) {
       setBasicLocalizationStyle(selectedLocalization);
       setSelectedLocalizationStyle(clickedFeatures[0]);
       dispatch(setSelectedLocalization(clickedFeatures[0]));
     }
   };
 
+  const unselectLocalization = () => {
+    setBasicLocalizationStyle(selectedLocalization);
+    dispatch(setSelectedLocalization(null));
+  };
+
   const handleMapZoom = () => {
     const zoom = map.getView().getZoom();
+    console.log(localizationsRef.current.length);
+    console.log(zoom > localizationsBorderZoom);
 
     if (zoom > localizationsBorderZoom) {
       const mapExtent = map.getView().calculateExtent();

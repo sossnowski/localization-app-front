@@ -99,7 +99,10 @@ const Dashboard = () => {
                 </>
               )
             ) : (
-              <span>Wybierz jedną z lokalizacji</span>
+              <span>
+                Wybierz jedną z lokalizacji - przybliż mapę aby zobaczyć
+                oznaczone miejsca
+              </span>
             )}
           </Paper>
         </Grid>

@@ -3,6 +3,7 @@ import Point from 'ol/geom/Point';
 import VectorLayer from 'ol/layer/Vector';
 import { fromLonLat } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
+import { setBasicLocalizationStyle } from '../../localizations/utils/map';
 
 export const addSelectedLocalizationToLayer = (
   layer = null,
@@ -65,6 +66,7 @@ export const addLocalizationsToLayerIfNotExists = (layer, localizations) => {
     for (const loc of localizations) {
       const feature = createPointFeature(fromLonLat(loc.geometry.coordinates));
       feature.setId(loc.uid);
+      setBasicLocalizationStyle(feature);
       featuresToAdd.push(feature);
     }
     addFeaturesToLayer(layer, featuresToAdd);
@@ -76,6 +78,7 @@ export const addLocalizationsToLayerIfNotExists = (layer, localizations) => {
           fromLonLat(loc.geometry.coordinates)
         );
         feature.setId(loc.uid);
+        setBasicLocalizationStyle(feature);
         featuresToAdd.push(feature);
       }
     }
@@ -87,9 +90,7 @@ export const removeMissingLocalizationsFromLayer = (
   layer,
   localizationsWhichStay
 ) => {
-  console.log(layer.getSource()?.getFeatures());
   const features = getLayerFeatures(layer);
-  console.log(features);
   if (features.length) {
     for (const mapFeature of features) {
       if (
@@ -103,7 +104,6 @@ export const removeMissingLocalizationsFromLayer = (
 };
 
 export const centerMapToCordinates = (map = null, coordinates = []) => {
-  console.log(map);
   if (!map) return;
   const point = new Point(coordinates);
   map.getView().fit(point);
@@ -119,7 +119,6 @@ export const centerToLayerExtent = (map = null, layer = null) => {
 };
 
 export const removeComponentLayers = (map) => {
-  console.log(map.getLayers().getArray());
   if (!Object.keys(map).length) return;
 
   const layersWhichStay = ['tileLayer'];
@@ -133,7 +132,6 @@ export const removeComponentLayers = (map) => {
     )
       map.removeLayer(layer);
   }
-  console.log(map.getLayers().getArray());
 };
 
 export const getAllClickedFeatures = (map, event) => {

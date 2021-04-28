@@ -29,3 +29,18 @@ export const setSelectedLocalizationStyle = (localizationFeature) => {
 
   if (localizationFeature) localizationFeature.setStyle(style);
 };
+
+export const setGroupedLocalizationStyle = (localizationFeature) => {
+  const style = new Style({
+    image: new Circle({
+      radius: 10,
+      fill: new Fill({ color: [168, 168, 168, 0.4] }),
+      stroke: new Stroke({
+        color: [168, 168, 168],
+        width: 2,
+      }),
+    }),
+  });
+
+  if (localizationFeature) localizationFeature.setStyle(style);
+};

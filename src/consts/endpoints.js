@@ -11,4 +11,5 @@ export default {
   postToLocalization: 'post/localization',
   categories: 'category',
   notifications: 'notification',
+  groupedLocalizations: 'localization/groupedByPlace',
 };

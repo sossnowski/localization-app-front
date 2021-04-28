@@ -10,13 +10,18 @@ import {
   removeMissingLocalizationsFromLayer,
   centerMapToCordinates,
   addFeatureToLayer,
+  addGroupedLocalizationsToLayer,
 } from '../map/utils/main';
 import { localizationsBorderZoom } from '../../consts/config';
-import { authGetRequestWithParams } from '../../helpers/apiRequests';
+import {
+  authGetRequest,
+  authGetRequestWithParams,
+} from '../../helpers/apiRequests';
 import { setLocalizations } from '../../store/actions/localization/localization';
 import { setSelectedLocalization } from '../../store/actions/localization/selectedLocalization';
 import {
   setBasicLocalizationStyle,
+  setGroupedLocalizationStyle,
   setSelectedLocalizationStyle,
 } from './utils/map';
 
@@ -51,25 +56,25 @@ const Localizations = (props) => {
     );
   };
 
-  React.useEffect(() => {
-    if (!Object.keys(map).length) return;
-    // adding selected localization to leave it on map
-    const localizationsWhichStay = selectedLocalization
-      ? [...localizations, { uid: selectedLocalization.getId() }]
-      : localizations;
-    console.log(localizationsWhichStay);
-    console.log(localizations);
-    removeMissingLocalizationsFromLayer(
-      localizationsLayer.current,
-      localizationsWhichStay
-    );
-    addLocalizationsToLayerIfNotExists(
-      localizationsLayer.current,
-      localizations
-    );
+  // React.useEffect(() => {
+  //   if (!Object.keys(map).length) return;
+  //   // adding selected localization to leave it on map
+  //   const localizationsWhichStay = selectedLocalization
+  //     ? [...localizations, { uid: selectedLocalization.getId() }]
+  //     : localizations;
+  //   console.log(localizationsWhichStay);
+  //   console.log(localizations);
+  //   removeMissingLocalizationsFromLayer(
+  //     localizationsLayer.current,
+  //     localizationsWhichStay
+  //   );
+  //   addLocalizationsToLayerIfNotExists(
+  //     localizationsLayer.current,
+  //     localizations
+  //   );
 
-    localizationsRef.current = localizations;
-  }, [localizations]);
+  //   localizationsRef.current = localizations;
+  // }, [localizations]);
 
   // React.useState(() => {
   //   if (selectedLocalization) {
@@ -83,7 +88,10 @@ const Localizations = (props) => {
 
   React.useEffect(() => {
     if (!click) return;
-    const clickedFeatures = getAllClickedFeatures(map, click);
+    const clickedFeatures = getAllClickedFeatures(map, click).filter(
+      (feature) => !!feature.get('clickable')
+    );
+
     if (!clickedFeatures.length) unselectLocalization();
     else handleLocalizationSelect(clickedFeatures);
   }, [click]);
@@ -104,29 +112,45 @@ const Localizations = (props) => {
     dispatch(setSelectedLocalization(null));
   };
 
-  const handleMapZoom = () => {
+  const handleMapZoom = async () => {
     const zoom = map.getView().getZoom();
-    console.log(localizationsRef.current.length);
-    console.log(zoom > localizationsBorderZoom);
 
     if (zoom > localizationsBorderZoom) {
       const mapExtent = map.getView().calculateExtent();
       if (mapExtent) {
-        getLocalizationsFromExtent({
+        const result = await authGetRequestWithParams('localizations', {
           a: proj.toLonLat(extent.getTopLeft(mapExtent)),
           b: proj.toLonLat(extent.getTopRight(mapExtent)),
           c: proj.toLonLat(extent.getBottomRight(mapExtent)),
           d: proj.toLonLat(extent.getBottomLeft(mapExtent)),
           e: proj.toLonLat(extent.getTopLeft(mapExtent)),
         });
+
+        if (result.status === 200) handleLocalizationsChange(result.data);
       }
-    } else if (localizationsRef.current.length) dispatch(setLocalizations([]));
+    } else if (localizationsRef.current.length) {
+      removeMissingLocalizationsFromLayer(localizationsLayer.current, []);
+      const result = await authGetRequest('groupedLocalizations');
+      if (result.status === 200)
+        addGroupedLocalizationsToLayer(localizationsLayer.current, result.data);
+      localizationsRef.current = [];
+    }
   };
 
-  const getLocalizationsFromExtent = (points) => {
-    authGetRequestWithParams('localizations', points).then((result) => {
-      if (result.status === 200) dispatch(setLocalizations(result.data));
-    });
+  const handleLocalizationsChange = (currentLocalizations) => {
+    const localizationsWhichStay = selectedLocalization
+      ? [...currentLocalizations, { uid: selectedLocalization.getId() }]
+      : currentLocalizations;
+    removeMissingLocalizationsFromLayer(
+      localizationsLayer.current,
+      localizationsWhichStay
+    );
+    addLocalizationsToLayerIfNotExists(
+      localizationsLayer.current,
+      currentLocalizations
+    );
+
+    localizationsRef.current = currentLocalizations;
   };
 
   return null;

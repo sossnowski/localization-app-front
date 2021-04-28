@@ -3,7 +3,10 @@ import Point from 'ol/geom/Point';
 import VectorLayer from 'ol/layer/Vector';
 import { fromLonLat } from 'ol/proj';
 import VectorSource from 'ol/source/Vector';
-import { setBasicLocalizationStyle } from '../../localizations/utils/map';
+import {
+  setBasicLocalizationStyle,
+  setGroupedLocalizationStyle,
+} from '../../localizations/utils/map';
 
 export const addSelectedLocalizationToLayer = (
   layer = null,
@@ -71,6 +74,7 @@ export const addLocalizationsToLayerIfNotExists = (layer, localizations) => {
     for (const loc of localizations) {
       const feature = createPointFeature(fromLonLat(loc.geometry.coordinates));
       feature.setId(loc.uid);
+      feature.set('clickable', true);
       setBasicLocalizationStyle(feature);
       featuresToAdd.push(feature);
     }
@@ -83,6 +87,7 @@ export const addLocalizationsToLayerIfNotExists = (layer, localizations) => {
           fromLonLat(loc.geometry.coordinates)
         );
         feature.setId(loc.uid);
+        feature.set('clickable', true);
         setBasicLocalizationStyle(feature);
         featuresToAdd.push(feature);
       }
@@ -106,6 +111,17 @@ export const removeMissingLocalizationsFromLayer = (
         removeFeatureIfExists(layer, mapFeature);
     }
   }
+};
+
+export const addGroupedLocalizationsToLayer = (layer, localizations) => {
+  const features = [];
+  for (const loc of localizations) {
+    const feature = createPointFeature(loc.geometry.coordinates, true);
+    setGroupedLocalizationStyle(feature);
+    features.push(feature);
+  }
+
+  addFeaturesToLayer(layer, features);
 };
 
 export const centerMapToCordinates = (map = null, coordinates = []) => {

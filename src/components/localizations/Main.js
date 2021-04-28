@@ -1,15 +1,11 @@
 import React from 'react';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import { fromLonLat } from 'ol/proj';
 import * as proj from 'ol/proj';
 import * as extent from 'ol/extent';
 import {
-  addFeaturesToLayer,
   addLayerToMap,
   createLayer,
-  createPointFeature,
   getAllClickedFeatures,
-  clearLayerSource,
   addLocalizationsToLayerIfNotExists,
   removeMissingLocalizationsFromLayer,
   centerMapToCordinates,

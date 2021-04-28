@@ -12,4 +12,5 @@ export default {
   categories: 'category',
   notifications: 'notification',
   groupedLocalizations: 'localization/groupedByPlace',
+  getPostByComment: 'comment/withPostData',
 };

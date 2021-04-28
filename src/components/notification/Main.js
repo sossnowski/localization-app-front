@@ -4,13 +4,27 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
+import { authGetRequestWithParams } from '../../helpers/apiRequests';
+import history from '../../history';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    maxWidth: 360,
     backgroundColor: theme.palette.background.paper,
+  },
+  listItemNew: {
+    backgroundColor: 'rgba(168,168,168,0.07)',
+  },
+  listItem: {
+    backgroundColor: 'inherit',
+  },
+  fontBold: {
+    '& > span': {
+      fontWeight: 700,
+    },
+  },
+  fontNormal: {
+    fontWeight: 400,
   },
 }));
 
@@ -40,12 +54,27 @@ const Notifications = (props) => {
     }
   };
 
+  const handleClick = (notification) => {
+    const data = notification.text.split(':');
+    if (data[0] === 'commentUid' || data[0] === 'addComment')
+      history.push(`/show/comment/${data[1]}`);
+    else history.push(`/show/post/${data[1]}`);
+  };
+
   return (
     <div className={classes.root}>
       <List component="nav" aria-label="notifications">
         {notifications.map((item) => (
-          <ListItem button className={classes.listItem} key={item.uid}>
-            <ListItemText primary={displayNotification(item)} />
+          <ListItem
+            button
+            className={item.new ? classes.listItemNew : classes.listItem}
+            key={item.uid}
+            onClick={() => handleClick(item)}
+          >
+            <ListItemText
+              className={item.new ? classes.fontBold : classes.fontNormal}
+              primary={displayNotification(item)}
+            />
           </ListItem>
         ))}
         <ListItem

@@ -21,7 +21,6 @@ const Posts = () => {
   const localization = useSelector((state) =>
     state.selectedLocalization ? state.selectedLocalization : null
   );
-  console.log(localization.getId(), 'ppopop');
   const posts = useSelector((state) => state.posts);
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
   const dispatch = useDispatch();

@@ -206,7 +206,10 @@ const MainWrapper = () => {
             Siemanko
           </Typography>
           <IconButton color="inherit">
-            <Badge badgeContent={notifications.length} color="error">
+            <Badge
+              badgeContent={notifications.filter((item) => item.new).length}
+              color="error"
+            >
               <NotificationIcon
                 aria-describedby={idOfPopover}
                 onClick={notificationToggle}

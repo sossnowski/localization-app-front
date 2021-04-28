@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import RedoIcon from '@material-ui/icons/Redo';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Map from '../map/Main';
 import Localizations from '../localizations/Main';
 import { authGetRequest } from '../../helpers/apiRequests';

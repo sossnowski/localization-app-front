@@ -14,9 +14,11 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import Map from '../map/Main';
-import { authGetRequest, authPostRequest } from '../../helpers/apiRequests';
+import { authPostRequest } from '../../helpers/apiRequests';
+import { setSelectedLocalization } from '../../store/actions/localization/selectedLocalization';
 import { addAlert } from '../../store/actions/alert/alert';
 import history from '../../history';
+import { createPointFeature } from '../map/utils/main';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -60,7 +62,6 @@ const AddLocalization = () => {
   );
   const strings = useSelector((state) => state.language);
   const categories = useSelector((state) => state.categories);
-  console.log(categories);
   const dispatch = useDispatch();
   const [position, setPosition] = React.useState(null);
   const [file, setFile] = React.useState(null);
@@ -96,7 +97,15 @@ const AddLocalization = () => {
             type: 'error',
           })
         );
-      else history.push(`/dashboard/${result.data.localization.uid}`);
+      else if (result.data.localization?.geometry?.coordinates) {
+        const feature = createPointFeature(
+          result.data.localization?.geometry?.coordinates,
+          true
+        );
+        feature.setId(result.data.localization.uid);
+        dispatch(setSelectedLocalization(feature));
+        history.push(`/dashboard`);
+      }
     });
   };
 

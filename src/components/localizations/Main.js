@@ -12,6 +12,8 @@ import {
   clearLayerSource,
   addLocalizationsToLayerIfNotExists,
   removeMissingLocalizationsFromLayer,
+  centerMapToCordinates,
+  addFeatureToLayer,
 } from '../map/utils/main';
 import { localizationsBorderZoom } from '../../consts/config';
 import { authGetRequestWithParams } from '../../helpers/apiRequests';
@@ -38,9 +40,20 @@ const Localizations = (props) => {
     map.on('moveend', handleMapZoom);
     localizationsLayer.current = createLayer('dashboardLocalizations');
     addLayerToMap(map, localizationsLayer.current);
+    handleDisplaySelectedLocalization();
 
     // return () => removeComponentLayers(map);
   }, [map]);
+
+  const handleDisplaySelectedLocalization = () => {
+    if (!selectedLocalization) return;
+    setSelectedLocalizationStyle(selectedLocalization);
+    addFeatureToLayer(localizationsLayer.current, selectedLocalization);
+    centerMapToCordinates(
+      map,
+      selectedLocalization.getGeometry().getCoordinates()
+    );
+  };
 
   React.useEffect(() => {
     if (!Object.keys(map).length) return;
@@ -48,6 +61,8 @@ const Localizations = (props) => {
     const localizationsWhichStay = selectedLocalization
       ? [...localizations, { uid: selectedLocalization.getId() }]
       : localizations;
+    console.log(localizationsWhichStay);
+    console.log(localizations);
     removeMissingLocalizationsFromLayer(
       localizationsLayer.current,
       localizationsWhichStay
@@ -59,6 +74,16 @@ const Localizations = (props) => {
 
     localizationsRef.current = localizations;
   }, [localizations]);
+
+  // React.useState(() => {
+  //   if (selectedLocalization) {
+  //     setSelectedLocalizationStyle(selectedLocalization);
+  //     centerMapToCordinates(
+  //       map,
+  //       selectedLocalization.getGeometry().getCoordinates()
+  //     );
+  //   }
+  // }, [selectedLocalization]);
 
   React.useEffect(() => {
     if (!click) return;

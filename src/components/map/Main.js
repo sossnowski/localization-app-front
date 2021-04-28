@@ -5,8 +5,9 @@ import TileLayer from 'ol/layer/Tile';
 import * as proj from 'ol/proj';
 import OSM from 'ol/source/OSM';
 import { makeStyles } from '@material-ui/core/styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
 import { setMap } from '../../store/actions/map/map';
 import sidebarOpenContext from '../wrapper/sidebarContext';
 import {
@@ -15,7 +16,11 @@ import {
   createPointFeature,
   centerMapToCordinates,
   addSelectedLocalizationToLayer,
+  getLayerFeatures,
+  addFeaturesToLayer,
+  addFeatureToLayer,
 } from './utils/main';
+import { setSelectedLocalizationStyle } from '../localizations/utils/map';
 
 const useStyles = makeStyles({
   root: {
@@ -25,13 +30,16 @@ const useStyles = makeStyles({
 });
 
 const MapComponent = (props) => {
-  const { setClickedPoint, pointToCenterMap } = props;
+  const { setClickedPoint, featureId } = props;
   const classes = useStyles();
   const dispatch = useDispatch();
   const open = React.useContext(sidebarOpenContext);
   const map = React.useRef();
   const localizationsLayer = React.useRef(null);
   const [click, setClick] = React.useState(null);
+  const selectedLocalization = useSelector(
+    (state) => state.selectedLocalization
+  );
   const tileLayer = React.useRef(
     new TileLayer({
       source: new OSM({}),
@@ -55,12 +63,7 @@ const MapComponent = (props) => {
     dispatch(setMap(map.current));
   }, []);
 
-  React.useEffect(() => {
-    if (!pointToCenterMap) return;
-    const parsedPoint = proj.fromLonLat(pointToCenterMap);
-    addPointToMap(parsedPoint);
-    centerMapToCordinates(map.current, parsedPoint);
-  }, []);
+  React.useEffect(() => {}, []);
 
   React.useEffect(() => {
     if (!click || !setClickedPoint) return;
@@ -82,12 +85,12 @@ const MapComponent = (props) => {
 
 MapComponent.propTypes = {
   setClickedPoint: PropTypes.func,
-  pointToCenterMap: PropTypes.array,
+  featureId: PropTypes.string,
 };
 
 MapComponent.defaultProps = {
   setClickedPoint: null,
-  pointToCenterMap: null,
+  featureId: null,
 };
 
 export default MapComponent;

@@ -54,9 +54,14 @@ export const removeLayerIfExists = (map, layer) => {
   map.removeLayer(layer);
 };
 
-export const createPointFeature = (coordinates = []) => {
+export const createPointFeature = (
+  coordinates = [],
+  changeProjection = false
+) => {
   if (!coordinates.length) return null;
-  return new Feature({ geometry: new Point(coordinates) });
+  let parsedCoordinates = coordinates;
+  if (changeProjection) parsedCoordinates = fromLonLat(coordinates);
+  return new Feature({ geometry: new Point(parsedCoordinates) });
 };
 
 export const addLocalizationsToLayerIfNotExists = (layer, localizations) => {

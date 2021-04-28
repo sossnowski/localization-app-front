@@ -45,7 +45,7 @@ const MapComponent = (props) => {
       layers: [tileLayer.current],
       view: new View({
         center: proj.fromLonLat([19.015839, 52.2307]),
-        zoom: 10,
+        zoom: 6,
       }),
     });
     map.current.on('click', setClick);

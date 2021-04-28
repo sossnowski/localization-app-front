@@ -17,16 +17,14 @@ import {
   authGetRequest,
   authGetRequestWithParams,
 } from '../../helpers/apiRequests';
-import { setLocalizations } from '../../store/actions/localization/localization';
 import { setSelectedLocalization } from '../../store/actions/localization/selectedLocalization';
 import {
   setBasicLocalizationStyle,
-  setGroupedLocalizationStyle,
   setSelectedLocalizationStyle,
 } from './utils/map';
 
 const Localizations = (props) => {
-  const { map, localizations } = props;
+  const { map } = props;
   const localizationsLayer = React.useRef(null);
   const [click, setClick] = React.useState(null);
   const localizationsRef = React.useRef([]);
@@ -42,6 +40,7 @@ const Localizations = (props) => {
     localizationsLayer.current = createLayer('dashboardLocalizations');
     addLayerToMap(map, localizationsLayer.current);
     handleDisplaySelectedLocalization();
+    addGroupedLocalizationsFromDB();
 
     // return () => removeComponentLayers(map);
   }, [map]);
@@ -55,36 +54,6 @@ const Localizations = (props) => {
       selectedLocalization.getGeometry().getCoordinates()
     );
   };
-
-  // React.useEffect(() => {
-  //   if (!Object.keys(map).length) return;
-  //   // adding selected localization to leave it on map
-  //   const localizationsWhichStay = selectedLocalization
-  //     ? [...localizations, { uid: selectedLocalization.getId() }]
-  //     : localizations;
-  //   console.log(localizationsWhichStay);
-  //   console.log(localizations);
-  //   removeMissingLocalizationsFromLayer(
-  //     localizationsLayer.current,
-  //     localizationsWhichStay
-  //   );
-  //   addLocalizationsToLayerIfNotExists(
-  //     localizationsLayer.current,
-  //     localizations
-  //   );
-
-  //   localizationsRef.current = localizations;
-  // }, [localizations]);
-
-  // React.useState(() => {
-  //   if (selectedLocalization) {
-  //     setSelectedLocalizationStyle(selectedLocalization);
-  //     centerMapToCordinates(
-  //       map,
-  //       selectedLocalization.getGeometry().getCoordinates()
-  //     );
-  //   }
-  // }, [selectedLocalization]);
 
   React.useEffect(() => {
     if (!click) return;
@@ -130,11 +99,15 @@ const Localizations = (props) => {
       }
     } else if (localizationsRef.current.length) {
       removeMissingLocalizationsFromLayer(localizationsLayer.current, []);
-      const result = await authGetRequest('groupedLocalizations');
-      if (result.status === 200)
-        addGroupedLocalizationsToLayer(localizationsLayer.current, result.data);
+      addGroupedLocalizationsFromDB();
       localizationsRef.current = [];
     }
+  };
+
+  const addGroupedLocalizationsFromDB = async () => {
+    const result = await authGetRequest('groupedLocalizations');
+    if (result.status === 200)
+      addGroupedLocalizationsToLayer(localizationsLayer.current, result.data);
   };
 
   const handleLocalizationsChange = (currentLocalizations) => {

@@ -18,11 +18,13 @@ import { editPost } from '../../store/actions/post/post';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    height: '100px',
+    height: 'auto', // 100px
     borderBottom: `1px solid #fafafa`,
     padding: theme.spacing(2),
-    width: '100%',
+    width: 'calc(100% - 20px)',
+    marginLeft: '20px',
     marginTop: '20px',
+    marginBottom: '10px',
   },
   icon: {
     fontSize: '20px',
@@ -40,6 +42,20 @@ const useStyles = makeStyles((theme) => ({
   },
   editIconsSection: {
     textAlign: 'right',
+  },
+  divider: {
+    marginTop: '5px',
+    marginBottom: '5px',
+    width: '100%',
+    height: '1px',
+    backgroundColor: '#e0e0e0',
+  },
+  smallDivider: {
+    marginTop: '2px',
+    marginBottom: '2px',
+    width: '60%',
+    height: '1px',
+    backgroundColor: '#e0e0e0',
   },
 }));
 
@@ -132,7 +148,9 @@ const DisplayComment = (props) => {
 
   return (
     <Grid container spacing={2} className={classes.wrapper}>
-      <Grid item xs={11} />
+      <Grid item xs={11}>
+        {comment.text}
+      </Grid>
       <Grid item xs={1} className={classes.editIconsSection}>
         {UserSessionDataHandler.getUserData().uid === comment.userUid ? (
           <>
@@ -146,9 +164,6 @@ const DisplayComment = (props) => {
             />
           </>
         ) : null}
-      </Grid>
-      <Grid item xs={12}>
-        {comment.text}
       </Grid>
       <Grid item xs={2}>
         <LikeIcon
@@ -166,6 +181,7 @@ const DisplayComment = (props) => {
         />
         {disLikesNumber}
       </Grid>
+      <div className={classes.divider} />
     </Grid>
   );
 };

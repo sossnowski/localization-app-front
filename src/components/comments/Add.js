@@ -11,9 +11,12 @@ import { authPostRequest } from '../../helpers/apiRequests';
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     padding: theme.spacing(2),
-    width: '100%',
+    width: 'calc(100% - 20px)',
     marginTop: '40px',
+    marginLeft: '12px',
+    marginRight: '-8px',
     borderRadius: '5px',
+    marginBottom: '40px',
   },
 }));
 
@@ -24,7 +27,6 @@ const AddComment = (props) => {
   const dispatch = useDispatch();
   const [text, setText] = React.useState('');
   const localizationUid = useParams()?.uid;
-  console.log(localizationUid);
 
   const add = () => {
     if (text === '') return;

@@ -14,16 +14,17 @@ import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import { editPost } from '../../store/actions/post/post';
 import MainComments from '../comments/Main';
 import { postFilesBaseUrl } from '../../consts/config';
+import UserSection from '../common/UserSection';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     minHeight: 'auto',
-    border: `1px solid #f0f0f0`,
     borderBottom: `1px solid ${theme.palette.primary.main}`,
-    borderRadius: '10px',
+    marginLeft: '-16px',
+    marginRight: '-16px',
     padding: theme.spacing(2),
     height: 'auto',
-    marginBottom: '5px',
+    marginBottom: '15px',
   },
   icon: {
     fontSize: '20px',
@@ -47,6 +48,15 @@ const useStyles = makeStyles((theme) => ({
   },
   photo: {
     width: '100%',
+  },
+  divider: {
+    marginTop: '5px',
+    marginBottom: '5px',
+    width: 'calc(100% + 16px)',
+    height: '1px',
+    marginLeft: '-8px',
+    marginRight: '-8px',
+    backgroundColor: '#e0e0e0',
   },
 }));
 
@@ -132,6 +142,7 @@ const DisplayPost = (props) => {
   return (
     <div className={classes.wrapper} key={post.uid}>
       <Grid container spacing={2}>
+        <UserSection username="test" time="wczoraj" />
         <Grid item xs={11}>
           {post.title}
         </Grid>
@@ -161,6 +172,7 @@ const DisplayPost = (props) => {
         <Grid item xs={12}>
           {post.description}
         </Grid>
+        <div className={classes.divider} />
         <Grid item xs={2}>
           <LikeIcon
             className={classes.icon}
@@ -186,6 +198,7 @@ const DisplayPost = (props) => {
             {post.comments.length}
           </div>
         </Grid>
+        <div className={classes.divider} />
       </Grid>
       {showComments && (
         <Grid item xs={12}>

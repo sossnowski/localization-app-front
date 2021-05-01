@@ -13,7 +13,7 @@ axios.interceptors.response.use(
     const { status } = error.response;
     if (status === UNAUTHORIZED) {
       Auth.unauthenticate();
-      // history.push('/');
+      history.push('/');
     }
     return Promise.reject(error);
   }
@@ -74,6 +74,32 @@ export const authPatchRequest = async (endpoint, paramsObj = {}) => {
     return await axios.patch(
       `${apiBase}/${endpoints[endpoint]}`,
       paramsObj,
+      config
+    );
+  } catch (error) {
+    return error;
+  }
+};
+
+export const authPatchRequestWithParams = async (
+  endpoint,
+  paramsObj = {},
+  data = null
+) => {
+  const token = UserSessionDataHandler.getToken();
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  let params = '';
+  for (const value of Object.values(paramsObj)) {
+    params += `/${value}`;
+  }
+  try {
+    return await axios.patch(
+      `${apiBase}/${endpoints[endpoint]}${params}`,
+      data,
       config
     );
   } catch (error) {

@@ -6,7 +6,6 @@ import { useParams } from 'react-router-dom';
 import { authGetRequestWithParams } from '../../helpers/apiRequests';
 import PostWrapper from '../posts/PostWrapper';
 import Map from '../map/Main';
-import { setSelectedLocalization } from '../../store/actions/localization/selectedLocalization';
 import {
   addFeatureToLayer,
   addLayerToMap,
@@ -16,8 +15,8 @@ import {
   createPointFeature,
   removeLayerIfExists,
 } from '../map/utils/main';
-import Localizations from '../localizations/Main';
 import { setSelectedLocalizationStyle } from '../localizations/utils/map';
+import { setPosts } from '../../store/actions/post/post';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -55,7 +54,7 @@ const ShowPost = () => {
   const map = useSelector((state) => state.map);
   const mapPaper = clsx(classes.paper, classes.fixedHeight, classes.noPadding);
   const postLayer = React.useRef(null);
-  const [post, setPost] = React.useState(null);
+  const posts = useSelector((state) => state.posts);
 
   React.useEffect(() => {
     if (!Object.keys(map).length) return;
@@ -66,13 +65,14 @@ const ShowPost = () => {
   }, [map]);
 
   React.useEffect(() => {
-    if (type && uid) {
+    dispatch(setPosts([]));
+    if (type && uid && Object.keys(map).length) {
       if (type === 'comment') getCommentData(uid);
       else if (type === 'post') getPostData(uid);
     }
 
     return () => clearLayerSource(postLayer.current);
-  }, [uid]);
+  }, [uid, map]);
 
   const getCommentData = (uidParam) => {
     authGetRequestWithParams('getPostByComment', { uid: uidParam }).then(
@@ -96,9 +96,8 @@ const ShowPost = () => {
     feature.setId(postData.localization.uid);
     setSelectedLocalizationStyle(feature);
     addFeatureToLayer(postLayer.current, feature);
-    console.log(feature);
+    dispatch(setPosts([postData]));
     centerMapToCordinates(map, feature.getGeometry().getCoordinates());
-    setPost(postData);
   };
 
   return (
@@ -112,10 +111,9 @@ const ShowPost = () => {
 
         <Grid item xs={12} md={12} lg={7}>
           <Paper className={classes.paper}>
-            {post && (
+            {posts.length && (
               <>
-                dgfjbehkbf
-                <PostWrapper post={post} />
+                <PostWrapper post={posts[0]} />
               </>
             )}
           </Paper>

@@ -13,7 +13,6 @@ const MainComments = (props) => {
   const [comments, setComments] = React.useState([]);
   const dispatch = useDispatch();
   const strings = useSelector((state) => state.language);
-  const initRender = React.useRef(true);
 
   React.useEffect(() => {
     authGetRequestWithParams('comments', { uid: post.uid }).then((result) => {
@@ -28,16 +27,23 @@ const MainComments = (props) => {
       else {
         sortByLikes(result.data);
         dispatch(editPost({ ...post, comments: result.data }));
+        setComments(result.data);
       }
     });
+
+    return () => {
+      console.log('koniec');
+      setComments([]);
+    };
   }, []);
 
   React.useEffect(() => {
-    if (initRender.current) {
-      initRender.current = false;
-      return;
-    }
-    setComments(post.comments);
+    // console.log('@@@@@@@@@@@@@', initRender.current);
+    // if (initRender.current) {
+    //   initRender.current = false;
+    //   return;
+    // }
+    // setComments(post.comments);
   }, [post]);
 
   return (

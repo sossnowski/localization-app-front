@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { authGetRequestWithParams } from '../../helpers/apiRequests';
 import history from '../../history';
 
 const useStyles = makeStyles((theme) => ({

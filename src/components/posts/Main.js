@@ -25,6 +25,7 @@ const Posts = () => {
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
   const dispatch = useDispatch();
   const postsRef = React.useRef([]);
+  console.log(posts);
 
   React.useEffect(() => {
     if (!localization) return;

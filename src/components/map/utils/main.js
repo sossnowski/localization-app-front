@@ -17,7 +17,7 @@ export const addSelectedLocalizationToLayer = (
 };
 
 export const clearLayerSource = (layer = null) => {
-  layer.getSource()?.clear();
+  layer?.getSource()?.clear();
 };
 
 export const addFeatureToLayer = (layer = null, feature = null) => {

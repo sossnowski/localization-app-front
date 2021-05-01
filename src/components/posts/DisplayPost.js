@@ -140,7 +140,7 @@ const DisplayPost = (props) => {
   }, [likes]);
 
   return (
-    <div className={classes.wrapper} key={post.uid}>
+    <div className={classes.wrapper}>
       <Grid container spacing={2}>
         <UserSection username="test" time="wczoraj" />
         <Grid item xs={11}>

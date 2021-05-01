@@ -30,27 +30,14 @@ const MainComments = (props) => {
         setComments(result.data);
       }
     });
-
-    return () => {
-      console.log('koniec');
-      setComments([]);
-    };
   }, []);
-
-  React.useEffect(() => {
-    // console.log('@@@@@@@@@@@@@', initRender.current);
-    // if (initRender.current) {
-    //   initRender.current = false;
-    //   return;
-    // }
-    // setComments(post.comments);
-  }, [post]);
 
   return (
     <>
-      {comments.map((comment) => (
-        <CommentWrapper comment={comment} post={post} key={comment.uid} />
-      ))}
+      {comments.length &&
+        post.comments.map((comment) => (
+          <CommentWrapper comment={comment} post={post} key={comment.uid} />
+        ))}
       <AddComment post={post} />
     </>
   );

@@ -25,7 +25,7 @@ const Posts = () => {
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
   const dispatch = useDispatch();
   const postsRef = React.useRef([]);
-  console.log(posts);
+  console.log(localization.getId());
 
   React.useEffect(() => {
     if (!localization) return;
@@ -34,7 +34,7 @@ const Posts = () => {
     const socket = socketIOClient(socketUrl, {
       transports: ['websocket'],
       query: {
-        auth: `Loc_${localization.uid}`,
+        auth: `Loc_${localization.getId()}`,
       },
     });
 
@@ -86,6 +86,7 @@ const Posts = () => {
   };
 
   const socketAddCommentLikeUpdateHandler = (data) => {
+    console.log(data);
     if (data.userUid !== UserSessionDataHandler.getUserData()?.uid) {
       const updatedPost = handleCommentLikeUpdate(postsRef.current, data);
       if (updatedPost) dispatch(editPost(updatedPost));

@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Grid } from '@material-ui/core';
-import { useParams } from 'react-router-dom';
 import { editPost } from '../../store/actions/post/post';
 import { authPostRequest } from '../../helpers/apiRequests';
 
@@ -26,7 +25,9 @@ const AddComment = (props) => {
   const strings = useSelector((state) => state.language.comments.add);
   const dispatch = useDispatch();
   const [text, setText] = React.useState('');
-  const localizationUid = useParams()?.uid;
+  const localizationUid = useSelector((state) =>
+    state.selectedLocalization.getId()
+  );
 
   const add = () => {
     if (text === '') return;

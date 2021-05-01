@@ -15,6 +15,10 @@ export const handleCommentLike = (posts, comment) => {
 };
 
 export const handleCommentLikeUpdate = (posts, socketLike) => {
+  console.log('#####');
+  console.log(posts);
+  console.log(socketLike);
+  console.log('$$$$$$');
   const foundPost = posts.find((post) => post.uid === socketLike.postUid);
   console.log('post', foundPost);
   const updatedComments = foundPost?.comments.map((comment) =>

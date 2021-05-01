@@ -6,7 +6,6 @@ import LikeIcon from '@material-ui/icons/ThumbUpAlt';
 import DislikeIcon from '@material-ui/icons/ThumbDownAlt';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authPostRequest, authPatchRequest } from '../../helpers/apiRequests';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
@@ -68,7 +67,9 @@ const DisplayComment = (props) => {
   const [commentLiked, setCommentLiked] = React.useState(null);
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
-  const localizationUid = useParams()?.uid;
+  const localizationUid = useSelector((state) =>
+    state.selectedLocalization.getId()
+  );
 
   React.useEffect(() => {
     countLikes();

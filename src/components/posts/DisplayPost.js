@@ -5,10 +5,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import LikeIcon from '@material-ui/icons/ThumbUpAlt';
 import DislikeIcon from '@material-ui/icons/ThumbDownAlt';
 import CommentIcon from '@material-ui/icons/ChatBubble';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { useParams } from 'react-router-dom';
 import { authPatchRequest, authPostRequest } from '../../helpers/apiRequests';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import { editPost } from '../../store/actions/post/post';
@@ -68,7 +67,9 @@ const DisplayPost = (props) => {
   const [disLikesNumber, setDisLikesNumber] = React.useState(null);
   const [showComments, setShowComments] = React.useState(false);
   const [postLiked, setPostLiked] = React.useState(null);
-  const localizationUid = useParams()?.uid;
+  const localizationUid = useSelector((state) =>
+    state.selectedLocalization.getId()
+  );
   const dispatch = useDispatch();
 
   React.useEffect(() => {

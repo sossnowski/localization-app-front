@@ -5,6 +5,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import history from '../../history';
+import { authPatchRequestWithParams } from '../../helpers/apiRequests';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Notifications = (props) => {
-  const { notifications, showMore } = props;
+  const { notifications, showMore, setNotifications } = props;
   const classes = useStyles();
 
   const displayNotification = (notification) => {
@@ -55,9 +56,23 @@ const Notifications = (props) => {
 
   const handleClick = (notification) => {
     const data = notification.text.split(':');
+    markNotificationAsSeen(notification.uid);
     if (data[0] === 'commentUid' || data[0] === 'addComment')
       history.push(`/show/comment/${data[1]}`);
     else history.push(`/show/post/${data[1]}`);
+  };
+
+  const markNotificationAsSeen = (uid) => {
+    authPatchRequestWithParams('setNotificationAsSeen', {
+      uid,
+    });
+    setNotifications([
+      ...notifications.map((notification) =>
+        notification.uid === uid
+          ? { ...notification, new: false }
+          : notification
+      ),
+    ]);
   };
 
   return (
@@ -92,6 +107,7 @@ const Notifications = (props) => {
 Notifications.propTypes = {
   notifications: PropTypes.array.isRequired,
   showMore: PropTypes.func.isRequired,
+  setNotifications: PropTypes.func.isRequired,
 };
 
 export default Notifications;

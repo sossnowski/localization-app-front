@@ -13,4 +13,5 @@ export default {
   notifications: 'notification',
   groupedLocalizations: 'localization/groupedByPlace',
   getPostByComment: 'comment/withPostData',
+  setNotificationAsSeen: 'notification/seen',
 };

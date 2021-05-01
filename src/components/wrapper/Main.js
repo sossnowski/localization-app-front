@@ -132,7 +132,7 @@ const MainWrapper = () => {
   }, []);
 
   const handleSocketNotification = (notification) => {
-    notificationsRef.current = [...notificationsRef.current, notification];
+    notificationsRef.current = [notification, ...notificationsRef.current];
     setNotifications(notificationsRef.current);
   };
 
@@ -143,7 +143,6 @@ const MainWrapper = () => {
   };
 
   React.useEffect(() => {
-    console.log(notifications);
     notificationsRef.current = notifications;
   }, [notifications]);
 
@@ -155,7 +154,7 @@ const MainWrapper = () => {
   };
 
   const notificationToggle = (event) => {
-    console.log(event.currentTarget);
+    getNotifications();
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
 
@@ -219,6 +218,7 @@ const MainWrapper = () => {
                   <Notifications
                     notifications={notifications}
                     showMore={showMoreNotifications}
+                    setNotifications={setNotifications}
                   />
                 </div>
               </Popper>

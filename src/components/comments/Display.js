@@ -152,7 +152,11 @@ const DisplayComment = (props) => {
   return (
     <Grid container spacing={2} className={classes.wrapper}>
       <UserSection
-        username={comment.user ? comment.user.username : 'username'}
+        username={
+          comment.user
+            ? comment.user.username
+            : UserSessionDataHandler.getUserData()?.username
+        }
         time={parseCreatedDateToString(comment.createdAt)}
       />
       <Grid item xs={11}>

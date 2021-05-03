@@ -145,7 +145,11 @@ const DisplayPost = (props) => {
     <div className={classes.wrapper}>
       <Grid container spacing={2}>
         <UserSection
-          username={post.user?.username}
+          username={
+            post.user
+              ? post.user.username
+              : UserSessionDataHandler.getUserData()?.username
+          }
           time={parseCreatedDateToString(post.createdAt)}
         />
         <Grid item xs={11}>

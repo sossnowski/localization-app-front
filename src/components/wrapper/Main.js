@@ -202,7 +202,7 @@ const MainWrapper = () => {
             noWrap
             className={classes.title}
           >
-            Siemanko
+            SpotFinder
           </Typography>
           <IconButton color="inherit">
             <Badge

@@ -57,6 +57,12 @@ export default {
         button_: 'Dodaj',
       },
     },
+    postTimes: {
+      first: 'Mniej niż minutę temu',
+      second: 'Minut temu',
+      third: 'Godzinę temu',
+      fourth: 'Godzin temu',
+    },
 
     alerts: {
       loginError: {
@@ -148,6 +154,12 @@ export default {
         textArea_: 'Write something',
         button_: 'Add',
       },
+    },
+    postTimes: {
+      first: 'Less than minute ago',
+      second: 'Minutes ago',
+      third: 'One hour ago',
+      fourth: 'Hours ago',
     },
     alerts: {
       loginError: {

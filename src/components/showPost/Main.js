@@ -17,6 +17,7 @@ import {
 } from '../map/utils/main';
 import { setSelectedLocalizationStyle } from '../localizations/utils/map';
 import { setPosts } from '../../store/actions/post/post';
+import { setSelectedLocalization } from '../../store/actions/localization/selectedLocalization';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -55,6 +56,9 @@ const ShowPost = () => {
   const mapPaper = clsx(classes.paper, classes.fixedHeight, classes.noPadding);
   const postLayer = React.useRef(null);
   const posts = useSelector((state) => state.posts);
+  const selectedLocalization = useSelector(
+    (state) => state.selectedLocalization
+  );
 
   React.useEffect(() => {
     if (!Object.keys(map).length) return;
@@ -96,6 +100,8 @@ const ShowPost = () => {
     feature.setId(postData.localization.uid);
     setSelectedLocalizationStyle(feature);
     addFeatureToLayer(postLayer.current, feature);
+    console.log(feature);
+    dispatch(setSelectedLocalization(feature));
     dispatch(setPosts([postData]));
     centerMapToCordinates(map, feature.getGeometry().getCoordinates());
   };
@@ -111,7 +117,7 @@ const ShowPost = () => {
 
         <Grid item xs={12} md={12} lg={7}>
           <Paper className={classes.paper}>
-            {posts.length && (
+            {posts.length && selectedLocalization && (
               <>
                 <PostWrapper post={posts[0]} />
               </>

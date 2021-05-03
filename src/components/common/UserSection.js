@@ -4,7 +4,7 @@ import { Avatar, Grid, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles({
   wrapper: {
-    color: '#f0f0f0',
+    color: '#e0e0e0',
     padding: '8px',
   },
   toTop: {

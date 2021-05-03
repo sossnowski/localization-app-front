@@ -14,6 +14,8 @@ import {
   handleCommentLikeUpdate,
 } from '../localizations/socket/comments';
 import { editPost } from '../../store/actions/post/post';
+import { parseCreatedDateToString } from '../../utils/main';
+import UserSection from '../common/UserSection';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -149,6 +151,10 @@ const DisplayComment = (props) => {
 
   return (
     <Grid container spacing={2} className={classes.wrapper}>
+      <UserSection
+        username={comment.user ? comment.user.username : 'username'}
+        time={parseCreatedDateToString(comment.createdAt)}
+      />
       <Grid item xs={11}>
         {comment.text}
       </Grid>

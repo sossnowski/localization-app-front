@@ -14,6 +14,7 @@ import { editPost } from '../../store/actions/post/post';
 import MainComments from '../comments/Main';
 import { postFilesBaseUrl } from '../../consts/config';
 import UserSection from '../common/UserSection';
+import { parseCreatedDateToString } from '../../utils/main';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -143,7 +144,10 @@ const DisplayPost = (props) => {
   return (
     <div className={classes.wrapper}>
       <Grid container spacing={2}>
-        <UserSection username="test" time="wczoraj" />
+        <UserSection
+          username={post.user?.username}
+          time={parseCreatedDateToString(post.createdAt)}
+        />
         <Grid item xs={11}>
           {post.title}
         </Grid>

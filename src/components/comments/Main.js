@@ -32,12 +32,19 @@ const MainComments = (props) => {
     });
   }, []);
 
+  React.useEffect(() => {
+    if (post.comments.length && post.comments[0].likes) {
+      setComments(post.comments);
+    }
+  }, [post.comments]);
+
   return (
     <>
-      {comments.length &&
-        post.comments.map((comment) => (
-          <CommentWrapper comment={comment} post={post} key={comment.uid} />
-        ))}
+      {comments.length
+        ? post.comments.map((comment) => (
+            <CommentWrapper comment={comment} post={post} key={comment.uid} />
+          ))
+        : null}
       <AddComment post={post} />
     </>
   );

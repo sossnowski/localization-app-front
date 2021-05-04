@@ -117,10 +117,12 @@ const ShowPost = () => {
 
         <Grid item xs={12} md={12} lg={7}>
           <Paper className={classes.paper}>
-            {posts.length && selectedLocalization && (
+            {posts.length && selectedLocalization ? (
               <>
                 <PostWrapper post={posts[0]} />
               </>
+            ) : (
+              <span>Nie udało się odnaleźć wybranego postu</span>
             )}
           </Paper>
         </Grid>

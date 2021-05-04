@@ -25,7 +25,6 @@ const Posts = () => {
   const [postsToDisplay, setPostsToDisplay] = React.useState([]);
   const dispatch = useDispatch();
   const postsRef = React.useRef([]);
-  console.log(localization.getId());
 
   React.useEffect(() => {
     if (!localization) return;
@@ -54,7 +53,11 @@ const Posts = () => {
     authGetRequest('postsFromLocalizations', {
       uids: [localization.getId()],
     }).then((result) => {
-      if (result.status === 200) dispatch(setPosts(result.data));
+      if (result.status === 200) {
+        const postsToSort = result.data;
+        sortByLikes(postsToSort);
+        dispatch(setPosts(postsToSort));
+      }
     });
   };
 
@@ -73,7 +76,6 @@ const Posts = () => {
   const socketAddPostLikeUpdateHandler = (data) => {
     if (data.userUid !== UserSessionDataHandler.getUserData()?.uid) {
       const updatedPost = handlePostLikeUpdate(postsRef.current, data);
-      console.log(updatedPost);
       if (updatedPost) dispatch(editPost(updatedPost));
     }
   };
@@ -86,7 +88,6 @@ const Posts = () => {
   };
 
   const socketAddCommentLikeUpdateHandler = (data) => {
-    console.log(data);
     if (data.userUid !== UserSessionDataHandler.getUserData()?.uid) {
       const updatedPost = handleCommentLikeUpdate(postsRef.current, data);
       if (updatedPost) dispatch(editPost(updatedPost));
@@ -103,7 +104,7 @@ const Posts = () => {
   React.useEffect(() => {
     const allPosts = [];
     postsRef.current = posts;
-    sortByLikes(posts);
+    // sortByLikes(posts);
     for (const post of posts) {
       allPosts.push(<PostWrapper post={post} key={post.uid} />);
     }

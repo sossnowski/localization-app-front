@@ -156,6 +156,7 @@ const SignIn = () => {
               type: 'error',
             })
           );
+          setSeeableLoader(false);
           return;
         }
 

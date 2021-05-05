@@ -22,6 +22,7 @@ import {
   setBasicLocalizationStyle,
   setSelectedLocalizationStyle,
 } from './utils/map';
+import { setPosts } from '../../store/actions/post/post';
 
 const Localizations = (props) => {
   const { map } = props;
@@ -78,6 +79,7 @@ const Localizations = (props) => {
 
   const unselectLocalization = () => {
     setBasicLocalizationStyle(selectedLocalization);
+    dispatch(setPosts([]));
     dispatch(setSelectedLocalization(null));
   };
 

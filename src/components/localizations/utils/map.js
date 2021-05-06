@@ -1,4 +1,5 @@
 import { Style, Circle, Fill, Stroke } from 'ol/style';
+import axios from 'axios';
 
 export const setBasicLocalizationStyle = (localizationFeature) => {
   const style = new Style({
@@ -43,4 +44,16 @@ export const setGroupedLocalizationStyle = (localizationFeature) => {
   });
 
   if (localizationFeature) localizationFeature.setStyle(style);
+};
+
+export const getLocalizationNameByCoordinates = async (coordinates) => {
+  const result = await axios.get(
+    `https://photon.komoot.io/reverse?lon=${coordinates[0]}&lat=${coordinates[1]}`
+  );
+
+  return (
+    result.data.features[0]?.properties?.city ||
+    result.data.features[0]?.properties?.name ||
+    null
+  );
 };

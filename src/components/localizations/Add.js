@@ -19,6 +19,7 @@ import { setSelectedLocalization } from '../../store/actions/localization/select
 import { addAlert } from '../../store/actions/alert/alert';
 import history from '../../history';
 import { createPointFeature } from '../map/utils/main';
+import { getLocalizationNameByCoordinates } from './utils/map';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -65,13 +66,41 @@ const AddLocalization = () => {
   const dispatch = useDispatch();
   const [position, setPosition] = React.useState(null);
   const [file, setFile] = React.useState(null);
+  const [
+    localizationNameNotFound,
+    setLocalizationNameNotFound,
+  ] = React.useState(true);
   const [values, setValues] = React.useState({
     title: '',
     city: '',
     categoryUid: '',
     description: '',
   });
-  console.log(position);
+
+  React.useEffect(() => {
+    if (position) {
+      getCityName(position);
+    }
+  }, [position]);
+
+  const getCityName = async (coordinates) => {
+    const localizationName = await getLocalizationNameByCoordinates(
+      coordinates
+    );
+    if (localizationName) {
+      setValues({
+        ...values,
+        city: localizationName,
+      });
+      setLocalizationNameNotFound(false);
+    } else {
+      setLocalizationNameNotFound(true);
+      setValues({
+        ...values,
+        city: '',
+      });
+    }
+  };
 
   const handleChange = (event) => {
     const { target } = event;
@@ -125,6 +154,13 @@ const AddLocalization = () => {
     return formData;
   };
 
+  const handleCityChange = (event) => {
+    const { target } = event;
+    const { value } = target;
+
+    if (localizationNameNotFound) setValues({ ...values, city: value });
+  };
+
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <Grid item xs={12}>
@@ -143,13 +179,18 @@ const AddLocalization = () => {
                 name="title"
               />
             </Grid>
+            <Grid item xs={12}>
+              <Paper className={fixedHeightPaperMap}>
+                <Map setClickedPoint={setPosition} />
+              </Paper>
+            </Grid>
             <Grid item xs={12} lg={6}>
               <TextField
                 value={values.city}
                 label={strings.posts.add.city_}
                 variant="outlined"
                 fullWidth
-                onChange={handleChange}
+                onChange={handleCityChange}
                 name="city"
               />
             </Grid>
@@ -169,11 +210,6 @@ const AddLocalization = () => {
                   ))}
                 </Select>
               </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper className={fixedHeightPaperMap}>
-                <Map setClickedPoint={setPosition} />
-              </Paper>
             </Grid>
             <Grid item xs={12}>
               <TextField

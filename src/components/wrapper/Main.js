@@ -88,7 +88,8 @@ const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
+    height: 'calc(100vh - 64px)',
+    marginTop: '64px',
     overflowY: 'auto',
     backgroundColor: theme.palette.background.default,
     overflowX: 'hidden',
@@ -115,6 +116,8 @@ const MainWrapper = () => {
   const [notifications, setNotifications] = React.useState([]);
   const notificationsRef = React.useRef([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const mainWrapperRef = React.useRef(null);
+  const wasRendered = React.useRef(false);
 
   React.useEffect(() => {
     getNotifications();
@@ -130,6 +133,21 @@ const MainWrapper = () => {
     return () =>
       socket.emit('userLeave', UserSessionDataHandler.getUserData()?.uid);
   }, []);
+
+  React.useEffect(() => {
+    if (!mainWrapperRef.current) return;
+    mainWrapperRef.current.addEventListener('click', handleWrapperClick);
+
+    return () =>
+      mainWrapperRef.current.removeEventListener('click', handleWrapperClick);
+  }, [mainWrapperRef.current]);
+
+  const handleWrapperClick = () => {
+    if (!wasRendered.current) {
+      setAnchorEl(null);
+      wasRendered.current = true;
+    }
+  };
 
   const handleSocketNotification = (notification) => {
     notificationsRef.current = [notification, ...notificationsRef.current];
@@ -154,12 +172,15 @@ const MainWrapper = () => {
   };
 
   const notificationToggle = (event) => {
-    getNotifications();
-    setAnchorEl(anchorEl ? null : event.currentTarget);
+    if (anchorEl) {
+      setAnchorEl(null);
+    } else {
+      getNotifications();
+      setAnchorEl(event.currentTarget);
+      wasRendered.current = false;
+    }
   };
-
-  const openPopover = Boolean(anchorEl);
-  const idOfPopover = openPopover ? 'simple-popper' : undefined;
+  console.log(anchorEl);
 
   const logout = () => {
     Auth.unauthenticate();
@@ -174,6 +195,9 @@ const MainWrapper = () => {
         setNotifications([...notifications, ...result.data]);
     });
   };
+
+  const openPopover = Boolean(anchorEl);
+  const idOfPopover = openPopover ? 'simple-popper' : undefined;
 
   return (
     <div className={classes.root}>
@@ -211,7 +235,7 @@ const MainWrapper = () => {
             >
               <NotificationIcon
                 aria-describedby={idOfPopover}
-                onClick={notificationToggle}
+                onClick={(e) => notificationToggle(e)}
               />
               <Popper id={idOfPopover} open={openPopover} anchorEl={anchorEl}>
                 <div className={classes.popperPaper}>
@@ -245,7 +269,11 @@ const MainWrapper = () => {
         <MainListItems />
         <Divider />
       </Drawer>
-      <main className={classes.content}>
+      <main
+        className={classes.content}
+        ref={(mainWrapper_) => (mainWrapperRef.current = mainWrapper_)}
+        id="content-wrapper"
+      >
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <sidebarOpenContext.Provider value={open}>

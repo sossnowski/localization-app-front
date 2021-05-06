@@ -232,12 +232,12 @@ const AddLocalization = () => {
                 component="label"
                 onChange={handleFile}
               >
-                Upload File
+                Wybierz zdjęcie
                 <input type="file" hidden name="file" />
               </Button>
             </Grid>
             <Grid item xs={12}>
-              <span>{file ? `Wybrano: ${file.name}` : ''}: </span>
+              <span>{file ? `Wybrano: ${file.name}` : ''} </span>
             </Grid>
             <Grid item xs={12} lg={4} />
           </Grid>

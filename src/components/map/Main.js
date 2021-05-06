@@ -20,6 +20,7 @@ const useStyles = makeStyles({
   root: {
     height: '100%',
     width: '100%',
+    position: 'relative',
   },
 });
 
@@ -40,6 +41,7 @@ const MapComponent = (props) => {
 
   React.useEffect(() => {
     map.current = new Map({
+      controls: [],
       target: 'map',
       renderer: 'webgl',
       layers: [tileLayer.current],

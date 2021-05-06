@@ -20,6 +20,7 @@ import { addAlert } from '../../store/actions/alert/alert';
 import history from '../../history';
 import { createPointFeature } from '../map/utils/main';
 import { getLocalizationNameByCoordinates } from './utils/map';
+import { setPosts } from '../../store/actions/post/post';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -133,6 +134,7 @@ const AddLocalization = () => {
         );
         feature.setId(result.data.localization.uid);
         dispatch(setSelectedLocalization(feature));
+        dispatch(setPosts([]));
         history.push(`/dashboard`);
       }
     });

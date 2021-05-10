@@ -97,9 +97,6 @@ const useStyles = makeStyles((theme) => ({
   container: {
     paddingTop: theme.spacing(4),
   },
-  fixedHeight: {
-    height: 240,
-  },
   popperPaper: {
     border: '1px solid',
     padding: theme.spacing(1),
@@ -180,7 +177,6 @@ const MainWrapper = () => {
       wasRendered.current = false;
     }
   };
-  console.log(anchorEl);
 
   const logout = () => {
     Auth.unauthenticate();
@@ -274,7 +270,6 @@ const MainWrapper = () => {
         ref={(mainWrapper_) => (mainWrapperRef.current = mainWrapper_)}
         id="content-wrapper"
       >
-        <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <sidebarOpenContext.Provider value={open}>
             <ContentController />

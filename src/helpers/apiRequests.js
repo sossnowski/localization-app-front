@@ -29,6 +29,7 @@ export const postRequest = async (endpoint, paramsObj = {}) => {
 
 export const authGetRequest = async (endpoint, paramsObj = {}) => {
   const token = UserSessionDataHandler.getToken();
+  console.log(paramsObj);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,

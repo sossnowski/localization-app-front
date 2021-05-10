@@ -11,6 +11,7 @@ import {
   centerMapToCordinates,
   addFeatureToLayer,
   addGroupedLocalizationsToLayer,
+  clearLayerSource,
 } from '../map/utils/main';
 import { localizationsBorderZoom } from '../../consts/config';
 import {
@@ -25,13 +26,16 @@ import {
 import { setPosts } from '../../store/actions/post/post';
 
 const Localizations = (props) => {
-  const { map } = props;
+  const { map, localizationFilters } = props;
   const localizationsLayer = React.useRef(null);
+  const groupedLocalizationsLayer = React.useRef(null);
   const [click, setClick] = React.useState(null);
   const localizationsRef = React.useRef([]);
+  const localizationFiltersRef = React.useRef([]);
   const selectedLocalization = useSelector(
     (state) => state.selectedLocalization
   );
+  const categories = useSelector((state) => state.categories);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -39,7 +43,9 @@ const Localizations = (props) => {
     map.on('click', setClick);
     map.on('moveend', handleMapZoom);
     localizationsLayer.current = createLayer('dashboardLocalizations');
+    groupedLocalizationsLayer.current = createLayer('groupedLocalizations');
     addLayerToMap(map, localizationsLayer.current);
+    addLayerToMap(map, groupedLocalizationsLayer.current);
     handleDisplaySelectedLocalization();
     addGroupedLocalizationsFromDB();
 
@@ -107,12 +113,31 @@ const Localizations = (props) => {
   };
 
   const addGroupedLocalizationsFromDB = async () => {
-    const result = await authGetRequest('groupedLocalizations');
+    if (!localizationFiltersRef.current.length) {
+      clearLayerSource(groupedLocalizationsLayer.current);
+      return;
+    }
+    // optimalization purpose there is no need use where clause on the backend side when user need all records
+    if (localizationFiltersRef.current.length === categories.length)
+      localizationFiltersRef.current = [];
+
+    const result = await authGetRequest('groupedLocalizations', {
+      categories: localizationFiltersRef.current,
+    });
     if (result.status === 200)
-      addGroupedLocalizationsToLayer(localizationsLayer.current, result.data);
+      addGroupedLocalizationsToLayer(
+        groupedLocalizationsLayer.current,
+        result.data
+      );
   };
 
+  React.useEffect(() => {
+    localizationFiltersRef.current = localizationFilters;
+    addGroupedLocalizationsFromDB();
+  }, [localizationFilters]);
+
   const handleLocalizationsChange = (currentLocalizations) => {
+    clearLayerSource(groupedLocalizationsLayer.current);
     const localizationsWhichStay = selectedLocalization
       ? [...currentLocalizations, { uid: selectedLocalization.getId() }]
       : currentLocalizations;
@@ -133,6 +158,7 @@ const Localizations = (props) => {
 
 const mapStateToProps = (state) => ({
   map: state.map,
+  localizationFilters: state.localizationFilters,
 });
 
 export default connect(mapStateToProps)(Localizations);

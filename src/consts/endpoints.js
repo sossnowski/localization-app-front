@@ -11,7 +11,7 @@ export default {
   postToLocalization: 'post/localization',
   categories: 'category',
   notifications: 'notification',
-  groupedLocalizations: 'localization/groupedByPlace',
+  groupedLocalizations: 'localization/groupedByPlace/categories',
   getPostByComment: 'comment/withPostData',
   setNotificationAsSeen: 'notification/seen',
 };

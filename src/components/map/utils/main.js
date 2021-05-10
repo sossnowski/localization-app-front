@@ -114,6 +114,7 @@ export const removeMissingLocalizationsFromLayer = (
 };
 
 export const addGroupedLocalizationsToLayer = (layer, localizations) => {
+  clearLayerSource(layer);
   const features = [];
   for (const loc of localizations) {
     const feature = createPointFeature(loc.geometry.coordinates, true);

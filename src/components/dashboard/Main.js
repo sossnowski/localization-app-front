@@ -12,6 +12,7 @@ import Posts from '../posts/Main';
 import CustomButton from '../common/AddButton';
 import AddPost from '../posts/Add';
 import { setCategories } from '../../store/actions/category/category';
+import LocalizationFilters from './Filters';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
@@ -99,10 +100,9 @@ const Dashboard = () => {
                 </>
               )
             ) : (
-              <span>
-                Wybierz jedną z lokalizacji - przybliż mapę aby zobaczyć
-                oznaczone miejsca
-              </span>
+              <Grid item xs={12}>
+                <LocalizationFilters />
+              </Grid>
             )}
           </Paper>
         </Grid>

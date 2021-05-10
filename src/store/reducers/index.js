@@ -7,6 +7,7 @@ import localizations from './localization/localization';
 import categories from './category/category';
 import notification from './notification/notification';
 import selectedLocalization from './localization/selectedLocalization';
+import localizationFilters from './localization/filter';
 
 const allReducers = combineReducers({
   alerts,
@@ -17,6 +18,7 @@ const allReducers = combineReducers({
   categories,
   notification,
   selectedLocalization,
+  localizationFilters,
 });
 
 export default allReducers;

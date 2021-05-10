@@ -31,6 +31,7 @@ const Localizations = (props) => {
   const groupedLocalizationsLayer = React.useRef(null);
   const [click, setClick] = React.useState(null);
   const localizationsRef = React.useRef([]);
+  const groupedLocalizationsRef = React.useRef([]);
   const localizationFiltersRef = React.useRef([]);
   const selectedLocalization = useSelector(
     (state) => state.selectedLocalization
@@ -93,6 +94,7 @@ const Localizations = (props) => {
     const zoom = map.getView().getZoom();
 
     if (zoom > localizationsBorderZoom) {
+      groupedLocalizationsRef.current = [];
       const mapExtent = map.getView().calculateExtent();
       if (mapExtent) {
         const result = await authGetRequestWithParams('localizations', {
@@ -105,7 +107,7 @@ const Localizations = (props) => {
 
         if (result.status === 200) handleLocalizationsChange(result.data);
       }
-    } else if (localizationsRef.current.length) {
+    } else if (!groupedLocalizationsRef.current.length) {
       removeMissingLocalizationsFromLayer(localizationsLayer.current, []);
       addGroupedLocalizationsFromDB();
       localizationsRef.current = [];
@@ -117,18 +119,21 @@ const Localizations = (props) => {
       clearLayerSource(groupedLocalizationsLayer.current);
       return;
     }
-    // optimalization purpose there is no need use where clause on the backend side when user need all records
-    if (localizationFiltersRef.current.length === categories.length)
-      localizationFiltersRef.current = [];
 
     const result = await authGetRequest('groupedLocalizations', {
-      categories: localizationFiltersRef.current,
+      categories:
+        // optimalization purpose there is no need use where clause on the backend side when user need all records
+        localizationFiltersRef.current.length === categories.length
+          ? []
+          : localizationFiltersRef.current,
     });
-    if (result.status === 200)
+    if (result.status === 200) {
+      groupedLocalizationsRef.current = result.data;
       addGroupedLocalizationsToLayer(
         groupedLocalizationsLayer.current,
         result.data
       );
+    }
   };
 
   React.useEffect(() => {

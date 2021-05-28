@@ -50,6 +50,13 @@ const useStyles = makeStyles((theme) =>
     formControl: {
       display: 'flex',
     },
+    error: {
+      color: 'red',
+      paddingLeft: 15,
+    },
+    mapError: {
+      border: '3px solid red',
+    },
   })
 );
 
@@ -61,6 +68,13 @@ const AddLocalization = () => {
     classes.fixedHeightMap,
     classes.noPadding,
     classes.marginTop
+  );
+  const fixedHeightPaperMapError = clsx(
+    classes.paper,
+    classes.fixedHeightMap,
+    classes.noPadding,
+    classes.marginTop,
+    classes.mapError
   );
   const strings = useSelector((state) => state.language);
   const categories = useSelector((state) => state.categories);
@@ -76,6 +90,13 @@ const AddLocalization = () => {
     city: '',
     categoryUid: '',
     description: '',
+  });
+  const [errors, setErrors] = React.useState({
+    city: false,
+    title: false,
+    categoryUid: false,
+    description: false,
+    position: false,
   });
 
   React.useEffect(() => {
@@ -117,6 +138,7 @@ const AddLocalization = () => {
   };
 
   const onSaveClick = () => {
+    if (!isDataValid()) return;
     const postData = prepareData();
     authPostRequest('post', postData).then((result) => {
       if (result.status !== 201)
@@ -163,6 +185,28 @@ const AddLocalization = () => {
     if (localizationNameNotFound) setValues({ ...values, city: value });
   };
 
+  const isDataValid = () => {
+    for (const key of Object.keys(values)) {
+      if (values[key] === '') {
+        setErrors({ ...errors, [key]: true });
+        return false;
+      }
+      setErrors({ ...errors, [key]: false });
+    }
+    if (!position) {
+      setErrors({ ...errors, position: true });
+      return false;
+    }
+    setErrors({ ...errors, position: false });
+
+    return true;
+  };
+
+  const showError = (fieldName) => {
+    console.log(values[fieldName] === '', errors[fieldName]);
+    return values[fieldName] === '' && errors[fieldName];
+  };
+
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <Grid item xs={12}>
@@ -174,36 +218,47 @@ const AddLocalization = () => {
             <Grid item xs={12}>
               <TextField
                 defaultValue={values.title}
-                label={strings.posts.add.title_}
+                label={`${strings.posts.add.title_}*`}
                 variant="outlined"
+                error={showError('title')}
                 fullWidth
                 onChange={handleChange}
                 name="title"
               />
             </Grid>
             <Grid item xs={12}>
-              <Paper className={fixedHeightPaperMap}>
+              <Paper
+                className={
+                  errors.position
+                    ? fixedHeightPaperMapError
+                    : fixedHeightPaperMap
+                }
+              >
                 <Map setClickedPoint={setPosition} />
               </Paper>
             </Grid>
             <Grid item xs={12} lg={6}>
               <TextField
                 value={values.city}
-                label={strings.posts.add.city_}
+                label={`${strings.posts.add.city_}*`}
                 variant="outlined"
                 fullWidth
+                error={showError('city')}
                 onChange={handleCityChange}
                 name="city"
               />
             </Grid>
             <Grid item xs={12} lg={6}>
               <FormControl className={classes.formControl}>
-                <InputLabel id="demo-simple-select-label">Kategoria</InputLabel>
+                <InputLabel id="demo-simple-select-label">
+                  Kategoria*
+                </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   name="categoryUid"
                   value={values.categoryUid}
+                  error={showError('categoryUid')}
                   onChange={handleChange}
                   fullWidth
                 >
@@ -216,8 +271,9 @@ const AddLocalization = () => {
             <Grid item xs={12}>
               <TextField
                 value={values.description}
-                label={strings.posts.add.text_}
+                label={`${strings.posts.add.text_}*`}
                 variant="outlined"
+                error={showError('description')}
                 fullWidth
                 multiline
                 rows={10}
@@ -240,6 +296,11 @@ const AddLocalization = () => {
               <span>{file ? `Wybrano: ${file.name}` : ''} </span>
             </Grid>
             <Grid item xs={12} lg={4} />
+            {Object.values(errors).find((value) => value === true) && (
+              <p className={classes.error}>
+                Wszystkie pola z gwiazdką są wymagane
+              </p>
+            )}
           </Grid>
         </Paper>
       </Grid>

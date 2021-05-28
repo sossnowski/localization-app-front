@@ -31,7 +31,7 @@ export default {
       },
     },
     sidebarList: {
-      dashboard_: 'Dashboard',
+      dashboard_: 'Panel główny',
       addLocalization_: 'Dodaj lokalizację',
       userSettings_: 'Ustawienia',
     },

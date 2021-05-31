@@ -17,9 +17,11 @@ const AddPost = (props) => {
   const [file, setFile] = React.useState(null);
   const [values, setValues] = React.useState({
     title: '',
-    city: '',
-    category: '',
     description: '',
+  });
+  const [errors, setErrors] = React.useState({
+    title: false,
+    description: false,
   });
 
   const handleChange = (event) => {
@@ -36,6 +38,7 @@ const AddPost = (props) => {
   };
 
   const onSaveClick = () => {
+    if (!isDataValid()) return;
     const formData = prepareData();
     authPostRequest('postToLocalization', formData).then((result) => {
       if (result.status !== 201)
@@ -72,6 +75,21 @@ const AddPost = (props) => {
     return formData;
   };
 
+  const isDataValid = () => {
+    for (const key of Object.keys(values)) {
+      if (values[key] === '') {
+        setErrors({ ...errors, [key]: true });
+        return false;
+      }
+      setErrors({ ...errors, [key]: false });
+    }
+
+    return true;
+  };
+
+  const showError = (fieldName) =>
+    values[fieldName] === '' && errors[fieldName];
+
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <Grid item xs={12}>
@@ -84,6 +102,7 @@ const AddPost = (props) => {
               defaultValue={values.title}
               label={strings.posts.add.title_}
               variant="outlined"
+              error={showError('title')}
               fullWidth
               onChange={handleChange}
               name="title"
@@ -96,6 +115,7 @@ const AddPost = (props) => {
               variant="outlined"
               fullWidth
               multiline
+              error={showError('description')}
               rows={10}
               rowsMax={30}
               onChange={handleChange}

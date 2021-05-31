@@ -28,9 +28,10 @@ const AddComment = (props) => {
   const localizationUid = useSelector((state) =>
     state.selectedLocalization.getId()
   );
+  const [showError, setShowError] = React.useState(false);
 
   const add = () => {
-    if (text === '') return;
+    if (!isDataValid()) return;
     authPostRequest('comments', {
       postUid: post.uid,
       text,
@@ -49,7 +50,18 @@ const AddComment = (props) => {
   };
 
   const handleChange = (evt) => {
+    setShowError(false);
     setText(evt.target.value);
+  };
+
+  const isDataValid = () => {
+    if (text === '') {
+      setShowError(true);
+
+      return false;
+    }
+
+    return true;
   };
 
   return (
@@ -61,6 +73,7 @@ const AddComment = (props) => {
           variant="outlined"
           rowsMax={10}
           cols={5}
+          error={showError}
           fullWidth
           value={text}
           onChange={handleChange}

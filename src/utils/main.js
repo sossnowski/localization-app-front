@@ -14,8 +14,7 @@ export const sortByLikes = (dataToSort = []) => {
 export const parseCreatedDateToString = (date) => {
   const now = Date.now();
   const time = now - new Date(date);
-  const language =
-    UserSessionDataHandler.getSettings()?.defaultLanguage || 'pl';
+  const language = UserSessionDataHandler.getLanguage() || 'pl';
   if (time <= 60000) return Languages[language].postTimes.first;
   if (time > 60000 && time < 3600000)
     return `${parseInt(time / 60000)}  ${Languages[language].postTimes.second}`;

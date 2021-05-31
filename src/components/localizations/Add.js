@@ -202,10 +202,8 @@ const AddLocalization = () => {
     return true;
   };
 
-  const showError = (fieldName) => {
-    console.log(values[fieldName] === '', errors[fieldName]);
-    return values[fieldName] === '' && errors[fieldName];
-  };
+  const showError = (fieldName) =>
+    values[fieldName] === '' && errors[fieldName];
 
   return (
     <form className={classes.root} noValidate autoComplete="off">

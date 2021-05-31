@@ -64,11 +64,13 @@ const UserSettings = () => {
   };
 
   const onSaveClick = () => {
-    authPatchRequest('user', {
+    const userDataObject = {
       username: values.username,
-      password: values.password,
       email: values.email,
-    }).then((result) => {
+    };
+    if (values.password.length) userDataObject.password = values.password;
+    if (values.password.length && values.password !== values.rePassword) return;
+    authPatchRequest('user', userDataObject).then((result) => {
       if (result.status !== 200)
         dispatch(
           addAlert({
@@ -137,6 +139,7 @@ const UserSettings = () => {
                 label={strings.user.rePassword_}
                 variant="outlined"
                 fullWidth
+                error={values.password !== values.rePassword}
                 onChange={handleChange}
                 name="rePassword"
                 value={values.rePassword}

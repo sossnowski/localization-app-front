@@ -251,7 +251,7 @@ const AddLocalization = () => {
             <Grid item xs={12} lg={6}>
               <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">
-                  Kategoria*
+                  {`${strings.posts.add.category_}*`}
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -288,7 +288,7 @@ const AddLocalization = () => {
                 component="label"
                 onChange={handleFile}
               >
-                Wybierz zdjęcie
+                {`${strings.posts.add.file_}`}
                 <input type="file" hidden name="file" />
               </Button>
             </Grid>
@@ -298,7 +298,7 @@ const AddLocalization = () => {
             <Grid item xs={12} lg={4} />
             {Object.values(errors).find((value) => value === true) && (
               <p className={classes.error}>
-                Wszystkie pola z gwiazdką są wymagane
+                {`${strings.posts.add.validationMsg_}`}
               </p>
             )}
           </Grid>

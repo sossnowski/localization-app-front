@@ -68,7 +68,7 @@ const AddPost = (props) => {
     <form className={classes.root} noValidate autoComplete="off">
       <Grid container spacing={4}>
         <Grid item xs={11}>
-          <h1 className={classes.header}>Edytuj post</h1>
+          <h1 className={classes.header}>{strings.posts.edit.title_}</h1>
         </Grid>
         <Grid item xs={1}>
           <RedoIcon
@@ -113,7 +113,7 @@ const AddPost = (props) => {
             className={classes.marginTop}
             onClick={() => onSaveClick()}
           >
-            {strings.posts.add.button_}
+            {strings.posts.edit.button_}
           </Button>
         </Grid>
       </Grid>

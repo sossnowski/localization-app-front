@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { useSelector } from 'react-redux';
 import history from '../../history';
 import { authPatchRequestWithParams } from '../../helpers/apiRequests';
 
@@ -31,24 +32,23 @@ const useStyles = makeStyles((theme) => ({
 const Notifications = (props) => {
   const { notifications, showMore, setNotifications } = props;
   const classes = useStyles();
+  const strings = useSelector((state) => state.language.notifications);
 
   const displayNotification = (notification) => {
     const type = notification.text.split(':')[0];
 
     switch (type) {
       case 'commentUid':
-        return `Użytkownik ${notification.username} ${
-          notification.isUpVote
-            ? 'lubi twój komentarz'
-            : 'nie lubi twojego komentarza'
+        return `${strings.user_} ${notification.username} ${
+          notification.isUpVote ? strings.likeComment_ : strings.notLikeComment_
         }`;
       case 'postUid':
-        return `Użytkownik ${notification.username} ${
-          notification.isUpVote ? 'lubi twój post' : 'nie lubi twojego postu'
+        return `${strings.user_} ${notification.username} ${
+          notification.isUpVote ? strings.likePost_ : strings.notLikePost_
         }`;
 
       case 'addComment':
-        return `Użytkownik ${notification.username} skomentował twój post`;
+        return `${strings.user_} ${notification.username} ${strings.commented_} `;
       default:
         return 'nieznany';
     }
@@ -97,7 +97,7 @@ const Notifications = (props) => {
           key="more"
           onClick={() => showMore()}
         >
-          <ListItemText primary="Pokaż więcej" />
+          <ListItemText primary={strings.showMore_} />
         </ListItem>
       </List>
     </div>

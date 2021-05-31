@@ -76,7 +76,7 @@ const AddPost = (props) => {
     <form className={classes.root} noValidate autoComplete="off">
       <Grid item xs={12}>
         <Grid item xs={12}>
-          <h1>Dodaj nowy post dla tej lokalizacji</h1>
+          <h1>{strings.posts.add.header_}</h1>
         </Grid>
         <Grid container spacing={4}>
           <Grid item xs={12}>
@@ -104,7 +104,7 @@ const AddPost = (props) => {
           </Grid>
           <Grid item xs={12}>
             <Button variant="contained" component="label" onChange={handleFile}>
-              Wybierz zdjęcie
+              {strings.posts.add.file_}
               <input type="file" hidden name="file" />
             </Button>
           </Grid>

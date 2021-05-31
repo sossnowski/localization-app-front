@@ -59,12 +59,6 @@ const Dashboard = () => {
     });
   }, []);
 
-  const getAllLocalizations = () => {
-    // authGetRequest('localizations').then((result) => {
-    //   if (result.status === 200) setLocalizations(result.data);
-    // });
-  };
-
   const addPostToggle = () => {
     setAddPost(!addPost);
   };

@@ -135,8 +135,8 @@ const MainWrapper = () => {
     if (!mainWrapperRef.current) return;
     mainWrapperRef.current.addEventListener('click', handleWrapperClick);
 
-    return () =>
-      mainWrapperRef.current.removeEventListener('click', handleWrapperClick);
+    // return () =>
+    //   mainWrapperRef.current.removeEventListener('click', handleWrapperClick);
   }, [mainWrapperRef.current]);
 
   const handleWrapperClick = () => {

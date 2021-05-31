@@ -27,6 +27,7 @@ const LocalizationFilters = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories);
+  const strings = useSelector((state) => state.language.dashboard);
 
   React.useEffect(() => {
     if (!filterValues.length)
@@ -58,9 +59,7 @@ const LocalizationFilters = () => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <FormLabel component="legend">
-          Filtruj lokalizacje po kategorii
-        </FormLabel>
+        <FormLabel component="legend">{strings.header_}</FormLabel>
       </Grid>
       {categories.map((category) => (
         <Grid item xs={4}>
@@ -72,7 +71,7 @@ const LocalizationFilters = () => {
                 value={category.name}
               />
             }
-            label={category.name}
+            label={strings.categories[category.name]}
           />
         </Grid>
       ))}
@@ -84,15 +83,13 @@ const LocalizationFilters = () => {
               onChange={() => handleAllClick()}
             />
           }
-          label="wszystkie"
+          label={strings.categories.all}
         />
       </Grid>
       <Typography color="primary" className={classes.span}>
-        Wybierz jedną z lokalizacji - przybliż mapę aby zobaczyć oznaczone
-        miejsca
+        {strings.subtitle_}
       </Typography>
     </Grid>
-    // </div>
   );
 };
 

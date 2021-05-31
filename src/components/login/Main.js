@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100vw',
     height: '100vh',
     position: 'relative',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: '#6E736F',
     overflowY: 'auto',
     uverflowX: 'hidden',
   },
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'calc(50% - 220px)',
     marginBottom: '40px',
     color: 'white',
-    backgroundColor: theme.palette.third.main,
+    backgroundColor: '#ffffff',
   },
   gridStyle: {
     display: 'flex',
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    color: theme.palette.fontColor,
+    color: '#696969',
   },
   langIconWrapper: {
     position: 'absolute',
@@ -57,36 +57,41 @@ const useStyles = makeStyles((theme) => ({
     right: '40px',
     cursor: 'pointer',
     fontSize: '1.2rem',
-    color: theme.palette.third.main,
+    color: '#ffffff',
   },
   langIcon: {
-    color: theme.palette.third.main,
+    color: '#ffffff',
     position: 'relative',
     top: '-2px',
     // left: '-3px',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.fontColor,
+    backgroundColor: '#A4C4B5',
+    color: '#696969',
   },
   form: {
-    color: theme.palette.fontColor,
+    color: '#696969',
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    color: theme.palette.third.main,
+    color: '#ffffff',
+    backgroundColor: '#696969!important',
   },
   cssOutlinedInput: {
-    color: theme.palette.fontColor,
+    color: '#696969!important',
   },
   outlined: {
-    color: theme.palette.fontColor,
+    color: '#696969!important',
+  },
+  fontColor: {
+    color: '#696969!important',
   },
   notchedOutline: {
-    borderColor: theme.palette.fontColor,
+    borderWidth: '1px',
+    borderColor: '#696969!important',
   },
   input: {
     '&:-webkit-autofill': {
@@ -95,10 +100,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   copyRightText: {
-    color: theme.palette.fontColor,
+    color: '#696969',
   },
   checkboxField: {
-    color: theme.palette.fontColor,
+    color: '#696969',
   },
   hawkeLogo: {
     height: '20px',
@@ -109,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'center',
-    color: theme.palette.fontColor,
+    color: '#696969',
   },
 }));
 
@@ -210,24 +215,6 @@ const SignIn = () => {
     }
   };
 
-  const Copyright = () => (
-    <Grid container>
-      <Grid item xs={2} />
-      <Grid item xs={1} />
-      <Grid className={classes.copyrightContentContainer} item xs={6}>
-        {'Copyright © '}
-        <img
-          alt="logo"
-          className={classes.hawkeLogo}
-          src="/backgroundImage/copyright_logo.png"
-        />
-        {new Date().getFullYear()}.
-      </Grid>
-      <Grid item xs={1} />
-      <Grid item xs={2} />
-    </Grid>
-  );
-
   return (
     <div className={classes.wrapper}>
       {seeableLoader && <PopupLoader />}
@@ -254,7 +241,7 @@ const SignIn = () => {
               required
               fullWidth
               disableAutoFocus
-              color="primary"
+              // color="loginInput"
               InputLabelProps={{
                 classes: {
                   outlined: classes.outlined,
@@ -262,9 +249,7 @@ const SignIn = () => {
               }}
               InputProps={{
                 classes: {
-                  root: classes.cssOutlinedInput,
                   notchedOutline: classes.notchedOutline,
-                  input: classes.input,
                 },
               }}
               id="username"
@@ -281,7 +266,6 @@ const SignIn = () => {
               required
               fullWidth
               disableAutoFocus
-              color="primary"
               InputLabelProps={{
                 classes: {
                   outlined: classes.outlined,
@@ -313,7 +297,6 @@ const SignIn = () => {
               type="button"
               fullWidth
               variant="contained"
-              color="primary"
               className={classes.submit}
               onClick={login}
             >
@@ -322,6 +305,7 @@ const SignIn = () => {
             <Grid container>
               <Grid item xs={12}>
                 <Link
+                  className={classes.fontColor}
                   href=""
                   variant="body2"
                   onClick={() => history.push('/reset-password')}
@@ -331,6 +315,7 @@ const SignIn = () => {
               </Grid>
               <Grid item xs={12}>
                 <Link
+                  className={classes.fontColor}
                   href=""
                   variant="body2"
                   onClick={() => history.push('/register')}
@@ -341,9 +326,6 @@ const SignIn = () => {
             </Grid>
           </form>
         </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
       </Container>
     </div>
   );

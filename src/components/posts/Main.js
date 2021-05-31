@@ -104,7 +104,6 @@ const Posts = () => {
   React.useEffect(() => {
     const allPosts = [];
     postsRef.current = posts;
-    // sortByLikes(posts);
     for (const post of posts) {
       allPosts.push(<PostWrapper post={post} key={post.uid} />);
     }

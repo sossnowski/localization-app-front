@@ -75,7 +75,7 @@ const EditComment = (props) => {
   return (
     <Grid container spacing={2} className={classes.wrapper}>
       <Grid item xs={11}>
-        <h1 className={classes.header}>Edytuj komentarz</h1>
+        <h1 className={classes.header}>{strings.comments.edit.header_}</h1>
       </Grid>
       <Grid item xs={1}>
         <RedoIcon
@@ -86,7 +86,7 @@ const EditComment = (props) => {
       <Grid item xs={12}>
         <TextField
           id="outlined-basic"
-          label={strings.textArea_}
+          label={strings.comments.add.textArea_}
           variant="outlined"
           fullWidth
           rowsMax={10}
@@ -102,7 +102,7 @@ const EditComment = (props) => {
           fullWidth
           onClick={() => onSaveClick()}
         >
-          {strings.posts.add.button_}
+          {strings.comments.edit.button_}
         </Button>
       </Grid>
     </Grid>

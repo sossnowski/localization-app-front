@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import { authPatchRequest } from '../../helpers/apiRequests';
 import { addAlert } from '../../store/actions/alert/alert';
+import ThemeSettings from './ThemeSettings';
+import LanguageSettings from './LanguageSettings';
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -141,7 +143,12 @@ const UserSettings = () => {
                 type="password"
               />
             </Grid>
-            <Grid item xs={12} lg={4} />
+            <Grid item xs={12} lg={6}>
+              <ThemeSettings />
+            </Grid>
+            <Grid item xs={12} lg={6}>
+              <LanguageSettings />
+            </Grid>
           </Grid>
         </Paper>
       </Grid>

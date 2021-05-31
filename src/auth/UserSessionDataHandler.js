@@ -37,6 +37,10 @@ class UserSessionDataHandler {
     return settings ? JSON.parse(settings) : null;
   };
 
+  static getLanguage = () => localStorage.getItem(this.language);
+
+  static getTheme = () => localStorage.getItem(this.theme);
+
   static saveToken = (token = '') => {
     localStorage.setItem(this.token, token);
   };
@@ -51,6 +55,14 @@ class UserSessionDataHandler {
 
   static saveSettings = (settings = {}) => {
     localStorage.setItem(this.settings, JSON.stringify(settings));
+  };
+
+  static saveLanguage = (language = 'pl') => {
+    localStorage.setItem(this.language, language);
+  };
+
+  static saveTheme = (theme = 'light') => {
+    localStorage.setItem(this.theme, theme);
   };
 
   static removeToken = () => {

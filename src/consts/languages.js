@@ -35,12 +35,40 @@ export default {
       addLocalization_: 'Dodaj lokalizację',
       userSettings_: 'Ustawienia',
     },
+    dashboard: {
+      header_: 'Filtruj lokalizację po kategorii',
+      categories: {
+        hobby: 'Hobby',
+        kultura: 'Kultura',
+        impreza: 'Impreza',
+        rekreacja: 'Rekreacja',
+        sport: 'Sport',
+        inne: 'Inne',
+        zwiedzanie: 'Zwiedzanie',
+        odpoczynek: 'Odpoczynek',
+        all: 'Wszystkie',
+      },
+      subtitle_:
+        'Wybierz jedną z lokalizacji - przybliż mapę aby zobaczyć oznaczone miejsca',
+    },
     user: {
       header_: 'Modyfikuj swoje dane',
       username_: 'Nazwa użytkownika',
       email_: 'Email',
       password_: 'Hasło',
       rePassword_: 'Powtórz hasło',
+      settings: {
+        header_: 'Szablon',
+        theme: {
+          light_: 'Jasny',
+          dark_: 'Ciemny',
+        },
+        language: {
+          header_: 'Język',
+          pl_: 'PL',
+          en_: 'EN',
+        },
+      },
     },
     posts: {
       add: {
@@ -49,12 +77,23 @@ export default {
         city_: 'Miejscowość',
         text_: 'Treść',
         button_: 'Zapisz',
+        file_: 'Wybierz zdjęcie',
+        category_: 'Kategoria',
+        validationMsg_: 'Wszystkie pola oznaczone gwiazką są wymagane',
+      },
+      edit: {
+        header_: 'Edytuj post',
+        button_: 'Zapisz',
       },
     },
     comments: {
       add: {
         textArea_: 'Napisz coś',
         button_: 'Dodaj',
+      },
+      edit: {
+        header_: 'Edytuj komentarz',
+        button_: 'Zapisz',
       },
     },
     postTimes: {
@@ -63,7 +102,15 @@ export default {
       third: 'Godzinę temu',
       fourth: 'Godzin temu',
     },
-
+    notifications: {
+      user_: 'Użytkownik',
+      likeComment_: 'lubi twój komentarz',
+      notLikeComment_: 'nie lubi twojego komentarza',
+      likePost_: 'lubi twój post',
+      notLikePost_: 'nie lubi twojego postu',
+      commented_: 'skomentował twój post',
+      showMore_: 'Pokaż więcej',
+    },
     alerts: {
       loginError: {
         title_: 'Błąd logowania',
@@ -133,12 +180,40 @@ export default {
       addLocalization_: 'Add localization',
       userSettings_: 'Settings',
     },
+    dashboard: {
+      header_: 'Filter localizations by category',
+      categories: {
+        hobby: 'Hobby',
+        kultura: 'Culture',
+        impreza: 'Party',
+        rekreacja: 'Recreation',
+        sport: 'Sport',
+        inne: 'Different',
+        zwiedzanie: 'Sightseeing',
+        odpoczynek: 'Chill',
+        all: 'All',
+      },
+      subtitle_:
+        'Select one localization - scroll map to place to see them all',
+    },
     user: {
       header_: 'Change your data',
       username_: 'Username',
       email_: 'Email',
       password_: 'Password',
       rePassword_: 'Repeat password',
+      settings: {
+        header_: 'Theme',
+        theme: {
+          light_: 'Light',
+          dark_: 'Dark',
+        },
+        language: {
+          header_: 'Language',
+          pl_: 'PL',
+          en_: 'EN',
+        },
+      },
     },
     posts: {
       add: {
@@ -147,6 +222,13 @@ export default {
         city_: 'City',
         text_: 'Description',
         button_: 'Save',
+        file_: 'Select picture',
+        category_: 'Category',
+        validationMsg_: 'All fields with * are required',
+      },
+      edit: {
+        header_: 'Edit post',
+        button_: 'Save',
       },
     },
     comments: {
@@ -154,12 +236,25 @@ export default {
         textArea_: 'Write something',
         button_: 'Add',
       },
+      edit: {
+        header_: 'Edit comment',
+        button_: 'Save',
+      },
     },
     postTimes: {
       first: 'Less than minute ago',
       second: 'Minutes ago',
       third: 'One hour ago',
       fourth: 'Hours ago',
+    },
+    notifications: {
+      user_: 'User',
+      likeComment_: 'like your comment',
+      notLikeComment_: 'do not like your comment',
+      likePost_: 'like your post',
+      notLikePost_: 'do not like your post',
+      commented_: 'commented your post',
+      showMore_: 'Show more',
     },
     alerts: {
       loginError: {

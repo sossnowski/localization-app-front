@@ -28,12 +28,18 @@ const useStyles = makeStyles((theme) =>
       '& .MuiFormControl-marginNormal': {
         marginTop: '5px',
       },
+      width: '100%',
     },
     paper: {
-      padding: theme.spacing(2),
+      // padding: theme.spacing(2),
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column',
+      padding: 7,
+      borderRadius: 0,
+      [theme.breakpoints.up('md')]: {
+        marginBottom: 25,
+      },
     },
     fixedHeight: {
       height: 'auto',
@@ -52,10 +58,21 @@ const useStyles = makeStyles((theme) =>
     },
     error: {
       color: 'red',
-      paddingLeft: 15,
+      // paddingLeft: 15,
     },
     mapError: {
       border: '3px solid red',
+    },
+    header: {
+      textAlign: 'center',
+      fontSize: '1.5rem',
+      [theme.breakpoints.up('md')]: {
+        fontSize: '2rem',
+      },
+    },
+    formElement: {
+      marginTop: 20,
+      padding: 10,
     },
   })
 );
@@ -210,10 +227,10 @@ const AddLocalization = () => {
       <Grid item xs={12}>
         <Paper className={fixedHeightPaper}>
           <Grid item xs={12}>
-            <h1>{strings.posts.add.header_}</h1>
+            <h1 className={classes.header}>{strings.posts.add.header_}</h1>
           </Grid>
-          <Grid container spacing={4}>
-            <Grid item xs={12}>
+          <Grid container>
+            <Grid className={classes.formElement} item xs={12}>
               <TextField
                 defaultValue={values.title}
                 label={`${strings.posts.add.title_}*`}
@@ -224,7 +241,7 @@ const AddLocalization = () => {
                 name="title"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.formElement} item xs={12}>
               <Paper
                 className={
                   errors.position
@@ -235,7 +252,7 @@ const AddLocalization = () => {
                 <Map setClickedPoint={setPosition} />
               </Paper>
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid className={classes.formElement} item xs={12} lg={6}>
               <TextField
                 value={values.city}
                 label={`${strings.posts.add.city_}*`}
@@ -246,7 +263,7 @@ const AddLocalization = () => {
                 name="city"
               />
             </Grid>
-            <Grid item xs={12} lg={6}>
+            <Grid className={classes.formElement} item xs={12} lg={6}>
               <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">
                   {`${strings.posts.add.category_}*`}
@@ -266,7 +283,7 @@ const AddLocalization = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.formElement} item xs={12}>
               <TextField
                 value={values.description}
                 label={`${strings.posts.add.text_}*`}
@@ -280,7 +297,7 @@ const AddLocalization = () => {
                 name="description"
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid className={classes.formElement} item xs={12}>
               <Button
                 variant="contained"
                 component="label"
@@ -293,29 +310,31 @@ const AddLocalization = () => {
             <Grid item xs={12}>
               <span>{file ? `Wybrano: ${file.name}` : ''} </span>
             </Grid>
-            <Grid item xs={12} lg={4} />
-            {Object.values(errors).find((value) => value === true) && (
-              <p className={classes.error}>
-                {`${strings.posts.add.validationMsg_}`}
-              </p>
-            )}
+            <Grid className={classes.formElement} item xs={12}>
+              <div style={{ width: 400 }}>
+                {Object.values(errors).find((value) => value === true) && (
+                  <p className={classes.error}>
+                    {`${strings.posts.add.validationMsg_}`}
+                  </p>
+                )}
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid item xs={9} />
+            <Grid className={classes.formElement} item xs={12} lg={3}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                className={classes.marginTop}
+                onClick={() => onSaveClick()}
+              >
+                {strings.posts.add.button_}
+              </Button>
+            </Grid>
           </Grid>
         </Paper>
-      </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={9} />
-        <Grid item xs={12} lg={3}>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            className={classes.marginTop}
-            onClick={() => onSaveClick()}
-          >
-            {strings.posts.add.button_}
-          </Button>
-        </Grid>
       </Grid>
     </form>
   );

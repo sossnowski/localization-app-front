@@ -21,9 +21,8 @@ const useStyles = makeStyles((theme) => ({
   wrapper: {
     height: 'auto', // 100px
     borderBottom: `1px solid #fafafa`,
-    padding: theme.spacing(2),
-    width: 'calc(100% - 20px)',
-    marginLeft: '20px',
+    paddingLeft: 25,
+    width: '100%',
     marginTop: '20px',
     marginBottom: '10px',
   },
@@ -34,11 +33,11 @@ const useStyles = makeStyles((theme) => ({
     cursor: 'pointer',
   },
   iconEdit: {
-    fontSize: '15px',
+    fontSize: '18px',
     cursor: 'pointer',
   },
   iconDelete: {
-    fontSize: '15px',
+    fontSize: '18px',
     cursor: 'pointer',
   },
   editIconsSection: {
@@ -159,10 +158,10 @@ const DisplayComment = (props) => {
         }
         time={parseCreatedDateToString(comment.createdAt)}
       />
-      <Grid item xs={11}>
+      <Grid item xs={9} md={11}>
         {comment.text}
       </Grid>
-      <Grid item xs={1} className={classes.editIconsSection}>
+      <Grid item xs={3} md={1} className={classes.editIconsSection}>
         {UserSessionDataHandler.getUserData().uid === comment.userUid ? (
           <>
             <EditIcon

@@ -25,7 +25,7 @@ import { socketUrl } from '../../consts/config';
 import { authGetRequestWithParams } from '../../helpers/apiRequests';
 import Notifications from '../notification/Main';
 
-const drawerWidth = 240;
+const drawerWidth = 340;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -76,34 +76,50 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaperClose: {
     overflowX: 'hidden',
+    marginLeft: -56,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: theme.spacing(9),
+      marginLeft: 0,
     },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: 'calc(100vh - 64px)',
-    marginTop: '64px',
+    height: 'calc(100vh - 56px)',
+    marginTop: '56px',
     overflowY: 'auto',
     backgroundColor: theme.palette.background.default,
     overflowX: 'hidden',
   },
   container: {
-    paddingTop: theme.spacing(4),
+    paddingTop: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
+    [theme.breakpoints.up('md')]: {
+      paddingTop: theme.spacing(4),
+    },
+  },
+  notificationWrapper: {
+    zIndex: 1001,
+    width: '96%!important',
+    marginLeft: '2%!important',
+    marginTop: 25,
+    [theme.breakpoints.up('md')]: {
+      width: '500px!important',
+      marginTop: 30,
+    },
   },
   popperPaper: {
     border: '1px solid',
     padding: theme.spacing(1),
     backgroundColor: theme.palette.background.paper,
-    width: 400,
-    marginTop: 40,
     borderRadius: 5,
+    marginTop: 8,
   },
 }));
 
@@ -134,9 +150,6 @@ const MainWrapper = () => {
   React.useEffect(() => {
     if (!mainWrapperRef.current) return;
     mainWrapperRef.current.addEventListener('click', handleWrapperClick);
-
-    // return () =>
-    //   mainWrapperRef.current.removeEventListener('click', handleWrapperClick);
   }, [mainWrapperRef.current]);
 
   const handleWrapperClick = () => {
@@ -233,7 +246,12 @@ const MainWrapper = () => {
                 aria-describedby={idOfPopover}
                 onClick={(e) => notificationToggle(e)}
               />
-              <Popper id={idOfPopover} open={openPopover} anchorEl={anchorEl}>
+              <Popper
+                id={idOfPopover}
+                open={openPopover}
+                anchorEl={anchorEl}
+                className={classes.notificationWrapper}
+              >
                 <div className={classes.popperPaper}>
                   <Notifications
                     notifications={notifications}
@@ -262,7 +280,7 @@ const MainWrapper = () => {
           </IconButton>
         </div>
         <Divider />
-        <MainListItems />
+        <MainListItems setOpen={setOpen} />
         <Divider />
       </Drawer>
       <main

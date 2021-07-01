@@ -123,6 +123,16 @@ const themeSet = {
         main: '#6E736F',
       },
     },
+    typography: {
+      fontFamily: [
+        'Courier New',
+        'Courier',
+        'Lucida Sans Typewriter',
+        'Lucida Typewriter',
+        'monospace',
+      ].join(','),
+      fontSize: 16,
+    },
   },
   dark: {
     palette: {
@@ -152,6 +162,16 @@ const themeSet = {
       loginInput: {
         main: '#6E736F',
       },
+    },
+    typography: {
+      fontFamily: [
+        'Courier New',
+        'Courier',
+        'Lucida Sans Typewriter',
+        'Lucida Typewriter',
+        'monospace',
+      ].join(','),
+      fontSize: 16,
     },
   },
 };

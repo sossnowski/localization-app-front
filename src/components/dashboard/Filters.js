@@ -20,6 +20,20 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',
     marginTop: 50,
   },
+  header: {
+    textAlign: 'center',
+    marginBottom: 30,
+    fontWeight: 'bold',
+    [theme.breakpoints.up('md')]: {
+      marginBottom: 20,
+      fontSize: '1.3rem',
+    },
+  },
+  label: {
+    marginLeft: 0,
+    paddingLeft: 15,
+    [theme.breakpoints.up('md')]: {},
+  },
 }));
 
 const LocalizationFilters = () => {
@@ -59,11 +73,14 @@ const LocalizationFilters = () => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
-        <FormLabel component="legend">{strings.header_}</FormLabel>
+        <FormLabel className={classes.header} component="legend">
+          {strings.header_}
+        </FormLabel>
       </Grid>
       {categories.map((category) => (
-        <Grid item xs={4}>
+        <Grid item xs={12}>
           <FormControlLabel
+            className={classes.label}
             control={
               <Checkbox
                 checked={isChecked(category.name)}
@@ -77,6 +94,7 @@ const LocalizationFilters = () => {
       ))}
       <Grid item xs={4}>
         <FormControlLabel
+          className={classes.label}
           control={
             <Checkbox
               checked={filterValues.length === categories.length}

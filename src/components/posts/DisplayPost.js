@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.palette.primary.main}`,
     marginLeft: '-16px',
     marginRight: '-16px',
-    padding: theme.spacing(2),
+    padding: 10,
     height: 'auto',
     marginBottom: '15px',
   },
@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
     color: 'gray',
   },
   iconEdit: {
-    fontSize: '15px',
+    fontSize: '19px',
     cursor: 'pointer',
   },
   iconDelete: {
-    fontSize: '15px',
+    fontSize: '19px',
     cursor: 'pointer',
   },
   editIconsSection: {
@@ -152,10 +152,10 @@ const DisplayPost = (props) => {
           }
           time={parseCreatedDateToString(post.createdAt)}
         />
-        <Grid item xs={11}>
+        <Grid item xs={9} md={11}>
           {post.title}
         </Grid>
-        <Grid item xs={1} className={classes.editIconsSection}>
+        <Grid item xs={3} md={1} className={classes.editIconsSection}>
           {UserSessionDataHandler.getUserData().uid === post.user.uid ? (
             <>
               <EditIcon

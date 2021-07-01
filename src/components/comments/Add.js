@@ -10,12 +10,13 @@ import { authPostRequest } from '../../helpers/apiRequests';
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     padding: theme.spacing(2),
-    width: 'calc(100% - 20px)',
-    marginTop: '40px',
-    marginLeft: '12px',
-    marginRight: '-8px',
+    width: '100%',
+    marginTop: '10px',
     borderRadius: '5px',
-    marginBottom: '40px',
+    marginBottom: '20px',
+  },
+  input: {
+    marginBottom: 10,
   },
 }));
 
@@ -65,8 +66,8 @@ const AddComment = (props) => {
   };
 
   return (
-    <Grid container spacing={2} className={classes.wrapper}>
-      <Grid item xs={12}>
+    <Grid container className={classes.wrapper}>
+      <Grid item className={classes.input} xs={12}>
         <TextField
           id="outlined-basic"
           label={strings.textArea_}

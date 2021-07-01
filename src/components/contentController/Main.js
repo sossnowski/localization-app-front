@@ -8,7 +8,7 @@ import UserSettings from '../user/Main';
 import ShowPost from '../showPost/Main';
 
 const ContentController = () => (
-  <Grid container spacing={3}>
+  <Grid container>
     <Switch>
       <Route path="/show/:type/:uid">
         <ShowPost />

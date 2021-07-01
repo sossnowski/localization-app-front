@@ -15,31 +15,35 @@ import { setCategories } from '../../store/actions/category/category';
 import LocalizationFilters from './Filters';
 
 const useStyles = makeStyles((theme) => ({
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
-  },
   container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
+    paddingTop: 0,
+    paddingBottom: 0,
+    [theme.breakpoints.up('md')]: {
+      paddingTop: theme.spacing(4),
+      paddingBottom: theme.spacing(4),
+    },
   },
   paper: {
     padding: theme.spacing(2),
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
-    marginBottom: '8px',
-    overflowX: 'hidden',
-    overflowY: 'auto',
-    height: 'calc(100vh - 128px)',
+    height: 'auto',
+    paddingTop: 40,
+    borderRadius: 0,
+    [theme.breakpoints.up('md')]: {
+      overflowX: 'hidden',
+      overflowY: 'auto',
+      height: 'calc(100vh - 128px)',
+      paddingTop: theme.spacing(2),
+    },
   },
   fixedHeight: {
     height: 'calc(100vh - 128px)',
   },
   noPadding: {
     padding: 0,
+    marginBottom: 0,
   },
 }));
 
@@ -65,7 +69,7 @@ const Dashboard = () => {
 
   return (
     <Grid item xs={12}>
-      <Grid container spacing={1}>
+      <Grid container>
         <Grid item xs={12} md={12} lg={5}>
           <Paper className={mapPaper}>
             <Map />

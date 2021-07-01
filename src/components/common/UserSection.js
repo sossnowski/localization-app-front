@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, Grid, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   wrapper: {
     color: '#e0e0e0',
     padding: '8px',
@@ -13,7 +13,13 @@ const useStyles = makeStyles({
   textAlign: {
     textAlign: 'right',
   },
-});
+  paddingLeft: {
+    paddingLeft: 20,
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: 5,
+    },
+  },
+}));
 
 const UserSection = (props) => {
   const { username, time } = props;
@@ -24,7 +30,7 @@ const UserSection = (props) => {
       <Grid item xs={1}>
         <Avatar>U</Avatar>
       </Grid>
-      <Grid item xs={7} className={classes.toTop}>
+      <Grid item xs={7} className={`${classes.toTop} ${classes.paddingLeft}`}>
         {username}
       </Grid>
       <Grid item xs={4} className={`${classes.toTop} ${classes.textAlign}`}>

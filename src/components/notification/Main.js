@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+    zIndex: 1001,
   },
   listItemNew: {
     backgroundColor: 'rgba(168,168,168,0.07)',

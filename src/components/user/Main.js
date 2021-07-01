@@ -153,22 +153,21 @@ const UserSettings = () => {
               <LanguageSettings />
             </Grid>
           </Grid>
+          <Grid container>
+            <Grid item xs={9} />
+            <Grid item xs={12} lg={3}>
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                className={classes.marginTop}
+                onClick={() => onSaveClick()}
+              >
+                {strings.posts.add.button_}
+              </Button>
+            </Grid>
+          </Grid>
         </Paper>
-      </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={9} />
-        <Grid item xs={12} lg={3}>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            className={classes.marginTop}
-            onClick={() => onSaveClick()}
-          >
-            {strings.posts.add.button_}
-          </Button>
-        </Grid>
       </Grid>
     </form>
   );

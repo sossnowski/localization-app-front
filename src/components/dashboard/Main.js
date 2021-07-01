@@ -39,7 +39,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   fixedHeight: {
-    height: 'calc(100vh - 128px)',
+    height: 'calc(100vh - 220px)',
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100vh - 128px)',
+    },
   },
   noPadding: {
     padding: 0,
@@ -88,13 +91,19 @@ const Dashboard = () => {
                   />
                   <CustomButton
                     onClickHandler={addPostToggle}
+                    top={80}
+                    right={30}
                     content={<RedoIcon />}
                   />
                 </>
               ) : (
                 <>
                   <Posts />
-                  <CustomButton onClickHandler={addPostToggle} />
+                  <CustomButton
+                    top={80}
+                    right={30}
+                    onClickHandler={addPostToggle}
+                  />
                 </>
               )
             ) : (

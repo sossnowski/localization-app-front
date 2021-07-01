@@ -20,7 +20,6 @@ import UserSection from '../common/UserSection';
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     height: 'auto', // 100px
-    borderBottom: `1px solid #fafafa`,
     paddingLeft: 25,
     width: '100%',
     marginTop: '20px',

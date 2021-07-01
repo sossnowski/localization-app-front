@@ -70,7 +70,7 @@ const MapComponent = (props) => {
   };
 
   React.useEffect(() => {
-    setTimeout(() => map.current.updateSize(), 200);
+    setTimeout(() => map.current.updateSize(), 1000);
   }, [open]);
 
   return <div id="map" className={classes.root} />;

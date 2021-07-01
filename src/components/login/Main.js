@@ -27,18 +27,25 @@ const useStyles = makeStyles((theme) => ({
     width: '100vw',
     height: '100vh',
     position: 'relative',
-    backgroundColor: '#6E736F',
+    backgroundColor: '#ffffff',
     overflowY: 'auto',
     uverflowX: 'hidden',
+    [theme.breakpoints.up('md')]: {
+      backgroundColor: '#6E736F',
+    },
   },
   root: {
-    paddingTop: '15px',
-    paddingBottom: '15px',
-    marginTop: '10%',
-    marginLeft: 'calc(50% - 220px)',
-    marginBottom: '40px',
+    width: '100%',
+    padding: 15,
     color: 'white',
     backgroundColor: '#ffffff',
+    [theme.breakpoints.up('md')]: {
+      paddingTop: '15px',
+      paddingBottom: '15px',
+      marginTop: '10%',
+      marginLeft: 'calc(50% - 220px)',
+      marginBottom: '40px',
+    },
   },
   gridStyle: {
     display: 'flex',
@@ -115,6 +122,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end',
     justifyContent: 'center',
     color: '#696969',
+  },
+  header: {
+    textAlign: 'center',
   },
 }));
 
@@ -229,7 +239,7 @@ const SignIn = () => {
           <Avatar className={classes.avatar}>
             <LocalAirportIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" className={classes.header}>
             {subtitles.loginScreen.helloMessage_} {subtitles.appName_}
             {'. '}
             {subtitles.loginScreen.message_}

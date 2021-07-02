@@ -7,7 +7,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -26,18 +25,25 @@ const useStyles = makeStyles((theme) => ({
     width: '100vw',
     height: '100vh',
     position: 'relative',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: '#ffffff',
     overflowY: 'auto',
     uverflowX: 'hidden',
+    [theme.breakpoints.up('md')]: {
+      backgroundColor: '#6E736F',
+    },
   },
   root: {
-    paddingTop: '15px',
-    paddingBottom: '15px',
-    marginTop: '10%',
-    marginLeft: 'calc(50% - 220px)',
-    marginBottom: '40px',
+    width: '100%',
+    padding: 15,
     color: 'white',
-    backgroundColor: theme.palette.third.main,
+    backgroundColor: '#ffffff',
+    [theme.breakpoints.up('md')]: {
+      paddingTop: '15px',
+      paddingBottom: '15px',
+      marginTop: '10%',
+      marginLeft: 'calc(50% - 220px)',
+      marginBottom: '40px',
+    },
   },
   paper: {
     marginTop: theme.spacing(8),
@@ -105,6 +111,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-end',
     justifyContent: 'center',
     color: theme.palette.fontColor,
+  },
+  header: {
+    textAlign: 'center',
   },
 }));
 
@@ -188,24 +197,6 @@ const SignIn = () => {
     }
   };
 
-  const Copyright = () => (
-    <Grid container>
-      <Grid item xs={2} />
-      <Grid item xs={1} />
-      <Grid className={classes.copyrightContentContainer} item xs={6}>
-        {'Copyright © '}
-        <img
-          alt="logo"
-          className={classes.hawkeLogo}
-          src="/backgroundImage/copyright_logo.png"
-        />
-        {new Date().getFullYear()}.
-      </Grid>
-      <Grid item xs={1} />
-      <Grid item xs={2} />
-    </Grid>
-  );
-
   const registerSuccessAlert = () => (
     <Alert severity="success" variant="outlined">
       <h5>Poprawnie zarejestrowano</h5>
@@ -234,7 +225,7 @@ const SignIn = () => {
           <Avatar className={classes.avatar}>
             <LocalAirportIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" className={classes.header}>
             {subtitles.loginScreen.helloMessage_} {subtitles.appName_}
             {'. '}
             {subtitles.loginScreen.message_}
@@ -348,9 +339,6 @@ const SignIn = () => {
             </Grid>
           </form>
         </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
       </Container>
     </div>
   );

@@ -41,7 +41,10 @@ const useStyles = makeStyles((theme) => ({
     height: 'calc(100vh - 128px)',
   },
   fixedHeight: {
-    height: 'calc(100vh - 128px)',
+    height: 'calc(100vh - 220px)',
+    [theme.breakpoints.up('md')]: {
+      height: 'calc(100vh - 128px)',
+    },
   },
   noPadding: {
     padding: 0,

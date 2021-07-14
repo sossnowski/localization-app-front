@@ -4,6 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import Alert from '@material-ui/lab/Alert';
 import ClearIcon from '@material-ui/icons/Clear';
 import { makeStyles } from '@material-ui/core';
+import { none } from 'ol/centerconstraint';
 import { removeAlert, removeAllAlerts } from '../../store/actions/alert/alert';
 
 const useStyles = makeStyles((theme) => ({
@@ -40,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 30,
     width: '70vw',
-    left: '15vw',
+    right: '15vw',
 
     zIndex: 1400,
     [theme.breakpoints.up('md')]: {
-      bottom: '30px',
+      top: 'calc(100vh - 200px)',
       right: '60px',
       width: '300px',
       minHeight: '150px',

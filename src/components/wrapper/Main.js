@@ -95,14 +95,17 @@ const useStyles = makeStyles((theme) => ({
     overflowY: 'auto',
     backgroundColor: theme.palette.background.default,
     overflowX: 'hidden',
+    [theme.breakpoints.up('md')]: {
+      marginTop: '64px',
+      height: 'calc(100vh - 64px)',
+    },
   },
   container: {
     paddingTop: 0,
     paddingLeft: 0,
     paddingRight: 0,
-    [theme.breakpoints.up('md')]: {
-      paddingTop: theme.spacing(4),
-    },
+    height: '100%',
+    overflowX: 'hidden',
   },
   notificationWrapper: {
     zIndex: 1001,
@@ -125,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MainWrapper = () => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [notifications, setNotifications] = React.useState([]);
   const notificationsRef = React.useRef([]);
   const [anchorEl, setAnchorEl] = React.useState(null);

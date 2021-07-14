@@ -15,6 +15,9 @@ import { setCategories } from '../../store/actions/category/category';
 import LocalizationFilters from './Filters';
 
 const useStyles = makeStyles((theme) => ({
+  mainWrapper: {
+    overflowX: 'hidden',
+  },
   container: {
     paddingTop: 0,
     paddingBottom: 0,
@@ -71,8 +74,8 @@ const Dashboard = () => {
   };
 
   return (
-    <Grid item xs={12}>
-      <Grid container>
+    <Grid item xs={12} className={classes.mainWrapper}>
+      <Grid container className={classes.container}>
         <Grid item xs={12} md={12} lg={5}>
           <Paper className={mapPaper}>
             <Map />

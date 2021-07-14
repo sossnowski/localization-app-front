@@ -4,23 +4,9 @@ import { connect, useDispatch } from 'react-redux';
 import Alert from '@material-ui/lab/Alert';
 import ClearIcon from '@material-ui/icons/Clear';
 import { makeStyles } from '@material-ui/core';
-import { removeAlert } from '../../store/actions/alert/alert';
+import { removeAlert, removeAllAlerts } from '../../store/actions/alert/alert';
 
 const useStyles = makeStyles((theme) => ({
-  alertCounter: {
-    width: '40px',
-    height: '40px',
-    position: 'absolute',
-    right: '-20px',
-    top: '-20px',
-    zIndex: 2000,
-    borderRadius: '50%',
-    textAlign: 'center',
-    lineHeight: '36px',
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: '20px',
-  },
   alertErrorPopupColor: {
     backgroundColor: theme.palette.error.main,
     border: `1px solid ${theme.palette.error.dark}`,
@@ -35,25 +21,38 @@ const useStyles = makeStyles((theme) => ({
   },
   iconDelete: {
     position: 'absolute',
-    top: '20px',
+    top: '10px',
     right: '20px',
     cursor: 'pointer',
     zIndex: 1402,
   },
   wrapper: {
     width: '100%',
-    height: '150px',
+    height: 50,
     marginBottom: '10px',
     position: 'relative',
     zIndex: 1401,
+    [theme.breakpoints.up('md')]: {
+      height: '150px',
+    },
   },
   allAlertsWrapper: {
     position: 'absolute',
-    bottom: '30px',
-    right: '60px',
-    width: '300px',
-    minHeight: '150px',
+    top: 30,
+    width: '70vw',
+    left: '15vw',
+
     zIndex: 1400,
+    [theme.breakpoints.up('md')]: {
+      bottom: '30px',
+      right: '60px',
+      width: '300px',
+      minHeight: '150px',
+    },
+  },
+  header: {
+    fontSize: '1.1rem',
+    fontWeight: 'bold',
   },
 }));
 
@@ -62,15 +61,10 @@ const AlertComponent = (props) => {
   const dispatch = useDispatch();
   const [alertsToDisplay, setAlertsToDisplay] = React.useState([]);
   const classes = useStyles();
+  const [showAlert, setShowAlert] = React.useState(true);
 
   const removeAlertHandler = (alert) => {
     dispatch(removeAlert(alert));
-  };
-
-  const getStyles = (type) => {
-    if (type === 'error') return classes.alertErrorPopupColor;
-    if (type === 'warning') return classes.alertWarningPopupColor;
-    return classes.alertSuccessPopupColor;
   };
 
   React.useEffect(() => {
@@ -79,14 +73,6 @@ const AlertComponent = (props) => {
       if (!alerts[alertType].length) return;
       const alert = (
         <div>
-          <span
-            className={`${classes.alertCounter}
-              ${getStyles(
-                alerts[alertType][alerts[alertType].length - 1].type
-              )}`}
-          >
-            {alerts[alertType].length}
-          </span>
           <Alert
             variant="filled"
             severity={alertType}
@@ -100,7 +86,9 @@ const AlertComponent = (props) => {
                 )
               }
             />
-            <h5>{alerts[alertType][alerts[alertType].length - 1]?.title}</h5>
+            <span className={classes.header}>
+              {alerts[alertType][alerts[alertType].length - 1]?.title}
+            </span>
             <p>{alerts[alertType][alerts[alertType].length - 1]?.desc}</p>
           </Alert>
         </div>
@@ -108,9 +96,18 @@ const AlertComponent = (props) => {
       array.push(alert);
     });
     setAlertsToDisplay(array);
+    setShowAlert(true);
   }, [alerts]);
 
-  return alertsToDisplay.length ? (
+  React.useEffect(() => {
+    setTimeout(() => {
+      setShowAlert(false);
+      setAlertsToDisplay([]);
+      dispatch(removeAllAlerts());
+    }, 3000);
+  }, [alerts]);
+
+  return alertsToDisplay.length && showAlert ? (
     <div className={classes.allAlertsWrapper}>{alertsToDisplay}</div>
   ) : null;
 };

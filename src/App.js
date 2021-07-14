@@ -7,6 +7,7 @@ import themes from './consts/theme';
 import { setLanguage } from './store/actions/language/language';
 import { setTheme } from './store/actions/theme/theme';
 import UserSessionDataHandler from './auth/UserSessionDataHandler';
+import PopupLoader from './components/common/Loader';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,9 @@ const App = () => {
   return (
     <div>
       <MuiThemeProvider theme={createMuiTheme(themes[theme])}>
+        <div id="main-loader" style={{ display: 'none' }}>
+          <PopupLoader />
+        </div>
         <RouterComponent />
         <AlertComponent />
       </MuiThemeProvider>

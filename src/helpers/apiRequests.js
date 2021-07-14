@@ -7,9 +7,36 @@ import Auth from '../auth/Auth';
 
 const UNAUTHORIZED = 401;
 
-axios.interceptors.response.use(
-  (response) => response,
+axios.interceptors.request.use(
+  (request) => {
+    // spinning start to show
+    // UPDATE: Add this code to show global loading indicator
+    try {
+      document.getElementById('main-loader').style.display = 'block';
+    } catch (e) {
+      console.log(e);
+    }
+
+    return request;
+  },
   (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  (response) => {
+    try {
+      document.getElementById('main-loader').style.display = 'none';
+    } catch (e) {
+      console.log(e);
+    }
+
+    return response;
+  },
+  (error) => {
+    document.getElementById('main-loader').style.display = 'none';
     const { status } = error.response;
     if (status === UNAUTHORIZED) {
       Auth.unauthenticate();

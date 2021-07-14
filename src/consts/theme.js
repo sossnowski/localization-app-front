@@ -133,6 +133,13 @@ const themeSet = {
       ].join(','),
       fontSize: 16,
     },
+    overrides: {
+      MuiGrid: {
+        container: {
+          overflowX: 'hidden',
+        },
+      },
+    },
   },
   dark: {
     palette: {
@@ -172,6 +179,13 @@ const themeSet = {
         'monospace',
       ].join(','),
       fontSize: 16,
+    },
+  },
+  overrides: {
+    MuiGrid: {
+      container: {
+        overflowX: 'hidden',
+      },
     },
   },
 };

@@ -10,6 +10,8 @@ const alertReducer = (
       };
     case 'REMOVE_ALERT':
       return { ...state, [action.payload.type]: [] };
+    case 'REMOVE_ALL_ALERTS':
+      return { success: [], error: [], warning: [] };
     default:
       return state;
   }

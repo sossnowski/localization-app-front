@@ -1,6 +1,5 @@
 import { Grid } from '@material-ui/core';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import Dashboard from '../dashboard/Main';
 import AddPost from '../localizations/Add';

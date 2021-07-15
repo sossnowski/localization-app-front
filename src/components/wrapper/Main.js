@@ -188,7 +188,7 @@ const MainWrapper = () => {
     if (anchorEl) {
       setAnchorEl(null);
     } else {
-      getNotifications();
+      // getNotifications();
       setAnchorEl(event.currentTarget);
       wasRendered.current = false;
     }

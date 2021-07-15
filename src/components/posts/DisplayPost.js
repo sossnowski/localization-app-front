@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid } from '@material-ui/core';
@@ -169,15 +170,24 @@ const DisplayPost = (props) => {
             </>
           ) : null}
         </Grid>
-        <Grid item xs={12}>
-          {post.photos.length ? (
-            <img
-              className={classes.photo}
-              src={`${postFilesBaseUrl}${post.photos[0].filename}`}
-              alt="data added by user"
-            />
-          ) : null}
-        </Grid>
+        {post.photos.length && (
+          <Grid item xs={12}>
+            {post.photos[0].filename.split('.')[1] === 'mp4' ||
+            post.photos[0].filename.split('.')[1] === 'webm' ||
+            post.photos[0].filename.split('.')[1] === 'ogg' ? (
+              <video className={classes.photo} controls>
+                <source src={`${postFilesBaseUrl}${post.photos[0].filename}`} />
+                user's video
+              </video>
+            ) : (
+              <img
+                className={classes.photo}
+                src={`${postFilesBaseUrl}${post.photos[0].filename}`}
+                alt="data added by user"
+              />
+            )}
+          </Grid>
+        )}
         <Grid item xs={12}>
           {post.description}
         </Grid>

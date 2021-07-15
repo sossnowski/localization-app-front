@@ -6,13 +6,13 @@ import UserSessionDataHandler from '../auth/UserSessionDataHandler';
 import Auth from '../auth/Auth';
 
 const UNAUTHORIZED = 401;
+const PATH_TO_NOT_LOAD = '/localization';
 
 axios.interceptors.request.use(
   (request) => {
-    // spinning start to show
-    // UPDATE: Add this code to show global loading indicator
     try {
-      document.getElementById('main-loader').style.display = 'block';
+      if (!request.url.includes(PATH_TO_NOT_LOAD))
+        document.getElementById('main-loader').style.display = 'block';
     } catch (e) {
       console.log(e);
     }

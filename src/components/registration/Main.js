@@ -11,7 +11,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useDispatch } from 'react-redux';
-import LocalAirportIcon from '@material-ui/icons/LocalAirport';
 import LanguageIcon from '@material-ui/icons/Language';
 import Alert from '@material-ui/lab/Alert';
 import { postRequest } from '../../helpers/apiRequests';
@@ -58,18 +57,25 @@ const useStyles = makeStyles((theme) => ({
     right: '40px',
     cursor: 'pointer',
     fontSize: '1.2rem',
-    color: theme.palette.third.main,
+    color: '#696969',
+    [theme.breakpoints.up('md')]: {
+      color: '#ffffff',
+    },
   },
   langIcon: {
-    color: theme.palette.third.main,
     position: 'relative',
     top: '-2px',
-    // left: '-3px',
+    color: '#696969',
+    [theme.breakpoints.up('md')]: {
+      color: '#ffffff',
+    },
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-    color: theme.palette.fontColor,
+    backgroundColor: '#ffffff',
+    color: '#696969',
+    width: 80,
+    height: 80,
   },
   form: {
     color: theme.palette.fontColor,
@@ -115,6 +121,9 @@ const useStyles = makeStyles((theme) => ({
   header: {
     textAlign: 'center',
   },
+  logoIcon: {
+    width: '200%',
+  },
 }));
 
 const SignIn = () => {
@@ -122,7 +131,9 @@ const SignIn = () => {
   const [seeableLoader, setSeeableLoader] = React.useState(false);
   const [subtitles, setSubtitles] = React.useState(Languages[siteLang]);
   const [registerSuccess, setRegisterSuccess] = React.useState(false);
+  const [rules, setRules] = React.useState(false);
   const dispatch = useDispatch();
+  console.log(rules);
 
   const changeLanguage = () => {
     const langToShow = siteLang === 'pl' ? 'en' : 'pl';
@@ -150,6 +161,7 @@ const SignIn = () => {
   };
 
   const login = () => {
+    if (!rules) return;
     setSeeableLoader(true);
     postRequest('register', {
       username: values.username,
@@ -223,7 +235,7 @@ const SignIn = () => {
         {registerSuccess && registerSuccessAlert()}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LocalAirportIcon />
+            <img className={classes.logoIcon} src="logo.svg" alt="Logo" />
           </Avatar>
           <Typography component="h1" variant="h5" className={classes.header}>
             {subtitles.loginScreen.helloMessage_} {subtitles.appName_}
@@ -312,9 +324,13 @@ const SignIn = () => {
             />
             <FormControlLabel
               control={
-                <Checkbox value="remember" className={classes.checkboxField} />
+                <Checkbox
+                  value={rules}
+                  className={classes.checkboxField}
+                  onChange={() => setRules(!rules)}
+                />
               }
-              label={subtitles.loginScreen.rememberMe_}
+              label={subtitles.loginScreen.rules_}
             />
             <Button
               type="button"
@@ -324,7 +340,7 @@ const SignIn = () => {
               className={classes.submit}
               onClick={login}
             >
-              {subtitles.loginScreen.button_}
+              {subtitles.loginScreen.registerButton_}
             </Button>
             <Grid container>
               <Grid item xs>

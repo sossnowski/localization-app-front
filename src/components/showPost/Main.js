@@ -63,6 +63,14 @@ const ShowPost = () => {
     (state) => state.selectedLocalization
   );
 
+  React.useEffect(
+    () => () => {
+      dispatch(setSelectedLocalization(null));
+      dispatch(setPosts([]));
+    },
+    []
+  );
+
   React.useEffect(() => {
     if (!Object.keys(map).length) return;
     postLayer.current = createLayer('postLocalization');
@@ -103,7 +111,6 @@ const ShowPost = () => {
     feature.setId(postData.localization.uid);
     setSelectedLocalizationStyle(feature);
     addFeatureToLayer(postLayer.current, feature);
-    console.log(feature);
     dispatch(setSelectedLocalization(feature));
     dispatch(setPosts([postData]));
     centerMapToCordinates(map, feature.getGeometry().getCoordinates());

@@ -15,6 +15,7 @@ import {
   createPointFeature,
   addSelectedLocalizationToLayer,
 } from './utils/main';
+import LocalizationButton from '../common/LocalizationButton';
 
 const useStyles = makeStyles({
   root: {
@@ -32,6 +33,7 @@ const MapComponent = (props) => {
   const map = React.useRef();
   const localizationsLayer = React.useRef(null);
   const [click, setClick] = React.useState(null);
+  const [userPosition, setUserPosition] = React.useState(null);
   const tileLayer = React.useRef(
     new TileLayer({
       source: new OSM({}),
@@ -48,6 +50,7 @@ const MapComponent = (props) => {
       view: new View({
         center: proj.fromLonLat([19.015839, 52.2307]),
         zoom: 6,
+        maxZoom: 18,
       }),
     });
     map.current.on('click', setClick);
@@ -56,13 +59,15 @@ const MapComponent = (props) => {
     dispatch(setMap(map.current));
   }, []);
 
-  React.useEffect(() => {}, []);
-
   React.useEffect(() => {
     if (!click || !setClickedPoint) return;
-    addPointToMap(click.coordinate);
-    setClickedPoint(proj.toLonLat(click.coordinate));
+    handleUserClickOnMap(click.coordinate);
   }, [click]);
+
+  const handleUserClickOnMap = (coordinates) => {
+    addPointToMap(coordinates);
+    setClickedPoint(proj.toLonLat(coordinates));
+  };
 
   const addPointToMap = (coordinates) => {
     const pointFeature = createPointFeature(coordinates);
@@ -73,7 +78,29 @@ const MapComponent = (props) => {
     setTimeout(() => map.current.updateSize(), 1000);
   }, [open]);
 
-  return <div id="map" className={classes.root} />;
+  React.useEffect(() => {
+    if (userPosition && !setClickedPoint) {
+      handleZoomToUserPosition();
+    } else if (userPosition && setClickedPoint) {
+      handleUserClickOnMap(proj.fromLonLat(userPosition));
+      handleZoomToUserPosition();
+    }
+  }, [userPosition]);
+
+  const handleZoomToUserPosition = () => {
+    map.current.getView().setCenter(proj.fromLonLat(userPosition));
+    map.current.getView().setZoom(16);
+  };
+
+  return (
+    <div id="map" className={classes.root}>
+      <LocalizationButton
+        setUserPosition={setUserPosition}
+        bottom={20}
+        right={20}
+      />
+    </div>
+  );
 };
 
 MapComponent.propTypes = {

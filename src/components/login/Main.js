@@ -64,18 +64,25 @@ const useStyles = makeStyles((theme) => ({
     right: '40px',
     cursor: 'pointer',
     fontSize: '1.2rem',
-    color: '#ffffff',
+    color: '#696969',
+    [theme.breakpoints.up('md')]: {
+      color: '#ffffff',
+    },
   },
   langIcon: {
-    color: '#ffffff',
     position: 'relative',
     top: '-2px',
-    // left: '-3px',
+    color: '#696969',
+    [theme.breakpoints.up('md')]: {
+      color: '#ffffff',
+    },
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: '#A4C4B5',
+    backgroundColor: '#ffffff',
     color: '#696969',
+    width: 80,
+    height: 80,
   },
   form: {
     color: '#696969',
@@ -125,6 +132,9 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     textAlign: 'center',
+  },
+  logoIcon: {
+    width: '200%',
   },
 }));
 
@@ -237,7 +247,7 @@ const SignIn = () => {
         <CssBaseline />
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LocalAirportIcon />
+            <img className={classes.logoIcon} src="logo.svg" alt="Logo" />
           </Avatar>
           <Typography component="h1" variant="h5" className={classes.header}>
             {subtitles.loginScreen.helloMessage_} {subtitles.appName_}
@@ -297,12 +307,6 @@ const SignIn = () => {
               onKeyPress={handleEnterClick}
               value={values.password}
             />
-            <FormControlLabel
-              control={
-                <Checkbox value="remember" className={classes.checkboxField} />
-              }
-              label={subtitles.loginScreen.rememberMe_}
-            />
             <Button
               type="button"
               fullWidth
@@ -310,7 +314,7 @@ const SignIn = () => {
               className={classes.submit}
               onClick={login}
             >
-              {subtitles.loginScreen.button_}
+              {subtitles.loginScreen.registerButton_}
             </Button>
             <Grid container>
               <Grid item xs={12}>

@@ -237,6 +237,7 @@ const MainWrapper = () => {
             color="inherit"
             noWrap
             className={classes.title}
+            onClick={() => history.push(`/`)}
           >
             SpotFinder
           </Typography>

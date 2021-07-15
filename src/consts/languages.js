@@ -1,6 +1,6 @@
 export default {
   pl: {
-    appName_: 'lokalization app',
+    appName_: 'SpotFinder',
     loginScreen: {
       username_: 'Nazwa użytkownika',
       password_: 'Hasło',
@@ -10,8 +10,9 @@ export default {
       forgotPassword_: 'Zapomniałeś hasła?',
       noAccountMessage_: 'Nie masz jeszcze konta? Zarejestruj się.',
       button_: 'Zaloguj się!',
-      rememberMe_: 'Pamiętaj mnie',
+      rules_: 'Akceptuję regulamin',
       login_: 'Masz już konto? Zaloguj się',
+      registerButton_: 'Zarejestruj się',
     },
     requiredField: '* - to pole jest wymagane',
     resetPassword: {
@@ -144,7 +145,7 @@ export default {
     },
   },
   en: {
-    appName_: 'localizationApp',
+    appName_: 'SpotFinder',
     loginScreen: {
       username_: 'User Name',
       email_: 'Email',
@@ -154,8 +155,9 @@ export default {
       forgotPassword_: 'Forgot password?',
       noAccountMessage_: 'Dont have account yet? Sign up!',
       button_: 'Log in',
-      rememberMe_: 'Remember me',
+      rules_: 'Accept rules',
       login_: 'Have an account? Log in.',
+      registerButton_: 'Register',
     },
     requiredField: '* - this field is required',
     resetPassword: {

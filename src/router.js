@@ -5,6 +5,7 @@ import Wrapper from './components/wrapper/Main';
 import Login from './components/login/Main';
 import Register from './components/registration/Main';
 import Auth from './auth/Auth';
+import Confirmation from './components/registration/Confirmation';
 // import PasswordReset from './components/login/PasswordReset';
 // import SetPassword from './components/login/SetPassword';
 
@@ -24,8 +25,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 const Router = () => (
   <Switch>
-    <Route exact path="/login" component={Login} />
+    <Route exact path="/login/:confirmed?" component={Login} />
     <Route exact path="/register" component={Register} />
+    <Route exact path="/confirmation/:token" component={Confirmation} />
 
     <PrivateRoute path="/" component={Wrapper} />
   </Switch>

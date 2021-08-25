@@ -3,20 +3,16 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useDispatch } from 'react-redux';
-import LocalAirportIcon from '@material-ui/icons/LocalAirport';
 import LanguageIcon from '@material-ui/icons/Language';
+import { useParams } from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
 import { postRequest } from '../../helpers/apiRequests';
 import Auth from '../../auth/Auth';
-import { addAlert } from '../../store/actions/alert/alert';
 import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import Languages from '../../consts/languages';
 import history from '../../history';
@@ -42,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       paddingTop: '15px',
       paddingBottom: '15px',
-      marginTop: '10%',
+      marginTop: '100px',
       marginLeft: 'calc(50% - 220px)',
       marginBottom: '40px',
     },
@@ -139,10 +135,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = () => {
-  const [siteLang, setSiteLang] = React.useState('en');
-  const [seeableLoader, setSeeableLoader] = React.useState(false);
+  const { confirmed } = useParams();
+  const [siteLang, setSiteLang] = React.useState('pl');
   const [subtitles, setSubtitles] = React.useState(Languages[siteLang]);
-  const dispatch = useDispatch();
+  const [requestError, setRequestError] = React.useState(false);
+  const [validateError, setValidateError] = React.useState(false);
 
   const changeLanguage = () => {
     const langToShow = siteLang === 'pl' ? 'en' : 'pl';
@@ -168,47 +165,30 @@ const SignIn = () => {
     });
   };
 
-  const login = () => {
-    setSeeableLoader(true);
-    postRequest('login', {
-      username: values.username,
-      password: values.password,
-    })
-      .then((result) => {
-        if (result.status !== 200) {
-          dispatch(
-            addAlert({
-              title: subtitles.alerts.loginError.title_,
-              desc: subtitles.alerts.loginError.desc_,
-              type: 'error',
-            })
-          );
-          setSeeableLoader(false);
-          return;
-        }
-
-        saveUserData(result.data);
-
-        dispatch(
-          addAlert({
-            title: subtitles.alerts.loginSuccess.title_,
-            desc: subtitles.alerts.loginSuccess.desc_,
-            type: 'success',
-          })
-        );
-        setSeeableLoader(false);
-        history.push('/');
-      })
-      .catch((error) => {
-        setSeeableLoader(false);
-        dispatch(
-          addAlert({
-            title: subtitles.alerts.loginError.title_,
-            desc: error.message,
-            type: 'error',
-          })
-        );
+  const login = async () => {
+    if (!validate()) return;
+    try {
+      const result = await postRequest('login', {
+        username: values.username,
+        password: values.password,
       });
+      if (result.status !== 200) {
+        setRequestError(true);
+        return;
+      }
+      saveUserData(result.data);
+      history.push('/');
+    } catch (err) {
+      setRequestError(true);
+    }
+  };
+
+  const validate = () => {
+    if (!values.username.length || !values.password.length) {
+      setValidateError(true);
+      return false;
+    }
+    return true;
   };
 
   const saveUserData = (data = {}) => {
@@ -235,9 +215,20 @@ const SignIn = () => {
     }
   };
 
+  const confirmedSuccessAlert = () => (
+    <Alert severity="success" variant="outlined">
+      <h5>{subtitles.loginScreen.alertHeader_}</h5>
+    </Alert>
+  );
+
+  const loginErrorAlert = () => (
+    <Alert severity="error" variant="outlined">
+      <h5>{subtitles.loginScreen.errorLogin_}</h5>
+    </Alert>
+  );
+
   return (
     <div className={classes.wrapper}>
-      {seeableLoader && <PopupLoader />}
       <Button className={classes.langIconWrapper} onClick={changeLanguage}>
         <LanguageIcon className={classes.langIcon} />
         {siteLang === 'pl' ? 'EN' : 'PL'}
@@ -245,6 +236,8 @@ const SignIn = () => {
 
       <Container className={classes.root} component="main" maxWidth="xs">
         <CssBaseline />
+        {confirmed && confirmedSuccessAlert()}
+        {requestError && loginErrorAlert()}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <img className={classes.logoIcon} src="logo.svg" alt="Logo" />
@@ -254,11 +247,12 @@ const SignIn = () => {
             {'. '}
             {subtitles.loginScreen.message_}
           </Typography>
-          <form className={classes.form} noValidate>
+          <div className={classes.form}>
             <TextField
               variant="outlined"
               margin="normal"
               required
+              error={validateError && !values.username.length}
               fullWidth
               disableAutoFocus
               // color="loginInput"
@@ -283,8 +277,10 @@ const SignIn = () => {
             <TextField
               variant="outlined"
               margin="normal"
+              color="primary"
               required
               fullWidth
+              error={validateError && !values.password.length}
               disableAutoFocus
               InputLabelProps={{
                 classes: {
@@ -314,13 +310,12 @@ const SignIn = () => {
               className={classes.submit}
               onClick={login}
             >
-              {subtitles.loginScreen.registerButton_}
+              {subtitles.loginScreen.button_}
             </Button>
             <Grid container>
               <Grid item xs={12}>
                 <Link
                   className={classes.fontColor}
-                  href=""
                   variant="body2"
                   onClick={() => history.push('/reset-password')}
                 >
@@ -330,7 +325,6 @@ const SignIn = () => {
               <Grid item xs={12}>
                 <Link
                   className={classes.fontColor}
-                  href=""
                   variant="body2"
                   onClick={() => history.push('/register')}
                 >
@@ -338,7 +332,7 @@ const SignIn = () => {
                 </Link>
               </Grid>
             </Grid>
-          </form>
+          </div>
         </div>
       </Container>
     </div>

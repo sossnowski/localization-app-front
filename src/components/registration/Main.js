@@ -10,11 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useDispatch } from 'react-redux';
 import LanguageIcon from '@material-ui/icons/Language';
 import Alert from '@material-ui/lab/Alert';
 import { postRequest } from '../../helpers/apiRequests';
-import { addAlert } from '../../store/actions/alert/alert';
 import Languages from '../../consts/languages';
 import history from '../../history';
 import PopupLoader from '../common/Loader';
@@ -39,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       paddingTop: '15px',
       paddingBottom: '15px',
-      marginTop: '10%',
+      marginTop: '100px',
       marginLeft: 'calc(50% - 220px)',
       marginBottom: '40px',
     },
@@ -107,6 +105,9 @@ const useStyles = makeStyles((theme) => ({
   checkboxField: {
     color: theme.palette.fontColor,
   },
+  checkboxError: {
+    color: 'red',
+  },
   hawkeLogo: {
     height: '20px',
     width: '20px',
@@ -127,13 +128,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = () => {
-  const [siteLang, setSiteLang] = React.useState('en');
+  const [siteLang, setSiteLang] = React.useState('pl');
   const [seeableLoader, setSeeableLoader] = React.useState(false);
   const [subtitles, setSubtitles] = React.useState(Languages[siteLang]);
   const [registerSuccess, setRegisterSuccess] = React.useState(false);
   const [rules, setRules] = React.useState(false);
-  const dispatch = useDispatch();
-  console.log(rules);
+  const [requestError, setRequestError] = React.useState(false);
+  const [validateError, setValidateError] = React.useState(false);
 
   const changeLanguage = () => {
     const langToShow = siteLang === 'pl' ? 'en' : 'pl';
@@ -161,8 +162,9 @@ const SignIn = () => {
   };
 
   const login = () => {
-    if (!rules) return;
+    if (!validate()) return;
     setSeeableLoader(true);
+    setRequestError(false);
     postRequest('register', {
       username: values.username,
       password: values.password,
@@ -170,37 +172,30 @@ const SignIn = () => {
     })
       .then((result) => {
         if (result.status !== 201) {
-          dispatch(
-            addAlert({
-              title: subtitles.alerts.loginError.title_,
-              desc: subtitles.alerts.loginError.desc_,
-              type: 'error',
-            })
-          );
           setSeeableLoader(false);
+          setRequestError(true);
           return;
         }
-
-        dispatch(
-          addAlert({
-            title: subtitles.alerts.loginSuccess.title_,
-            desc: subtitles.alerts.loginSuccess.desc_,
-            type: 'success',
-          })
-        );
         setSeeableLoader(false);
         setRegisterSuccess(true);
       })
       .catch((error) => {
         setSeeableLoader(false);
-        dispatch(
-          addAlert({
-            title: subtitles.alerts.loginError.title_,
-            desc: error.message,
-            type: 'error',
-          })
-        );
+        setRequestError(true);
       });
+  };
+
+  const validate = () => {
+    if (
+      !rules ||
+      !values.username.length ||
+      !values.email.length ||
+      !values.password.length
+    ) {
+      setValidateError(true);
+      return false;
+    }
+    return true;
   };
 
   const handleEnterClick = (event) => {
@@ -211,14 +206,13 @@ const SignIn = () => {
 
   const registerSuccessAlert = () => (
     <Alert severity="success" variant="outlined">
-      <h5>Poprawnie zarejestrowano</h5>
-      <Grid container>
-        <Grid item xs>
-          <Link href="" variant="body2" onClick={() => history.push('/login')}>
-            {subtitles.loginScreen.message_}
-          </Link>
-        </Grid>
-      </Grid>
+      <h5>{subtitles.loginScreen.alertHeaderRegister_}</h5>
+    </Alert>
+  );
+
+  const registerErrorAlert = () => (
+    <Alert severity="error" variant="outlined">
+      <h5>{subtitles.loginScreen.errorRegister_}</h5>
     </Alert>
   );
 
@@ -233,6 +227,7 @@ const SignIn = () => {
       <Container className={classes.root} component="main" maxWidth="xs">
         <CssBaseline />
         {registerSuccess && registerSuccessAlert()}
+        {requestError && registerErrorAlert()}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <img className={classes.logoIcon} src="logo.svg" alt="Logo" />
@@ -247,6 +242,7 @@ const SignIn = () => {
               variant="outlined"
               margin="normal"
               required
+              error={validateError && !values.username.length}
               fullWidth
               color="primary"
               InputLabelProps={{
@@ -274,6 +270,7 @@ const SignIn = () => {
               margin="normal"
               required
               fullWidth
+              error={validateError && !values.email.length}
               color="primary"
               type="email"
               InputLabelProps={{
@@ -300,6 +297,7 @@ const SignIn = () => {
               margin="normal"
               required
               fullWidth
+              error={validateError && !values.password.length}
               color="primary"
               InputLabelProps={{
                 classes: {
@@ -326,7 +324,11 @@ const SignIn = () => {
               control={
                 <Checkbox
                   value={rules}
-                  className={classes.checkboxField}
+                  className={
+                    validateError && !rules
+                      ? classes.checkboxError
+                      : classes.checkboxField
+                  }
                   onChange={() => setRules(!rules)}
                 />
               }
@@ -344,11 +346,7 @@ const SignIn = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link
-                  href=""
-                  variant="body2"
-                  onClick={() => history.push('/login')}
-                >
+                <Link variant="body2" onClick={() => history.push('/login')}>
                   {subtitles.loginScreen.login_}
                 </Link>
               </Grid>

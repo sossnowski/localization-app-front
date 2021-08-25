@@ -1,6 +1,7 @@
 export default {
   login: 'user/login',
   register: 'user/register',
+  confirmUser: 'user/confirm',
   localizations: 'localization',
   postsFromLocalizations: 'post/localizations/uids',
   user: 'user',

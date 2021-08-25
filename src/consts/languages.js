@@ -13,6 +13,13 @@ export default {
       rules_: 'Akceptuję regulamin',
       login_: 'Masz już konto? Zaloguj się',
       registerButton_: 'Zarejestruj się',
+      alertHeader_: 'Konto zostało aktywowane!',
+      alertLink_: 'Zaloguj się',
+      alertHeaderRegister_:
+        'Poprawnie zarejestrowano. Wysłaliśmy link aktywacyjny na podany email.',
+      errorRegister_:
+        'Użytkownik o podanym adresie email lub nazwie użytkownika już istnieje!',
+      errorLogin_: 'Niepoprawne dane!',
     },
     requiredField: '* - to pole jest wymagane',
     resetPassword: {
@@ -158,6 +165,12 @@ export default {
       rules_: 'Accept rules',
       login_: 'Have an account? Log in.',
       registerButton_: 'Register',
+      alertHeader_: 'Successfuly confirmed',
+      alertLink_: 'Log in!',
+      alertHeaderRegister_:
+        'Successfuly regitered. We sent activation link on your email address!',
+      errorRegister_: 'User with given username or email address exists',
+      errorLogin_: 'Bad credentials',
     },
     requiredField: '* - this field is required',
     resetPassword: {

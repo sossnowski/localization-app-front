@@ -38,7 +38,10 @@ axios.interceptors.response.use(
   (error) => {
     document.getElementById('main-loader').style.display = 'none';
     const { status } = error.response;
-    if (status === UNAUTHORIZED) {
+    if (
+      status === UNAUTHORIZED &&
+      !error.response.config.url.includes('login')
+    ) {
       Auth.unauthenticate();
       history.push('/');
     }

@@ -2,6 +2,8 @@ export default {
   login: 'user/login',
   register: 'user/register',
   confirmUser: 'user/confirm',
+  resetPassword: 'user/resetPassword',
+  setNewPassword: 'user/setNewPassword',
   localizations: 'localization',
   postsFromLocalizations: 'post/localizations/uids',
   user: 'user',

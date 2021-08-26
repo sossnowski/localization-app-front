@@ -28,6 +28,7 @@ export default {
         email_: 'Email',
         button_: 'Wyślij',
         successMsg_: 'Mail został wysłany na podany adres. Sprawdź skrzynke',
+        error_: 'Podaj poprawny email',
       },
       setPassword: {
         header_: 'Wpisz nowe hasło',
@@ -36,6 +37,7 @@ export default {
         button_: 'Zapisz',
         successMsg_: 'Hasło zostało zmienione.',
         linkMsg_: 'Zaloguj się',
+        error_: 'Hasła nie są takie same!',
       },
     },
     sidebarList: {
@@ -180,6 +182,7 @@ export default {
         email_: 'Email',
         button_: 'Send',
         successMsg_: 'Message was sent. Check your mail box',
+        error_: 'Invalid email!',
       },
       setPassword: {
         header_: 'Set your new password',
@@ -188,6 +191,7 @@ export default {
         button_: 'Save',
         successMsg_: 'Password was changed',
         linkMsg_: 'Log in',
+        error_: 'Passwords are not the same ',
       },
     },
     sidebarList: {

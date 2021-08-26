@@ -6,6 +6,7 @@ import Login from './components/login/Main';
 import Register from './components/registration/Main';
 import Auth from './auth/Auth';
 import Confirmation from './components/registration/Confirmation';
+import ResetPassword from './components/registration/ResetPassword';
 // import PasswordReset from './components/login/PasswordReset';
 // import SetPassword from './components/login/SetPassword';
 
@@ -28,6 +29,7 @@ const Router = () => (
     <Route exact path="/login/:confirmed?" component={Login} />
     <Route exact path="/register" component={Register} />
     <Route exact path="/confirmation/:token" component={Confirmation} />
+    <Route exact path="/reset-password/:token?" component={ResetPassword} />
 
     <PrivateRoute path="/" component={Wrapper} />
   </Switch>

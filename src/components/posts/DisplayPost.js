@@ -170,7 +170,7 @@ const DisplayPost = (props) => {
             </>
           ) : null}
         </Grid>
-        {post.photos.length && (
+        {post.photos.length ? (
           <Grid item xs={12}>
             {post.photos[0].filename.split('.')[1] === 'mp4' ||
             post.photos[0].filename.split('.')[1] === 'webm' ||
@@ -187,7 +187,7 @@ const DisplayPost = (props) => {
               />
             )}
           </Grid>
-        )}
+        ) : null}
         <Grid item xs={12}>
           {post.description}
         </Grid>

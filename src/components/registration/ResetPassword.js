@@ -17,6 +17,7 @@ import {
 } from '../../helpers/apiRequests';
 import Languages from '../../consts/languages';
 import history from '../../history';
+import AppDescription from '../common/AppDescription';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -24,23 +25,33 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     position: 'relative',
     backgroundColor: '#ffffff',
+    backgroundImage: 'url("mapMain.jpg")',
+    backgroundSize: 'cover',
+    backgroundPositionX: 'center',
     overflowY: 'auto',
-    uverflowX: 'hidden',
     [theme.breakpoints.up('md')]: {
       backgroundColor: '#6E736F',
+      backgroundSize: 'cover',
+      backgroundPositionY: '-200px',
     },
   },
   root: {
     width: '100%',
     padding: 15,
     color: 'white',
+    height: '100vh',
+    opacity: 0.9,
     backgroundColor: '#ffffff',
     [theme.breakpoints.up('md')]: {
+      height: 'auto',
       paddingTop: '15px',
       paddingBottom: '15px',
       marginTop: '100px',
       marginLeft: 'calc(50% - 220px)',
       marginBottom: '40px',
+      opacity: 0.9,
+      borderRadius: 3,
+      boxShadow: '0 2px 4px rgb(0 0 40 / 0.3), 0 12px 20px rgb(0 0 40 / 0.3)',
     },
   },
   paper: {
@@ -358,6 +369,7 @@ const ResetPassword = () => {
           </form>
         </div>
       </Container>
+      <AppDescription paragraphs={subtitles.appDescription} />
     </div>
   );
 };

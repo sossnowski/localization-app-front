@@ -92,6 +92,11 @@ const Notifications = (props) => {
             />
           </ListItem>
         ))}
+        {!notifications.length && (
+          <ListItem className={classes.listItem} key="no-items">
+            <ListItemText primary={strings.noItems_} />
+          </ListItem>
+        )}
         <ListItem
           button
           className={classes.listItem}

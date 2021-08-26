@@ -1,6 +1,12 @@
 export default {
   pl: {
     appName_: 'SpotFinder',
+    appDescription: {
+      first_: `Jesteś w nowym miejscu i chcesz zobaczyć najlepsze spoty, pójść na dobrą imprezę lub trafić na dobrą szamkę?`,
+      second_: `Zobacz najlepsze miejscówki w okolicy, a gdy coś wpadnie ci w oko -
+      oznacz na mapie i podziel się z innymi!`,
+      third_: 'Stwórzmy razem coś dużego!',
+    },
     loginScreen: {
       username_: 'Nazwa użytkownika',
       password_: 'Hasło',
@@ -120,6 +126,7 @@ export default {
       notLikePost_: 'nie lubi twojego postu',
       commented_: 'skomentował twój post',
       showMore_: 'Pokaż więcej',
+      noItems_: 'Nie masz powiadomień',
     },
     alerts: {
       loginError: {
@@ -155,6 +162,11 @@ export default {
   },
   en: {
     appName_: 'SpotFinder',
+    appDescription: {
+      first_: `Are you in new place and want to see best spots, go to nice party or just eat something good?`,
+      second_: `See the best places, and when there is a place you like - tag it on map to others! `,
+      third_: `Let's make something great together`,
+    },
     loginScreen: {
       username_: 'User Name',
       email_: 'Email',
@@ -274,6 +286,7 @@ export default {
       notLikePost_: 'do not like your post',
       commented_: 'commented your post',
       showMore_: 'Show more',
+      noItems_: 'There is no notifications',
     },
     alerts: {
       loginError: {

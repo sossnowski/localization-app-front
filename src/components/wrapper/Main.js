@@ -200,6 +200,7 @@ const MainWrapper = () => {
   };
 
   const showMoreNotifications = () => {
+    if (!notificationsRef.current.length) return;
     authGetRequestWithParams('notifications', {
       offset: notificationsRef.current.length,
     }).then((result) => {

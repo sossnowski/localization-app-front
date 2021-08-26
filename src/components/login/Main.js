@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     position: 'relative',
     backgroundColor: '#ffffff',
-    backgroundImage: 'url("mapMain.jpg")',
+    backgroundImage: 'url("/mapMain.jpg")',
     backgroundSize: 'cover',
     backgroundPositionX: 'center',
     overflowY: 'auto',
@@ -250,7 +250,7 @@ const SignIn = () => {
         {requestError && loginErrorAlert()}
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <img className={classes.logoIcon} src="logo.svg" alt="Logo" />
+            <img className={classes.logoIcon} src="/logo.svg" alt="Logo" />
           </Avatar>
           <Typography component="h1" variant="h5" className={classes.header}>
             {subtitles.loginScreen.helloMessage_} {subtitles.appName_}

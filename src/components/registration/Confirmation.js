@@ -7,7 +7,7 @@ const Confirmation = () => {
   const { token } = useParams();
   const confirmUser = async () => {
     const result = await authGetRequestWithParams('confirmUser', { token });
-    if (result.status === 200) history.push(`/login/true`);
+    if (result.status === 200) history.push(`/login/confirmationSuccess`);
     else history.push('/login');
   };
   React.useEffect(() => {

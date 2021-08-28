@@ -97,7 +97,7 @@ const Localizations = (props) => {
       groupedLocalizationsRef.current = [];
       const mapExtent = map.getView().calculateExtent();
       if (mapExtent) {
-        const result = await authGetRequestWithParams('localizations', {
+        const result = await authGetRequestWithParams('extentLocalizations', {
           a: proj.toLonLat(extent.getTopLeft(mapExtent)),
           b: proj.toLonLat(extent.getTopRight(mapExtent)),
           c: proj.toLonLat(extent.getBottomRight(mapExtent)),

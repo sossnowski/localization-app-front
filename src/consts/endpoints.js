@@ -5,6 +5,7 @@ export default {
   resetPassword: 'user/resetPassword',
   setNewPassword: 'user/setNewPassword',
   localizations: 'localization',
+  extentLocalizations: 'localization/extent',
   postsFromLocalizations: 'post/localizations/uids',
   user: 'user',
   postLike: 'like/post',

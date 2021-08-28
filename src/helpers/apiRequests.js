@@ -6,12 +6,20 @@ import UserSessionDataHandler from '../auth/UserSessionDataHandler';
 import Auth from '../auth/Auth';
 
 const UNAUTHORIZED = 401;
-const PATH_TO_NOT_LOAD = '/localization';
+const PATHS_TO_NOT_LOAD = ['/localization/extent/', '/like/post'];
+
+const showLoader = (url) => {
+  for (const path of PATHS_TO_NOT_LOAD) {
+    if (url.includes(path)) return false;
+  }
+
+  return true;
+};
 
 axios.interceptors.request.use(
   (request) => {
     try {
-      if (!request.url.includes(PATH_TO_NOT_LOAD))
+      if (showLoader(request.url))
         document.getElementById('main-loader').style.display = 'block';
     } catch (e) {
       console.log(e);

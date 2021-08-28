@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   main: {
     position: 'absolute',
     width: '50px',
@@ -11,8 +11,9 @@ const useStyles = makeStyles({
     borderRadius: '50%',
     padding: 0,
     fontSize: '20px',
+    color: theme.palette.secondary.main,
   },
-});
+}));
 
 const AddButton = (props) => {
   const { top, right, onClickHandler, content } = props;

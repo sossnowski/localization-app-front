@@ -15,6 +15,7 @@ import { Badge, Container } from '@material-ui/core';
 import Popper from '@material-ui/core/Popper';
 import { ExitToApp } from '@material-ui/icons';
 import socketIOClient from 'socket.io-client';
+import { useSelector } from 'react-redux';
 import MainListItems from './ListItems';
 import ContentController from '../contentController/Main';
 import sidebarOpenContext from './sidebarContext';
@@ -64,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    fontWeight: 'bold',
   },
   drawerPaper: {
     position: 'relative',
@@ -134,6 +136,7 @@ const MainWrapper = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const mainWrapperRef = React.useRef(null);
   const wasRendered = React.useRef(false);
+  const appName = useSelector((state) => state.language.appName_);
 
   React.useEffect(() => {
     getNotifications();
@@ -222,7 +225,7 @@ const MainWrapper = () => {
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
-            color="inherit"
+            color="secondary"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             className={clsx(
@@ -234,20 +237,22 @@ const MainWrapper = () => {
           </IconButton>
           <Typography
             component="h1"
-            variant="h6"
-            color="inherit"
+            variant="h5"
+            fontWeight="bold"
+            color="secondary"
             noWrap
             className={classes.title}
             onClick={() => history.push(`/`)}
           >
-            SpotFinder
+            {appName}
           </Typography>
-          <IconButton color="inherit">
+          <IconButton color="secondary">
             <Badge
               badgeContent={notifications.filter((item) => item.new).length}
               color="error"
             >
               <NotificationIcon
+                color="secondary"
                 aria-describedby={idOfPopover}
                 onClick={(e) => notificationToggle(e)}
               />
@@ -267,7 +272,7 @@ const MainWrapper = () => {
               </Popper>
             </Badge>
           </IconButton>
-          <IconButton color="inherit">
+          <IconButton color="secondary">
             <ExitToApp onClick={() => logout()} />
           </IconButton>
         </Toolbar>
@@ -281,7 +286,7 @@ const MainWrapper = () => {
       >
         <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
+            <ChevronLeftIcon color="secondary" />
           </IconButton>
         </div>
         <Divider />

@@ -25,19 +25,19 @@ const SidebarList = (props) => {
     <List>
       <ListItem button onClick={() => handleClick('/dashboard')}>
         <ListItemIcon>
-          <DashboardIcon />
+          <DashboardIcon color="secondary" />
         </ListItemIcon>
         <ListItemText primary={strings.dashboard_} />
       </ListItem>
       <ListItem button onClick={() => handleClick('/add-new-localization')}>
         <ListItemIcon>
-          <AddLocationIcon />
+          <AddLocationIcon color="secondary" />
         </ListItemIcon>
         <ListItemText primary={strings.addLocalization_} />
       </ListItem>
       <ListItem button onClick={() => handleClick('/user-settings')}>
         <ListItemIcon>
-          <SettingsIcon />
+          <SettingsIcon color="secondary" />
         </ListItemIcon>
         <ListItemText primary={strings.userSettings_} />
       </ListItem>

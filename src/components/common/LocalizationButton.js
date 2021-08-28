@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, makeStyles } from '@material-ui/core';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   main: {
     position: 'absolute',
     width: '50px',
@@ -13,8 +13,9 @@ const useStyles = makeStyles({
     padding: 0,
     fontSize: '20px',
     zIndex: 1001,
+    color: theme.palette.secondary.main,
   },
-});
+}));
 
 const LocalizationButton = (props) => {
   const { bottom, right, setUserPosition } = props;

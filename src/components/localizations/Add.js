@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) =>
       borderRadius: 0,
       [theme.breakpoints.up('md')]: {
         marginBottom: 25,
+        marginTop: 40,
       },
     },
     fixedHeight: {

@@ -27,6 +27,9 @@ const useStyles = makeStyles((theme) =>
       display: 'flex',
       overflow: 'auto',
       flexDirection: 'column',
+      [theme.breakpoints.up('md')]: {
+        marginTop: 40,
+      },
     },
     fixedHeight: {
       height: 'auto',

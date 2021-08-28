@@ -94,5 +94,5 @@ const themeSet = {
     },
   },
 };
-
+export const MAIN_COLOR_MAP = '#396179';
 export default themeSet;

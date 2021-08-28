@@ -17,6 +17,7 @@ import Languages from '../../consts/languages';
 import history from '../../history';
 import PopupLoader from '../common/Loader';
 import AppDescription from '../common/AppDescription';
+import { MAIN_COLOR_MAP } from '../../consts/theme';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -93,28 +94,32 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    color: theme.palette.third.main,
+    color: '#ffffff',
+    backgroundColor: MAIN_COLOR_MAP,
   },
   cssOutlinedInput: {
-    color: theme.palette.fontColor,
+    color: MAIN_COLOR_MAP,
+  },
+  fontColor: {
+    color: MAIN_COLOR_MAP,
   },
   outlined: {
-    color: theme.palette.fontColor,
+    color: MAIN_COLOR_MAP,
   },
   notchedOutline: {
-    borderColor: theme.palette.fontColor,
+    borderColor: MAIN_COLOR_MAP,
   },
   input: {
     '&:-webkit-autofill': {
       WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: '#fff',
+      WebkitTextFillColor: MAIN_COLOR_MAP,
     },
   },
   copyRightText: {
-    color: theme.palette.fontColor,
+    color: MAIN_COLOR_MAP,
   },
   checkboxField: {
-    color: theme.palette.fontColor,
+    color: MAIN_COLOR_MAP,
   },
   checkboxError: {
     color: 'red',
@@ -128,7 +133,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'center',
-    color: theme.palette.fontColor,
+    color: MAIN_COLOR_MAP,
   },
   header: {
     textAlign: 'center',
@@ -349,7 +354,6 @@ const SignIn = () => {
               type="button"
               fullWidth
               variant="contained"
-              color="primary"
               className={classes.submit}
               onClick={login}
             >
@@ -357,7 +361,11 @@ const SignIn = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link variant="body2" onClick={() => history.push('/login')}>
+                <Link
+                  variant="body2"
+                  className={classes.fontColor}
+                  onClick={() => history.push('/login')}
+                >
                   {subtitles.loginScreen.login_}
                 </Link>
               </Grid>

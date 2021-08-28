@@ -19,7 +19,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <>
       <MuiThemeProvider theme={createMuiTheme(themes[theme])}>
         <div id="main-loader" style={{ display: 'none' }}>
           <PopupLoader />
@@ -27,7 +27,7 @@ const App = () => {
         <RouterComponent />
         <AlertComponent />
       </MuiThemeProvider>
-    </div>
+    </>
   );
 };
 

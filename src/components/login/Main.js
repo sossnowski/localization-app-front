@@ -17,13 +17,14 @@ import UserSessionDataHandler from '../../auth/UserSessionDataHandler';
 import Languages from '../../consts/languages';
 import history from '../../history';
 import AppDescription from '../common/AppDescription';
+import { MAIN_COLOR_MAP } from '../../consts/theme';
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     width: '100vw',
-    height: '100vh',
+    height: '100%',
     position: 'relative',
-    backgroundColor: '#ffffff',
+    backgroundColor: '#5586A5',
     backgroundImage: 'url("/mapMain.jpg")',
     backgroundSize: 'cover',
     backgroundPositionX: 'center',
@@ -38,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     padding: 15,
     color: 'white',
-    height: '100vh',
+    height: '100%',
     opacity: 0.9,
     backgroundColor: '#ffffff',
     [theme.breakpoints.up('md')]: {
@@ -98,32 +99,32 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     color: '#ffffff',
-    backgroundColor: '#696969!important',
+    backgroundColor: MAIN_COLOR_MAP,
   },
   cssOutlinedInput: {
-    color: '#696969!important',
+    color: MAIN_COLOR_MAP,
   },
   outlined: {
-    color: '#696969!important',
+    color: MAIN_COLOR_MAP,
   },
   fontColor: {
-    color: '#696969!important',
+    color: MAIN_COLOR_MAP,
   },
   notchedOutline: {
     borderWidth: '1px',
-    borderColor: '#696969!important',
+    borderColor: MAIN_COLOR_MAP,
   },
   input: {
     '&:-webkit-autofill': {
       WebkitBackgroundClip: 'text',
-      WebkitTextFillColor: '#fff',
+      WebkitTextFillColor: MAIN_COLOR_MAP,
     },
   },
   copyRightText: {
-    color: '#696969',
+    color: MAIN_COLOR_MAP,
   },
   checkboxField: {
-    color: '#696969',
+    color: MAIN_COLOR_MAP,
   },
   hawkeLogo: {
     height: '20px',
@@ -134,7 +135,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'flex-end',
     justifyContent: 'center',
-    color: '#696969',
+    color: MAIN_COLOR_MAP,
   },
   header: {
     textAlign: 'center',
